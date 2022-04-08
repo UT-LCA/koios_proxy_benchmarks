@@ -184,3 +184,78 @@ def generate_interface(fname, hardware, instance, module_dict):
 
             interface_algorithm(f,interface_name,interface_input_bits,interface_output_bits)
     print("all interface modules generated")
+
+
+#structure.yml is the yaml file provided by user
+with open("structure.yml", "r") as ymlfile:
+    hardware = yaml.safe_load(ymlfile)
+
+# empty list created that will store instance names
+instance = []
+
+# generating list of hardware instance names
+# this names list will be used to index into hardware
+for instance_name in hardware:
+    instance.append(instance_name)
+
+no_of_instances = len(instance)
+
+top_inputs = 0
+top_outputs = 0
+
+# determining the number of inputs/outputs for the top module. Perhaps bit width might also be required here.
+# if constant bitwidth kept then I will multiply bitwidth with the final output.
+# actually I should hold out on this since some are 32 bits while some are 16 etc.
+for i in range(no_of_instances):
+    if hardware[instance[i]]["inputs"] == top:
+        top_inputs = top_inputs + (module_inputs_dict[hardware[instance[i]]["type"]][hardware[instance[i]]["size"]])*(module_bitwidth_dict[hardware[instance[i]]["type"]])
+        top_outputs = top_outputs +
+
+# this dictionary containts the np. of inputs/outputs of a hardware module of a particular size
+# size is the index
+# maybe have the dictionary contain total no. of inputs/outputs bits
+# nested dictionary
+module_dict = {
+"adder_tree": {
+    "module1" : {
+        "name": "adder_tree_1stage_16bit",
+        "size":1,
+        "precision":16,
+        "inputs":32,
+        "outputs":32,},
+    "module2": {
+        "name": "adder_tree_2stage_16bit",
+        "size":2,
+        "precision":16,
+        "inputs":64,
+        "outputs":32,},
+    "module3": {
+        "name": "adder_tree_3stage_16bit",
+        "size":3,
+        "precision":16,
+        "inputs":128,
+        "outputs":32,},
+    "module4": {
+        "name": "adder_tree_4stage_16bit",
+        "size":4,
+        "precision":16,
+        "inputs":256,
+        "outputs":32,}
+    },
+"systolic_array": {
+    "module1": {
+        "name": "systolic_array_4_16bit",
+        "size":4,
+        "precision":16,
+        "inputs":80,
+        "outputs":64 },
+    "module2": {
+        "name": "systolic_array_8_16bit",
+        "size":8,
+        "precision":16,
+        "inputs":160,
+        "outputs":100 }
+    }
+}
+
+
