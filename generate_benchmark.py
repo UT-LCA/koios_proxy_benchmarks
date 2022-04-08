@@ -130,3 +130,57 @@ def interface_algorithm(f, interface_name, input_bits, output_bits):
     f.writelines("endmodule \n \n")
     print("module " + interface_name + " generated \n")
 
+def generate_interface(fname, hardware, instance, module_dict):
+    no_of_instances = len(instance)
+    no_of_input_bits = 0
+    interface_input_bits = 0
+    interface_output_bits = 0
+    with open("interfaces.v", "w") as f:
+        f.writelines("\n")
+        for i in range(no_of_instances):
+            # f.writelines("\n")
+            interface_name = "interface_" + str(i)
+
+            type = hardware[instance[i]]["type"]
+            size = hardware[instance[i]]["size"]
+            precision = hardware[instance[i]]["precision"]
+
+            interface_output_bits = 0
+            interface_input_bits = 0
+
+            module = []
+            for k in module_dict[type]:
+                module.append(k)
+            module_len = len(module)
+
+            #module_dict stores the no. of input bits to a particular instance
+            #determining input bits to the ith instance, which is output bits of the interface
+            for j in range(module_len):
+                if (module_dict[type][module[j]]["size"] == size) and (module_dict[type][module[j]]["precision"] == precision):
+                    interface_output_bits = module_dict[type][module[j]]["inputs"]
+                else:
+                    pass
+
+            if hardware[instance[i]]["inputs"][0] == "top":
+                continue # no interface is made for this instances input since input is coming from top
+            else:
+                #counting the inputs that are tring to go into this instantiation
+                for x in hardware[instance[i]]["inputs"]: # x is the name of the input instances to ith instance
+                    #interface_input_bits = interface_input_bits + module_outputs_dict[x]
+                    type_x = hardware[x]["type"]
+                    size_x = hardware[x]["size"]
+                    precision_x = hardware[x]["precision"]
+                    module_x = []
+                    for z in module_dict[type_x]:
+                        module_x.append(z)
+                    module_x_len = len(module_x)
+
+
+                    for y in range(module_x_len):
+                        if (module_dict[type_x][module_x[y]]["size"] == size_x) and (module_dict[type_x][module_x[y]]["precision"] == precision_x):
+                            interface_input_bits = interface_input_bits + module_dict[type_x][module_x[y]]["inputs"]
+                        else:
+                            pass
+
+            interface_algorithm(f,interface_name,interface_input_bits,interface_output_bits)
+    print("all interface modules generated")
