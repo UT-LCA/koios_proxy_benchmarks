@@ -185,6 +185,58 @@ def generate_interface(fname, hardware, instance, module_dict):
             interface_algorithm(f,interface_name,interface_input_bits,interface_output_bits)
     print("all interface modules generated")
 
+def generate_top(hardware, instance, module_dict):
+    no_of_instances = len(instance)
+    top_input_bits = 0
+    top_output_bits = 0
+    with open("interfaces.v", "w") as f:
+        f.writelines("\n")
+        for t in range(no_of_instances):
+
+            flag_ti = 0
+            flag_to = 0
+
+            if (hardware[instance[t]]["inputs"][0] != "top") and (hardware[instance[t]]["outputs"][0] != "top"):
+                continue
+            else:
+                pass
+
+            if hardware[instance[t]]["inputs"][0] == "top":
+                type_ti = hardware[instance[t]]["type"]
+                size_ti = hardware[instance[t]]["size"]
+                precision_ti = hardware[instance[t]]["precision"]
+                flag_ti = 1
+            else:
+                pass
+
+            if hardware[instance[t]]["outputs"][0] == "top":
+                type_to = hardware[instance[t]]["type"]
+                size_to = hardware[instance[t]]["size"]
+                precision_to = hardware[instance[t]]["precision"]
+                flag_to = 1
+            else:
+                pass
+
+            module_ti = []
+            for tmi in module_dict[type_ti]:
+                module.append(tmi)
+            module_len_ti = len(module_ti)
+
+            module_to = []
+            for tmo in module_dict[type_to]:
+                module.append(tmo)
+            module_len_to = len(module_to)
+
+            for tij in range(module_len_ti):
+                if (module_dict[type_ti][module[tij]]["size"] == size_ti) and (module_dict[type_ti][module[tij]]["precision"] == precision_ti) and (flag_ti == 1):
+                    top_input_bits = top_input_bits + module_dict[type_ti][module[tij]]["inputs"]
+                else:
+                    pass
+
+
+
+        f.writelines("module top (input clk, input reset,input [" + str(int(top_input_bits - 1)) + ":0] inp, output reg [" + str(int(top_output_bits - 1)) + ":0] outp); \n"  )
+
 
 #structure.yml is the yaml file provided by user
 with open("structure.yml", "r") as ymlfile:
