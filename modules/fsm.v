@@ -1,4 +1,4 @@
-module fsm(input clk, input reset, input i1, input i2, output o);
+module fsm(input clk, input reset, input i1, input i2, output reg o);
 // mealy machine
 
 reg [1:0] current_state; 
@@ -28,7 +28,7 @@ always@(posedge clk) begin
 							end
 							if (inp == 2'b01) begin 
 								next_state <= 2'b11;
-								o = 1'b1;
+								o <= 1'b1;
 							end
 							if(inp == 2'b10) begin
   							next_state <= 2'b01;
@@ -93,10 +93,11 @@ always@(posedge clk) begin
 							  o <= 1'b1;
 							end
 						end
-		defualt:	begin  
-								next_state <= 2'b00;
-								o <= 1'b0; 
-							end
+//		defualt:	begin  
+//								next_state <= 2'b00;
+//								o <= 1'b0; 
+//							end
+	endcase
 end 
 
 endmodule 
