@@ -534,7 +534,7 @@ module_dict = {
         "precision":18,
         "inputs":222,
         "outputs":37 },
-    "module2": {
+    "module3": {
         "name": "dsp_chain_4_int_sop_2",
         "size":4,
         "precision":18,
