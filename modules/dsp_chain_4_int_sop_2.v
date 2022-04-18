@@ -17,7 +17,7 @@ int_sop_2 inst2 (.clk(clk),.reset(reset),.ax(ax2),.bx(bx2),.ay(ay2),.by(by2),.mo
 int_sop_2 inst3 (.clk(clk),.reset(reset),.ax(ax3),.bx(bx3),.ay(ay3),.by(by3),.mode_sigs(11'd0),.chainin(chainout1),.resulta(resulta3),.chainout(chainout2));
 int_sop_2 inst4 (.clk(clk),.reset(reset),.ax(ax4),.bx(bx4),.ay(ay4),.by(by4),.mode_sigs(11'd0),.chainin(chainout2),.resulta(resulta4),.chainout(chainout3));
 
-assign result = resulta3;
+assign result = resulta4;
 
 
 
