@@ -367,7 +367,7 @@ def generate_top(hardware, instance, module_dict):
 
             if hardware[instance[i]]["outputs"][0] == "top":
                 top_out_bits = top_out_bits + instance_output_bits
-                f.writelines("assign outp_" + instance_name + "  = top_outp[" + str(int(top_out_bits -1)) + ":" + str(int(top_out_bits - instance_output_bits)) + "]; \n")
+                f.writelines("assign top_outp[" + str(int(top_out_bits -1)) + ":" + str(int(top_out_bits - instance_output_bits)) + "] = " + "outp_" + instance_name "; \n")
             else:
                 pass
 
