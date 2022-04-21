@@ -1,12 +1,12 @@
 adder_tree1: 
  type: "adder_tree"
  size: 4
- precision: 8
+ precision: 16
  inputs: [dsp_chain1,sys_array1,sys_array2]
  outputs: [top]
 dsp_chain1:
  type: "dsp_chain"
- size: 4
+ size: 2
  precision: 18
  inputs: [top]
  outputs: [adder_tree1,dsp_chain1]
@@ -18,7 +18,7 @@ sys_array1:
  outputs: [adder_tree1]
 sys_array2:
  type: "systolic_array"
- size: 8
+ size: 4
  precision: 16
  inputs: [dsp_chain1]
  outputs: [adder_tree1]
