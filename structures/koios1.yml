@@ -1,0 +1,114 @@
+fifo1:
+ type: "fifo"
+ depth: 1024
+ width: 16
+ inputs: [top]
+ outputs: [systolic1]
+systolic1:
+ type: "systolic_array"
+ size: 4
+ precision: 16
+ inputs: [systolic1]
+ outputs: [dbram1]
+dbram1:
+ type: "double_buffered_ram"
+ depth: 2048
+ width: 8
+ inputs: [systolic1,adder_tree2]
+ outputs: [activ1]
+activ1:
+ type: "lut_tanh"
+ precision: 8
+ size: 64
+ inputs: [dbram1]
+ outputs: [adders1]
+adders1:
+ type: "adders"
+ size: 130
+ precision: 8
+ inputs: [mults1, activ1]
+ outputs: [dpram1]
+dpram1:
+ type: "dpram"
+ depth: 2048
+ width: 64
+ inputs: [adders1]
+ outputs: [systolic2]
+fifo2:
+ type: "fifo"
+ depth: 1024
+ width: 16
+ inputs: [top]
+ outputs: [dsp_chain1]
+dsp_chain1:
+ type: "dsp_chain"
+ size: 4
+ precision: 18
+ inputs: [fifo2]
+ outputs: [mults1]
+mults1:
+ type: "mults"
+ size: 80
+ precision: bf16
+ inputs: [dsp_chain1]
+ outputs: [adders1]
+systolic2:
+ type: "systolic_array"
+ size: 4
+ precision: 16
+ inputs: [dpram1]
+ outputs: [activ2,adder_tree1]
+activ2:
+ type: "lut_tanh"
+ precision: 8
+ size: 64
+ inputs: [systolic2]
+ outputs: [dsp_chain2,adder_tree1]
+dsp_chain2: 
+ type: "dsp_chain"
+ size: 4
+ precision: 18
+ inputs: [activ2]
+ outputs: [activ3]
+activ3:
+ type: "lut_tanh"
+ precision: 8
+ size: 64
+ inputs: [dsp_chain2]
+ outputs: [mults2]
+mults2:
+ type: "mults"
+ size: 40
+ precision: 8
+ inputs: [activ3]
+ outputs: [adder_tree1]
+adder_tree1: 
+ type: "adder_tree"
+ size: 64
+ precision: 8
+ inputs: [mults2, activ2, systolic2]
+ outputs: [top]
+spram1:
+ type: "spram"
+ depth: 1024
+ width: 8
+ inputs: [adder_tree1]
+ outputs: [systolic3]
+systolic3:
+ type: "systolic_array"
+ size: 4
+ precision: 16
+ inputs: [spram1]
+ outputs: [adder_tree2]
+adder_tree2: 
+ type: "adder_tree"
+ size: 64
+ precision: 8
+ inputs: [systolic3]
+ outputs: [dbram1, dpram2]
+dpram2:
+ type: "dpram"
+ depth: 2048
+ width: 64
+ inputs: [adder_tree2]
+ outputs: [top]
