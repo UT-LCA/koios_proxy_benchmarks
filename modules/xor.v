@@ -7,5 +7,5 @@ end
 else begin
 o <= i1^i2; 
 end 
-
+end
 endmodule

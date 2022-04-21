@@ -322,7 +322,7 @@ def generate_top(hardware, instance, module_dict):
 
             f.writelines("wire [" + str(int(interface_input_bits - 1)) + ":0] inp_" + interface_name + "; \n")
             f.writelines("wire [" + str(int(interface_output_bits - 1)) + ":0] outp_" + interface_name + "; \n")
-            f.writelines("\n" + interface_name + " inst_" + interface_name + "(.clk(clk),.reset(reset),.inp(inp_" + interface_name + ").,outp(outp_" + interface_name + ")); \n")
+            f.writelines("\n" + interface_name + " inst_" + interface_name + "(.clk(clk),.reset(reset),.inp(inp_" + interface_name + "),.outp(outp_" + interface_name + ")); \n")
 
         top_in_bits = 0
         top_out_bits = 0
@@ -453,7 +453,7 @@ module_dict = {
         "inputs":128,
         "outputs":32,},
     "module4": {
-        "name": "adder_tree_4stage_16bit",
+        "name": "adder_tree_4_16bit",
         "size":4,
         "precision":16,
         "inputs":256,
@@ -512,8 +512,8 @@ module_dict = {
         "name": "systolic_array_4_16bit",
         "size":4,
         "precision":16,
-        "inputs":80,
-        "outputs":64 },
+        "inputs":276,
+        "outputs":98 },
     "module2": {
         "name": "systolic_array_8_16bit",
         "size":8,
@@ -523,7 +523,7 @@ module_dict = {
     },
 "dsp_chain": {
     "module1": {
-        "name": "dsp_chain_2_int_sop_2",
+        "name": "dsp_chain_2_int_sop_2_module",
         "size":2,
         "precision":18,
         "inputs":148,
