@@ -1,4 +1,4 @@
-module dpram (
+module dpram_2048_60bit (
     clk,
     address_a,
     address_b,
