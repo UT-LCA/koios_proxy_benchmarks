@@ -70,11 +70,30 @@ adder_tree_4stage_4bit inst(.clk(clk),.reset(reset),.inp00(inp[3:0]),.inp01(inp[
 
 endmodule
 
-module dpram_1024_32bit (input clk, input reset, input [85:0] inp, output reg [63:0] outp);
+module dpram_1024_32bit_module (input clk, input reset, input [85:0] inp, output reg [63:0] outp);
 
 dpram inst (.clk(clk),.address_a(inp[9:0]),.address_b(inp[19:10]),.wren_a(inp[20]),.wren_b(inp[21]),.data_a(inp[53:22]),.data_b(inp[85:54]),.out_a(outp[31:0]),.out_b(outp[63:32]));
 
 endmodule
+
+module dpram_1024_64bit_module (input clk, input reset, input [149:0] inp, output reg [63:0] outp );
+
+dpram_1024_64bit inst (.clk(clk),.address_a(inp[9:0]),.address_b(inp[19:10]),.wren_a(inp[20]),.wren_b(inp[21]),.data_a(inp[85:22]),.data_b(inp[149:86]),.out_a(outp[31:0]),.out_b(outp[63:32]));
+
+endmodule
+
+module dpram_2048_64bit_module (input clk, input reset, input [151:0] inp, output reg [127:0] outp);
+
+dpram_2048_64bit inst (.clk(clk),.address_a(inp[10:0]),.address_b(inp[21:11]),.wren_a(inp[22]),.wren_b(inp[23]),.data_a(inp[87:24]),.data_b(inp[151:88]),.out_a(outp[63:0]),.out_b(outp[127:64]));
+
+endmodule
+
+module dpram_2048_32bit_module (input clk, input reset, input [87:0] inp, output reg [63:0] outp);
+
+dpram_2048_32bit inst (.clk(clk),.address_a(inp[10:0]),.address_b(inp[21:11]),.wren_a(inp[22]),.wren_b(inp[23]),.data_a(inp[55:24]),.data_b(inp[87:56]),.out_a(outp[31:0]),.out_b(outp[63:32]));
+
+endmodule
+
 
 module spram_1024_32bit (input clk,input reset,input [42:0] inp, output reg [31:0] outp);
 
