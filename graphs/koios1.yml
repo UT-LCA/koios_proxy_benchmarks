@@ -1,12 +1,14 @@
 fifo1:
  type: "fifo"
- depth: 1024
+ depth: 256
  width: 16
+ number: 4
  inputs: [top]
  outputs: [systolic1]
 systolic1:
  type: "systolic_array"
  size: 4
+ number: 2
  precision: 16
  inputs: [systolic1]
  outputs: [dbram1]
@@ -14,6 +16,7 @@ dbram1:
  type: "double_buffered_ram"
  depth: 2048
  width: 8
+ number: 8
  inputs: [systolic1,adder_tree2]
  outputs: [activ1]
 activ1:
@@ -21,52 +24,59 @@ activ1:
  precision: 8
  size: 64
  inputs: [dbram1]
- outputs: [adders1]
-adders1:
- type: "adders"
- size: 130
+ outputs: [adder_tree3]
+adder_tree3:
+ type: "adder_tree"
+ stages: 7
  precision: 8
- inputs: [mults1, activ1]
+ inputs: [dsp_chain3, activ1]
  outputs: [dpram1]
 dpram1:
  type: "dpram"
  depth: 2048
  width: 64
- inputs: [adders1]
+ number: 4
+ inputs: [adder_tree3]
  outputs: [systolic2]
 fifo2:
  type: "fifo"
- depth: 1024
- width: 16
+ depth: 512
+ width: 40
+ number: 4
  inputs: [top]
  outputs: [dsp_chain1]
 dsp_chain1:
  type: "dsp_chain"
+ size: 2
+ precision: 18
+ number: 24
+ inputs: [fifo2]
+ outputs: [dsp_chain3]
+dsp_chain3:
+ type: "dsp_chain"
  size: 4
  precision: 18
- inputs: [fifo2]
- outputs: [mults1]
-mults1:
- type: "mults"
- size: 80
- precision: bf16
+ number: 4
  inputs: [dsp_chain1]
- outputs: [adders1]
+ outputs: [adder_tree3]
 systolic2:
  type: "systolic_array"
- size: 4
+ size: 8
+ number: 2
  precision: 16
  inputs: [dpram1]
  outputs: [activ2,adder_tree1]
 activ2:
- type: "lut_tanh"
+ type: "lut_sigmoid"
  precision: 8
  size: 64
+ number: 4
  inputs: [systolic2]
  outputs: [dsp_chain2,adder_tree1]
 dsp_chain2: 
  type: "dsp_chain"
  size: 4
+ number: 7
  precision: 18
  inputs: [activ2]
  outputs: [activ3]
@@ -75,23 +85,25 @@ activ3:
  precision: 8
  size: 64
  inputs: [dsp_chain2]
- outputs: [mults2]
-mults2:
- type: "mults"
- size: 40
+ outputs: [dsp_chain4]
+dsp_chain4:
+ type: "dsp_chain"
+ size: 3
+ number: 10
  precision: 8
  inputs: [activ3]
  outputs: [adder_tree1]
 adder_tree1: 
  type: "adder_tree"
- size: 64
+ stages: 6
  precision: 8
- inputs: [mults2, activ2, systolic2]
+ inputs: [dsp_chain4, activ2, systolic2]
  outputs: [top]
 spram1:
  type: "spram"
  depth: 1024
  width: 8
+ number: 15
  inputs: [adder_tree1]
  outputs: [systolic3]
 systolic3:
@@ -102,13 +114,14 @@ systolic3:
  outputs: [adder_tree2]
 adder_tree2: 
  type: "adder_tree"
- size: 64
+ stages: 6
  precision: 8
  inputs: [systolic3]
  outputs: [dbram1, dpram2]
 dpram2:
  type: "dpram"
  depth: 2048
- width: 64
+ width: 40
+ number: 8
  inputs: [adder_tree2]
  outputs: [top]
