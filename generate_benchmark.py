@@ -150,6 +150,7 @@ def generate_interface(hardware, instance, module_dict):
             type = hardware[instance[i]]["type"]
             size = hardware[instance[i]]["size"]
             precision = hardware[instance[i]]["precision"]
+            number = hardware[instance[i]]["number"]
 
             interface_output_bits = 0
             interface_input_bits = 0
@@ -163,7 +164,7 @@ def generate_interface(hardware, instance, module_dict):
             #determining input bits to the ith instance, which is output bits of the interface
             for j in range(module_len):
                 if (module_dict[type][module[j]]["size"] == size) and (module_dict[type][module[j]]["precision"] == precision):
-                    interface_output_bits = module_dict[type][module[j]]["inputs"]
+                    interface_output_bits = module_dict[type][module[j]]["inputs"]*number
                 else:
                     pass
 
@@ -176,6 +177,7 @@ def generate_interface(hardware, instance, module_dict):
                     type_x = hardware[x]["type"]
                     size_x = hardware[x]["size"]
                     precision_x = hardware[x]["precision"]
+                    number_x = hardware[x]["number"]
                     module_x = []
                     for z in module_dict[type_x]:
                         module_x.append(z)
@@ -184,12 +186,69 @@ def generate_interface(hardware, instance, module_dict):
 
                     for y in range(module_x_len):
                         if (module_dict[type_x][module_x[y]]["size"] == size_x) and (module_dict[type_x][module_x[y]]["precision"] == precision_x):
-                            interface_input_bits = interface_input_bits + module_dict[type_x][module_x[y]]["inputs"]
+                            interface_input_bits = interface_input_bits + (module_dict[type_x][module_x[y]]["inputs"]*number_x)
                         else:
                             pass
 
             interface_algorithm(f,interface_name,interface_input_bits,interface_output_bits)
     print("all interface modules generated")
+
+def generate_parallel_modules(hardware,instance,module_dict):
+    no_of_instances = len(instance)
+    module_names = []
+    module_numbers = []
+    with open("parallel_modules.v", "w") as f:
+        for i in range(no_of_instances):
+            f.writelines("\n")
+            flag = 0
+            instance_name = instance[i]
+            type = hardware[instance[i]]["type"]
+            size = hardware[instance[i]]["size"]
+            precision = hardware[instance[i]]["precision"]
+            number = hardware[instance[i]]["number"]
+            module_numbers.append(number)
+            module = []
+            for k in module_dict[type]:
+                module.append(k)
+            module_len = len(module)
+
+
+
+            for j in range(module_len):
+                if (module_dict[type][module[j]]["size"] == size) and (module_dict[type][module[j]]["precision"] == precision):
+                    name = module_dict[type][module[j]]["name"]
+                    #num = module_dict[type][module[j]]["numbers"]
+                    module_names.append(name)
+                    #module_numbers.append(num)
+
+                    module_names_len = len(module_names)
+
+                    for z in range(module_names_len):
+                        if((module_names[z] == name) and (module_numbers[z] == number)):
+                            flag = 1
+                            break
+                        else:
+                            pass
+                    if (flag == 1):
+                        break
+                    else:
+                        pass
+                    ins = module_dict[type][module[j]]["inputs"]
+                    out = module_dict[type][module[j]]["outputs"]
+                    inp = ins*number
+                    outp = out*number
+                    parallel_name = name + "_" + str(number)
+                    f.writelines("module " + parallel_name + "(input clk, input reset, input[" + str(int(inp-1)) + ":0] inp, output reg [" + str(int(outp-1)) + ":0] outp); \n")
+                    for y in range(number):
+                        f.writelines("\n" + name + " inst_" + str(y) + " (.clk(clk),.reset(reset),.inp(inp[" + str(int((ins*(y+1))-1)) + ":" + str(int((ins*y))) + "]),.outp(outp[" + str(int((out*(y+1))-1)) + ":" + str(int((out*y))) + "])); \n")
+                    f.writelines("\n" + "endmodule \n")
+                else:
+                    pass
+
+            if (flag == 1):
+                continue
+            else:
+                pass
 
 def generate_top(hardware, instance, module_dict):
     no_of_instances = len(instance)
@@ -212,6 +271,7 @@ def generate_top(hardware, instance, module_dict):
                 type_ti = hardware[instance[t]]["type"]
                 size_ti = hardware[instance[t]]["size"]
                 precision_ti = hardware[instance[t]]["precision"]
+                number_ti = hardware[instance[t]]["number"]
                 flag_ti = 1
             else:
                 pass
@@ -221,6 +281,7 @@ def generate_top(hardware, instance, module_dict):
                 type_to = hardware[instance[t]]["type"]
                 size_to = hardware[instance[t]]["size"]
                 precision_to = hardware[instance[t]]["precision"]
+                number_to = hardware[instance[t]]["number"]
                 flag_to = 1
             else:
                 pass
@@ -247,7 +308,7 @@ def generate_top(hardware, instance, module_dict):
             if flag_ti == 1:
                 for tij in range(module_len_ti):
                     if (module_dict[type_ti][module_ti[tij]]["size"] == size_ti) and (module_dict[type_ti][module_ti[tij]]["precision"] == precision_ti):
-                        top_input_bits = top_input_bits + module_dict[type_ti][module_ti[tij]]["inputs"]
+                        top_input_bits = top_input_bits + (module_dict[type_ti][module_ti[tij]]["inputs"]*number_ti)
                     else:
                         pass
             else:
@@ -256,7 +317,7 @@ def generate_top(hardware, instance, module_dict):
             if flag_to == 1:
                 for toj in range(module_len_to):
                     if (module_dict[type_to][module_to[toj]]["size"] == size_to) and (module_dict[type_to][module_to[toj]]["precision"] == precision_to):
-                        top_output_bits = top_output_bits + module_dict[type_to][module_to[toj]]["outputs"]
+                        top_output_bits = top_output_bits + (module_dict[type_to][module_to[toj]]["outputs"]*number_to)
                     else:
                         pass
             else:
@@ -274,6 +335,7 @@ def generate_top(hardware, instance, module_dict):
             type = hardware[instance[i]]["type"]
             size = hardware[instance[i]]["size"]
             precision = hardware[instance[i]]["precision"]
+            number = hardware[instance[i]]["number"]
 
             interface_output_bits = 0
             interface_input_bits = 0
@@ -288,10 +350,10 @@ def generate_top(hardware, instance, module_dict):
             # finding inp/outp bits to an instance
             for j in range(module_len):
                 if (module_dict[type][module[j]]["size"] == size) and (module_dict[type][module[j]]["precision"] == precision):
-                    interface_output_bits = module_dict[type][module[j]]["inputs"]
-                    instance_input_bits = module_dict[type][module[j]]["inputs"]
-                    instance_output_bits = module_dict[type][module[j]]["outputs"]
-                    module_name = module_dict[type][module[j]]["name"]
+                    interface_output_bits = module_dict[type][module[j]]["inputs"]*number
+                    instance_input_bits = module_dict[type][module[j]]["inputs"]*number
+                    instance_output_bits = module_dict[type][module[j]]["outputs"]*number
+                    module_name = module_dict[type][module[j]]["name"] + "_" + str(number)
                     f.writelines("\n wire [" + str(int(instance_input_bits-1)) + ":0] inp_" + instance_name + ";\n" )
                     f.writelines("wire [" + str(int(instance_output_bits-1)) + ":0] outp_" + instance_name + ";\n" )
                     f.writelines("\n" + module_name + " " + instance_name + " (.clk(clk),.reset(reset),.inp(inp_" + instance_name + "),.outp(outp_" + instance_name + ")); \n")
@@ -308,6 +370,7 @@ def generate_top(hardware, instance, module_dict):
                     type_x = hardware[x]["type"]
                     size_x = hardware[x]["size"]
                     precision_x = hardware[x]["precision"]
+                    number_x = hardware[x]["number"]
                     module_x = []
                     for z in module_dict[type_x]:
                         module_x.append(z)
@@ -316,7 +379,7 @@ def generate_top(hardware, instance, module_dict):
 
                     for y in range(module_x_len):
                         if (module_dict[type_x][module_x[y]]["size"] == size_x) and (module_dict[type_x][module_x[y]]["precision"] == precision_x):
-                            interface_input_bits = interface_input_bits + module_dict[type_x][module_x[y]]["inputs"]
+                            interface_input_bits = interface_input_bits + (module_dict[type_x][module_x[y]]["inputs"]*number_x)
                         else:
                             pass
 
@@ -337,6 +400,7 @@ def generate_top(hardware, instance, module_dict):
             type = hardware[instance[i]]["type"]
             size = hardware[instance[i]]["size"]
             precision = hardware[instance[i]]["precision"]
+            number = hardware[instance[i]]["number"]
 
             interface_output_bits = 0
             interface_input_bits = 0
@@ -352,10 +416,10 @@ def generate_top(hardware, instance, module_dict):
             # finding inp/outp bits to an instance
             for j in range(module_len):
                 if (module_dict[type][module[j]]["size"] == size) and (module_dict[type][module[j]]["precision"] == precision):
-                    interface_output_bits = module_dict[type][module[j]]["inputs"]
-                    instance_input_bits = module_dict[type][module[j]]["inputs"]
-                    instance_output_bits = module_dict[type][module[j]]["outputs"]
-                    module_name = module_dict[type][module[j]]["name"]
+                    interface_output_bits = module_dict[type][module[j]]["inputs"]*number
+                    instance_input_bits = module_dict[type][module[j]]["inputs"]*number
+                    instance_output_bits = module_dict[type][module[j]]["outputs"]*number
+                    module_name = module_dict[type][module[j]]["name"] + "_" + str(number)
                     if hardware[instance[i]]["inputs"][0] != "top":
                         f.writelines("assign inp_" + instance_name + " = outp_" + interface_name + "; \n")
                     else:
@@ -383,6 +447,7 @@ def generate_top(hardware, instance, module_dict):
                     type_x = hardware[x]["type"]
                     size_x = hardware[x]["size"]
                     precision_x = hardware[x]["precision"]
+                    number_x = hardware[x]["number"]
                     module_x = []
                     for z in module_dict[type_x]:
                         module_x.append(z)
@@ -391,7 +456,7 @@ def generate_top(hardware, instance, module_dict):
 
                     for y in range(module_x_len):
                         if (module_dict[type_x][module_x[y]]["size"] == size_x) and (module_dict[type_x][module_x[y]]["precision"] == precision_x):
-                            interface_input_bits = interface_input_bits + module_dict[type_x][module_x[y]]["inputs"]
+                            interface_input_bits = interface_input_bits + (module_dict[type_x][module_x[y]]["inputs"]*number_x)
                         else:
                             pass
                     if q < (len_inps-1):
@@ -545,6 +610,7 @@ module_dict = {
 
 generate_interface(hardware, instance, module_dict)
 generate_top(hardware, instance, module_dict)
+generate_parallel_modules(hardware,instance,module_dict)
 
 
 #with open("final.v", "w") as f:
