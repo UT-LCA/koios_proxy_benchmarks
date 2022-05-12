@@ -58,7 +58,7 @@ adder_tree_2stage_4bit inst(.clk(clk),.reset(reset),.inp00(inp[3:0]),.inp01(inp[
 
 endmodule
 
-odule adder_tree_3_4bit (input clk, input reset, input [31:0] inp, output reg [7:0] outp);
+module adder_tree_3_4bit (input clk, input reset, input [31:0] inp, output reg [7:0] outp);
 
 adder_tree_3stage_4bit inst (.clk(clk),.reset(reset),.inp00(inp[3:0]),.inp01(inp[7:4]),.inp10(inp[11:8]),.inp11(inp[15:12]),.inp20(inp[19:16]),.inp21(inp[23:20]),.inp30(inp[27:24]),.inp31(inp[31:28]),.sum_out(outp));
 
@@ -113,7 +113,7 @@ sigmoid inst (.x(inp),.sig_out(outp));
 
 endmodule
 
-module systolic_array_4_16bit (input clk, input reset, input [275:0] inp, output reg [97:0] outp);
+module systolic_array_4_16bit (input clk, input reset, input [252:0] inp, output reg [130:0] outp);
 
 matmul_4x4_systolic inst(
  .clk(clk),
@@ -135,16 +135,16 @@ matmul_4x4_systolic inst(
  .c_data_out(outp[32:1]), //Data values going out to next matmul - systolic shifting
  .a_data_out(outp[64:33]),
  .b_data_out(outp[96:65]),
- .a_addr(inp[227:217]),
- .b_addr(inp[238:228]),
- .c_addr(inp[249:239]),
- .c_data_available(outp[97]),
- .validity_mask_a_rows(inp[252:250]),
- .validity_mask_a_cols_b_rows(inp[255:253]),
- .validity_mask_b_cols(inp[258:256]),
- .final_mat_mul_size(inp[266:259]),
- .a_loc(inp[267:260]),
- .b_loc(inp[275:268])
+ .a_addr(outp[107:97]),
+ .b_addr(outp[118:108]),
+ .c_addr(outp[129:119]),
+ .c_data_available(outp[130]),
+ .validity_mask_a_rows(inp[220:217]),
+ .validity_mask_a_cols_b_rows(inp[224:221]),
+ .validity_mask_b_cols(inp[228:225]),
+ .final_mat_mul_size(inp[236:229]),
+ .a_loc(inp[244:237]),
+ .b_loc(inp[252:245])
 );
 
 endmodule
