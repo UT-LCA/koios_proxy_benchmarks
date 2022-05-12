@@ -36,6 +36,7 @@ def interface_algorithm(f, interface_name, input_bits, output_bits):
         #iter = int(input_bits/output_bits)
         L = "intermediate_reg"
         i = 0
+        l = "intermediate_wire"
         #f.writelines("reg [" + str(int(input_bits -1 )) + ":0]" + L + "_" + str(i) + "; \n" )
         #f.writelines("always@(posedge clk) begin \n")
         #f.writelines(L + "_" + str(i) + " <= inp; \n" )
@@ -43,9 +44,10 @@ def interface_algorithm(f, interface_name, input_bits, output_bits):
         #if int(input_bits/output_bits) > 2:
         loop = 1
         new_input_bits = input_bits
+        odd_flag = 0
 
         while loop:
-
+            odd_flag = 0
             if i == 0:
                 f.writelines("reg [" + str(int(new_input_bits -1 )) + ":0]" + L + "_" + str(i) + "; \n" )
                 f.writelines("always@(posedge clk) begin \n")
@@ -56,6 +58,7 @@ def interface_algorithm(f, interface_name, input_bits, output_bits):
                 pass
 
             if new_input_bits%2 == 1:  #if it is odd
+                odd_flag = 1
                 if output_bits%2 == 1:
                     if i == 0:
                         f.writelines("always@(posedge clk) begin \n")
@@ -70,13 +73,19 @@ def interface_algorithm(f, interface_name, input_bits, output_bits):
                     #now both are even
                 else: #if output bits are not odd, we need to make input_bits as even
                     if i ==0:
-                        f.writelines("always@(posedge clk) begin \n")
-                        f.writelines(L + "_" + str(i) + "[" + str(int(new_input_bits-2)) + "]" " <= " + L + "_" + str(i) + "[" + str(int(new_input_bits-1)) + "]" + "^" + L + "_" + str(i) + "[" + str(int(new_input_bits-2)) + "] ; \n" )
-                        f.writelines("end \n \n")
+                        #f.writelines("always@(posedge clk) begin \n")
+                        f.writelines("wire [" + str(int(new_input_bits-2)) + ":0]" + l + "_" + str(i) + "; \n")
+                        f.writelines("assign " + l + "_" + str(i) + "[" + str(int(new_input_bits-2)) + "] = " + L + "_" + str(i) + "[" + str(int(new_input_bits-1)) + "]" + "^" + L + "_" + str(i) + "[" + str(int(new_input_bits-2)) + "] ; \n")
+                        f.writelines("assign " + l + "_" + str(i) + "[" + str(int(new_input_bits-3)) + ":0] = " + L + "_" + str(int(i)) + "[" + str(int(new_input_bits-3)) + ":0] ; \n")
+                        #f.writelines(L + "_" + str(i) + "[" + str(int(new_input_bits-2)) + "]" " <= " + L + "_" + str(i) + "[" + str(int(new_input_bits-1)) + "]" + "^" + L + "_" + str(i) + "[" + str(int(new_input_bits-2)) + "] ; \n" )
+                        #f.writelines("end \n \n")
                     else:
-                        f.writelines("always@(posedge clk) begin \n")
-                        f.writelines(L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-2)) + "]" " <= " + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-1)) + "]" + "^" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-2)) + "] ; \n" )
-                        f.writelines("end \n \n")
+                        #f.writelines("always@(posedge clk) begin \n")
+                        f.writelines("wire [" + str(int(new_input_bits-2)) + ":0]" + l + "_" + str(i) + "; \n")
+                        f.writelines("assign " + l + "_" + str(i) + "[" + str(int(new_input_bits-2)) + "] = " + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-1)) + "]" + "^" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-2)) + "] ; \n")
+                        f.writelines("assign " + l + "_" + str(i) + "[" + str(int(new_input_bits-3)) + ":0] = " + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-3)) + ":0] ; \n")
+                        #f.writelines(L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-2)) + "]" " <= " + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-1)) + "]" + "^" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-2)) + "] ; \n" )
+                        #f.writelines("end \n \n")
                     new_input_bits = new_input_bits -1 #we have reduced the intermediate_reg bitwidth by 1 (made it even)
             else:
                 pass
@@ -90,12 +99,15 @@ def interface_algorithm(f, interface_name, input_bits, output_bits):
                     f.writelines("reg [" + str(int((new_input_bits/2) -1 )) + ":0]" + L + "_" + str(i) + "; \n \n" )
                     #f.writelines("always@(posedge clk) begin \n")
 
-
-                    for k in range(int(new_input_bits/2)):
-                        #f.writelines(L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" "<= " + L +"_" + str(int(i-1)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "^" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "] ;\n" )
-                        func = random.choice(list1)
-                        f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + L +"_" + str(int(i-1)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + ")); \n")
-
+                    if odd_flag == 0:
+                        for k in range(int(new_input_bits/2)):
+                            #f.writelines(L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" "<= " + L +"_" + str(int(i-1)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "^" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "] ;\n" )
+                            func = random.choice(list1)
+                            f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + L +"_" + str(int(i-1)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + ")); \n")
+                    else:
+                        for k in range(int(new_input_bits/2)):
+                            func = random.choice(list1)
+                            f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + l +"_" + str(int(i)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + l + "_" + str(int(i)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + ")); \n")
                     #f.writelines("end \n \n")
                     new_input_bits = new_input_bits/2
                     i = i + 1
@@ -106,9 +118,16 @@ def interface_algorithm(f, interface_name, input_bits, output_bits):
                     round_down = int(output_bits/new_input_bits)
                     f.writelines("always@(posedge clk) begin \n")
                     for z in range(round_down):
-                        f.writelines("outp [" + str(int(((z+1)*new_input_bits)-1)) + ":" + str(int(z*new_input_bits)) + "] <= " + L + "_" + str(int(i-1)) + "; \n" )
+                        if odd_flag == 0:
+                            f.writelines("outp [" + str(int(((z+1)*new_input_bits)-1)) + ":" + str(int(z*new_input_bits)) + "] <= " + L + "_" + str(int(i-1)) + "; \n" )
+                        else:
+                            f.writelines("outp [" + str(int(((z+1)*new_input_bits)-1)) + ":" + str(int(z*new_input_bits)) + "] <= " + l + "_" + str(int(i)) + "; \n" )
                     if output_bits%new_input_bits != 0:
-                        f.writelines("outp[" + str(int(output_bits - 1)) + ":" + str(int(output_bits - (output_bits%new_input_bits) )) + "] <= " + L + "_" + str(int(i-1)) + "[" + str(int( (output_bits%new_input_bits) - 1 )) + ":0] ; \n")
+                        if odd_flag == 0:
+                            f.writelines("outp[" + str(int(output_bits - 1)) + ":" + str(int(output_bits - (output_bits%new_input_bits) )) + "] <= " + L + "_" + str(int(i-1)) + "[" + str(int( (output_bits%new_input_bits) - 1 )) + ":0] ; \n")
+                        else:
+                            f.writelines("outp[" + str(int(output_bits - 1)) + ":" + str(int(output_bits - (output_bits%new_input_bits) )) + "] <= " + l + "_" + str(int(i)) + "[" + str(int( (output_bits%new_input_bits) - 1 )) + ":0] ; \n")
+
                     f.writelines("end \n")
                     i = i+1
                     loop = 0
@@ -117,8 +136,12 @@ def interface_algorithm(f, interface_name, input_bits, output_bits):
                 if new_input_bits == output_bits:
 
                     f.writelines("always@(posedge clk) begin \n")
-                    f.writelines("outp[" + str(int(output_bits - 1)) +  "] <= " + L + "_" + str(int(i-1)) + " ; \n")
+                    if odd_flag == 0:
+                        f.writelines("outp[" + str(int(output_bits - 1)) +  "] <= " + L + "_" + str(int(i-1)) + " ; \n")
+                    else:
+                        f.writelines("outp[" + str(int(output_bits - 1)) +  "] <= " + l + "_" + str(int(i)) + " ; \n")
                     f.writelines("end \n")
+
                     i = i+1
                     loop = 0
                     break
@@ -218,7 +241,7 @@ def generate_parallel_modules(hardware,instance,module_dict):
                 if (module_dict[type][module[j]]["size"] == size) and (module_dict[type][module[j]]["precision"] == precision):
                     name = module_dict[type][module[j]]["name"]
                     #num = module_dict[type][module[j]]["numbers"]
-                    module_names.append(name)
+                    #module_names.append(name)
                     #module_numbers.append(num)
 
                     module_names_len = len(module_names)
@@ -233,6 +256,7 @@ def generate_parallel_modules(hardware,instance,module_dict):
                         break
                     else:
                         pass
+                    module_names.append(name)
                     ins = module_dict[type][module[j]]["inputs"]
                     out = module_dict[type][module[j]]["outputs"]
                     inp = ins*number
@@ -249,6 +273,122 @@ def generate_parallel_modules(hardware,instance,module_dict):
                 continue
             else:
                 pass
+
+def matching_assertion(x,y):
+    assert (x == y), f"Values given in yaml file and module dictionary do not match: {x}"
+
+def assertions_function(hardware, instance, module_dict):
+    no_of_instances = len(instance)
+    top_inp_flag = 0
+    top_outp_flag = 0
+    instance_track = []
+
+    for i in range(no_of_instances):
+        instance_name = instance[i]
+        type = hardware[instance[i]]["type"]
+        size = hardware[instance[i]]["size"]
+        precision = hardware[instance[i]]["precision"]
+        number = hardware[instance[i]]["number"]
+
+        instance_track.append(instance[i])
+        instance_track_len = len(instance_track)
+
+    for i in range(no_of_instances):
+        instance_name = instance[i]
+        type = hardware[instance[i]]["type"]
+        size = hardware[instance[i]]["size"]
+        precision = hardware[instance[i]]["precision"]
+        number = hardware[instance[i]]["number"]
+
+        assert(number>= 1), f"Number is less than one: {number}"
+
+        module_d = []
+
+        for z in module_dict:
+            module_d.append(z)
+        module_len_d = len(module_d)
+
+        for y in range(module_len_d):
+            if module_d[y] == type:
+                pass
+            else:
+                matching_assertion(type,module_d[y])
+
+
+        module = []
+        for k in module_dict[type]:
+            module.append(k)
+        module_len = len(module)
+
+            #module_dict stores the no. of input bits to a particular instance
+            #determining input bits to the ith instance, which is output bits of the interface
+        for j in range(module_len):
+            if (module_dict[type][module[j]]["size"] == size) and (module_dict[type][module[j]]["precision"] == precision):
+                pass
+            else:
+                matching_assertion(size,module_dict[type][module[j]]["size"])
+                matching_assertion(precision,module_dict[type][module[j]]["precision"])
+
+        if hardware[instance[i]]["inputs"][0] == "top":
+            top_inp_flag = 1
+        else:
+            pass
+
+        if hardware[instance[i]]["outputs"][0] == "top":
+            top_outp_flag = 1
+        else:
+            pass
+
+        inst_flag = 0
+        if hardware[instance[i]]["inputs"][0] == "top":
+            pass # no interface is made for this instances input since input is coming from top
+        else:
+            #counting the inputs that are tring to go into this instantiation
+            for x in hardware[instance[i]]["inputs"]: # x is the name of the input instances to ith instance
+                #interface_input_bits = interface_input_bits + module_outputs_dict[x]
+                type_x = hardware[x]["type"]
+                size_x = hardware[x]["size"]
+                precision_x = hardware[x]["precision"]
+                number_x = hardware[x]["number"]
+
+                assert(x != instance[i]), f"instance is input to itself :{instance[i]}"
+
+                inst_flag = 0
+
+                for y in range(instance_track_len):
+                    if(instance_track[y] == x):
+                        inst_flag = 1
+                    else:
+                        pass
+                assert(inst_flag == 1), f"Instance: {x} is not present as inputs to any other instance"
+
+        inst_flag = 0
+        if hardware[instance[i]]["outputs"][0] == "top":
+            pass # no interface is made for this instances input since input is coming from top
+        else:
+            #counting the inputs that are tring to go into this instantiation
+            for x in hardware[instance[i]]["outputs"]: # x is the name of the input instances to ith instance
+                #interface_input_bits = interface_input_bits + module_outputs_dict[x]
+                type_x = hardware[x]["type"]
+                size_x = hardware[x]["size"]
+                precision_x = hardware[x]["precision"]
+                number_x = hardware[x]["number"]
+
+                assert(x != instance[i]), f"instance is output to itself :{instance[i]}"
+
+                inst_flag = 0
+
+                for y in range(instance_track_len):
+                    if(instance_track[y] == x):
+                        inst_flag = 1
+                    else:
+                        pass
+                assert(inst_flag == 1), f"Instance: {x} is not present as outputs to any other instance"
+
+
+
+    assert(top_inp_flag == 1), "No instance has top as inputs to it"
+    assert(top_outp_flag == 1), "No instance has top as outputs to it"
 
 def generate_top(hardware, instance, module_dict):
     no_of_instances = len(instance)
@@ -323,7 +463,7 @@ def generate_top(hardware, instance, module_dict):
             else:
                 pass
 
-        f.writelines("module top (input clk, input reset,input [" + str(int(top_input_bits - 1)) + ":0] top_inp, output reg [" + str(int(top_output_bits - 1)) + ":0] top_outp); \n \n")
+        f.writelines("module top (input clk, input reset,input [" + str(int(top_input_bits - 1)) + ":0] top_inp, output [" + str(int(top_output_bits - 1)) + ":0] top_outp); \n \n")
 
         for i in range(no_of_instances):
             f.writelines("\n")
@@ -469,7 +609,7 @@ def generate_top(hardware, instance, module_dict):
         f.writelines("\n endmodule \n")
 
 #structure.yml is the yaml file provided by user
-with open("structure.yml", "r") as ymlfile:
+with open("graphs/simple.yml", "r") as ymlfile:
     hardware = yaml.safe_load(ymlfile)
 
 # empty list created that will store instance names
@@ -577,8 +717,8 @@ module_dict = {
         "name": "systolic_array_4_16bit",
         "size":4,
         "precision":16,
-        "inputs":276,
-        "outputs":98 },
+        "inputs":253,
+        "outputs":131 },
     "module2": {
         "name": "systolic_array_8_16bit",
         "size":8,
@@ -608,6 +748,7 @@ module_dict = {
     }
 }
 
+#assertions_function(hardware, instance, module_dict)
 generate_interface(hardware, instance, module_dict)
 generate_top(hardware, instance, module_dict)
 generate_parallel_modules(hardware,instance,module_dict)
