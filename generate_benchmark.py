@@ -209,7 +209,7 @@ def generate_interface(hardware, instance, module_dict):
 
                     for y in range(module_x_len):
                         if (module_dict[type_x][module_x[y]]["size"] == size_x) and (module_dict[type_x][module_x[y]]["precision"] == precision_x):
-                            interface_input_bits = interface_input_bits + (module_dict[type_x][module_x[y]]["inputs"]*number_x)
+                            interface_input_bits = interface_input_bits + (module_dict[type_x][module_x[y]]["outputs"]*number_x)
                         else:
                             pass
 
@@ -519,7 +519,7 @@ def generate_top(hardware, instance, module_dict):
 
                     for y in range(module_x_len):
                         if (module_dict[type_x][module_x[y]]["size"] == size_x) and (module_dict[type_x][module_x[y]]["precision"] == precision_x):
-                            interface_input_bits = interface_input_bits + (module_dict[type_x][module_x[y]]["inputs"]*number_x)
+                            interface_input_bits = interface_input_bits + (module_dict[type_x][module_x[y]]["outputs"]*number_x)
                         else:
                             pass
 
@@ -596,7 +596,7 @@ def generate_top(hardware, instance, module_dict):
 
                     for y in range(module_x_len):
                         if (module_dict[type_x][module_x[y]]["size"] == size_x) and (module_dict[type_x][module_x[y]]["precision"] == precision_x):
-                            interface_input_bits = interface_input_bits + (module_dict[type_x][module_x[y]]["inputs"]*number_x)
+                            interface_input_bits = interface_input_bits + (module_dict[type_x][module_x[y]]["outputs"]*number_x)
                         else:
                             pass
                     if q < (len_inps-1):
