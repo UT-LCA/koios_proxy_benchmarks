@@ -2,23 +2,27 @@ adder_tree1:
  type: "adder_tree"
  size: 4
  precision: 16
+ number: 2
  inputs: [dsp_chain1,sys_array1,sys_array2]
  outputs: [top]
 dsp_chain1:
  type: "dsp_chain"
  size: 2
  precision: 18
+ number: 5
  inputs: [top]
  outputs: [adder_tree1,dsp_chain1]
 sys_array1:
  type: "systolic_array"
  size: 4
  precision: 16
+ number: 1
  inputs: [top]
  outputs: [adder_tree1]
 sys_array2:
  type: "systolic_array"
  size: 4
  precision: 16
+ number: 3
  inputs: [dsp_chain1]
  outputs: [adder_tree1]
