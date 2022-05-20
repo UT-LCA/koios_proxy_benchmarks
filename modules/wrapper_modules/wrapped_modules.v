@@ -70,6 +70,29 @@ adder_tree_4stage_4bit inst(.clk(clk),.reset(reset),.inp00(inp[3:0]),.inp01(inp[
 
 endmodule
 
+module adder_tree_3_fp16bit (input clk, input reset, input [131:0] inp, output reg [15:0] outp);
+
+mode4_adder_tree(
+  .inp0(inp[15:0]),
+  .inp1(inp[31:16]),
+  .inp2(inp[47:32]),
+  .inp3(inp[63:48]),
+  .inp4(inp[79:64]),
+  .inp5(inp[95:80]),
+  .inp6(inp[111:96]),
+  .inp7(inp[127:112]),
+  .mode4_stage0_run(inp[128]),
+  .mode4_stage1_run(inp[129]),
+  .mode4_stage2_run(inp[130]),
+  .mode4_stage3_run(inp[131]),
+
+  .clk(clk),
+  .reset(reset),
+  .outp(outp[15:0])
+);
+
+endmodule
+
 module dpram_1024_32bit_module (input clk, input reset, input [85:0] inp, output reg [63:0] outp);
 
 dpram inst (.clk(clk),.address_a(inp[9:0]),.address_b(inp[19:10]),.wren_a(inp[20]),.wren_b(inp[21]),.data_a(inp[53:22]),.data_b(inp[85:54]),.out_a(outp[31:0]),.out_b(outp[63:32]));
@@ -94,10 +117,93 @@ dpram_2048_32bit inst (.clk(clk),.address_a(inp[10:0]),.address_b(inp[21:11]),.w
 
 endmodule
 
+module dpram_1024_40bit_module (input clk, input reset, input [101:0] inp, output reg [79:0] outp);
 
-module spram_1024_32bit (input clk,input reset,input [42:0] inp, output reg [31:0] outp);
+dpram_1024_40bit inst (.clk(clk),.address_a(inp[9:0]),.address_b(inp[19:10]),.wren_a(inp[20]),.wren_b(inp[21]),.data_a(inp[61:22]),.data_b(inp[101:62]),.out_a(outp[39:0]),.out_b(outp[79:40]));
+
+endmodule
+
+module dpram_1024_60bit_module (input clk, input reset, input [141:0] inp, output reg [119:0] outp);
+
+dpram_1024_60bit inst (.clk(clk),.address_a(inp[9:0]),.address_b(inp[19:10]),.wren_a(inp[20]),.wren_b(inp[21]),.data_a(inp[81:22]),.data_b(inp[141:82]),.out_a(outp[59:0]),.out_b(outp[119:60]));
+
+endmodule
+
+module dpram_2048_40bit_module (input clk, input reset, input [103:0] inp, output reg [79:0] outp);
+
+dpram_2048_40bit inst (.clk(clk),.address_a(inp[10:0]),.address_b(inp[21:11]),.wren_a(inp[22]),.wren_b(inp[23]),.data_a(inp[63:24]),.data_b(inp[103:64]),.out_a(outp[39:0]),.out_b(outp[79:40]));
+
+endmodule
+
+module dpram_2048_60bit_module (input clk, input reset, input [143:0] inp, output reg [119:0] outp);
+
+dpram_2048_60bit inst (.clk(clk),.address_a(inp[10:0]),.address_b(inp[21:11]),.wren_a(inp[22]),.wren_b(inp[23]),.data_a(inp[83:24]),.data_b(inp[143:84]),.out_a(outp[59:0]),.out_b(outp[119:60]));
+
+endmodule
+
+module dpram_4096_40bit_module (input clk, input reset, input [105:0] inp, output reg [79:0] outp);
+
+dpram_4096_40bit inst (.clk(clk),.address_a(inp[11:0]),.address_b(inp[23:12]),.wren_a(inp[24]),.wren_b(inp[25]),.data_a(inp[65:26]),.data_b(inp[105:66]),.out_a(outp[39:0]),.out_b(outp[79:40]));
+
+endmodule
+
+module dpram_4096_60bit_module (input clk, input reset, input [145:0] inp, output reg [119:0] outp);
+
+dpram_4096_60bit inst (.clk(clk),.address_a(inp[11:0]),.address_b(inp[23:12]),.wren_a(inp[24]),.wren_b(inp[25]),.data_a(inp[85:26]),.data_b(inp[145:86]),.out_a(outp[59:0]),.out_b(outp[119:60]));
+
+endmodule
+
+module spram_1024_32bit_module (input clk,input reset,input [42:0] inp, output reg [31:0] outp);
 
 spram inst (.clk(clk),.address(inp[9:0]),.wren(inp[10]),.data(inp[42:11]),.out(outp));
+
+endmodule
+
+module spram_2048_40bit_module (input clk,input reset,input [51:0] inp, output reg [39:0] outp);
+
+spram_2048_40bit inst (.clk(clk),.address(inp[10:0]),.wren(inp[11]),.data(inp[51:12]),.out(outp));
+
+endmodule
+
+module spram_2048_60bit_module (input clk,input reset,input [71:0] inp, output reg [59:0] outp);
+
+spram_2048_60bit inst (.clk(clk),.address(inp[10:0]),.wren(inp[11]),.data(inp[71:12]),.out(outp));
+
+endmodule
+
+module spram_4096_40bit_module (input clk,input reset,input [52:0] inp, output reg [39:0] outp);
+
+spram_4096_40bit inst (.clk(clk),.address(inp[11:0]),.wren(inp[12]),.data(inp[52:13]),.out(outp));
+
+endmodule
+
+module spram_4096_60bit_module (input clk,input reset,input [72:0] inp, output reg [59:0] outp);
+
+spram_4096_60bit inst (.clk(clk),.address(inp[11:0]),.wren(inp[12]),.data(inp[72:13]),.out(outp));
+
+endmodule
+
+module fifo_256_40bit_module (input clk,input reset,input [42:0] inp, output reg [41:0] outp);
+
+fifo_256_40bit inst (.clk(clk),.rst(reset),.clr(inp[0]),.din(inp[40:1]),.we(inp[41]),.dout(outp[39:0]),.re(inp[42]),.full(outp[40]),.empty(outp[41]));
+
+endmodule
+
+module fifo_256_60bit_module (input clk,input reset,input [62:0] inp, output reg [61:0] outp);
+
+fifo_256_60bit inst (.clk(clk),.rst(reset),.clr(inp[0]),.din(inp[60:1]),.we(inp[61]),.dout(outp[59:0]),.re(inp[62]),.full(outp[60]),.empty(outp[61]));
+
+endmodule
+
+module fifo_512_60bit_module (input clk,input reset,input [62:0] inp, output reg [61:0] outp);
+
+fifo_512_60bit inst (.clk(clk),.rst(reset),.clr(inp[0]),.din(inp[60:1]),.we(inp[61]),.dout(outp[59:0]),.re(inp[62]),.full(outp[60]),.empty(outp[61]));
+
+endmodule
+
+module fifo_512_40bit_module (input clk,input reset,input [42:0] inp, output reg [41:0] outp);
+
+fifo_512_40bit inst (.clk(clk),.rst(reset),.clr(inp[0]),.din(inp[40:1]),.we(inp[41]),.dout(outp[39:0]),.re(inp[42]),.full(outp[40]),.empty(outp[41]));
 
 endmodule
 
@@ -118,8 +224,8 @@ module systolic_array_4_16bit (input clk, input reset, input [252:0] inp, output
 matmul_4x4_systolic inst(
  .clk(clk),
  .reset(reset),
- .pe_reset(inp[0]),
- .start_mat_mul(inp[1]),
+ .pe_reset(reset),
+ .start_mat_mul(inp[0]),
  .done_mat_mul(outp[0]),
  .address_mat_a(inp[11:1]),
  .address_mat_b(inp[22:12]),
@@ -145,6 +251,78 @@ matmul_4x4_systolic inst(
  .final_mat_mul_size(inp[236:229]),
  .a_loc(inp[244:237]),
  .b_loc(inp[252:245])
+);
+
+endmodule
+
+module systolic_array_8_16bit (input clk, input reset, input [774:0] inp, output reg [432:0] outp);
+
+matmul_4x4_systolic inst(
+ .clk(clk),
+ .reset(reset),
+ .pe_reset(reset),
+ .start_mat_mul(inp[0]),
+ .done_mat_mul(outp[0]),
+ .address_mat_a(inp[16:1]),
+ .address_mat_b(inp[32:17]),
+ .address_mat_c(inp[48:33]),
+ .address_stride_a(inp[64:49]),
+ .address_stride_b(inp[70:65]),
+ .address_stride_c(inp[86:71]),
+ .a_data(inp[214:87]),
+ .b_data(inp[342:215]),
+ .a_data_in(inp[470:343]), //Data values coming in from previous matmul - systolic connections
+ .b_data_in(inp[598:471]),
+ .c_data_in(inp[726:599]), //Data values coming in from previous matmul - systolic shifting
+ .c_data_out(outp[128:1]), //Data values going out to next matmul - systolic shifting
+ .a_data_out(outp[256:129]),
+ .b_data_out(outp[384:257]),
+ .a_addr(outp[399:384]),
+ .b_addr(outp[415:400]),
+ .c_addr(outp[431:416]),
+ .c_data_available(outp[432]),
+ .validity_mask_a_rows(inp[734:727]),
+ .validity_mask_a_cols_b_rows(inp[742:735]),
+ .validity_mask_b_cols(inp[750:743]),
+ .final_mat_mul_size(inp[758:751]),
+ .a_loc(inp[766:759]),
+ .b_loc(inp[774:767])
+);
+
+endmodule
+
+module systolic_array_4_fp16bit (input clk, input reset, input [434:0] inp, output reg [223:0] outp);
+
+matmul_4x4_systolic inst(
+ .clk(clk),
+ .reset(reset),
+ .pe_reset(reset),
+ .start_mat_mul(inp[0]),
+ .done_mat_mul(outp[0]),
+ .address_mat_a(inp[10:1]),
+ .address_mat_b(inp[20:11]),
+ .address_mat_c(inp[30:21]),
+ .address_stride_a(inp[46:31]),
+ .address_stride_b(inp[62:47]),
+ .address_stride_c(inp[78:63]),
+ .a_data(inp[142:79]),
+ .b_data(inp[206:143]),
+ .a_data_in(inp[270:207]), //Data values coming in from previous matmul - systolic connections
+ .b_data_in(inp[334:271]),
+ .c_data_in(inp[398:335]), //Data values coming in from previous matmul - systolic shifting
+ .c_data_out(outp[64:1]), //Data values going out to next matmul - systolic shifting
+ .a_data_out(outp[128:65]),
+ .b_data_out(outp[192:129]),
+ .a_addr(outp[202:193]),
+ .b_addr(outp[212:203]),
+ .c_addr(outp[222:213]),
+ .c_data_available(outp[223]),
+ .validity_mask_a_rows(inp[402:399]),
+ .validity_mask_a_cols_b_rows(inp[406:403]),
+ .validity_mask_b_cols(inp[410:407]),
+ .final_mat_mul_size(inp[418:411]),
+ .a_loc(inp[426:419]),
+ .b_loc(inp[434:427])
 );
 
 endmodule
@@ -182,6 +360,105 @@ endmodule
 module dsp_chain_4_fp16_sop2_mult_module (input clk, input reset, input [255:0] inp, output reg [31:0] outp);
 
 dsp_chain_4_fp16_sop2_mult inst(.clk(clk),.reset(reset),.top_a1(inp[15:0]),.top_b1(inp[31:16]),.bot_a1(inp[47:32]),.bot_b1(inp[63:48]),.top_a2(inp[79:64]),.top_b2(inp[95:80]),.bot_a2(inp[111:96]),.bot_b2(inp[127:112]),.top_a3(inp[143:128]),.top_b3(inp[159:144]),.bot_a3(inp[175:160]),.bot_b3(inp[191:176]),.top_a4(inp[207:192]),.top_b4(inp[223:208]),.bot_a4(inp[239:224]),.bot_b4(inp[255:240]),.result(outp));
+
+endmodule
+
+module tensor_block_bf16_module (input clk, input reset, input [264:0] inp, output reg [271:0] outp);
+
+tensor_block_bf16 inst(
+	.clk(clk),
+	.reset(reset),
+
+	.data_in(inp[79:0]),
+	.cascade_in(inp[159:80]),
+	.acc0_in(inp[191:160]),
+	.acc1_in(inp[223:192]),
+	.acc2_in(inp[255:224]),
+	.accumulator_input1_select(inp[258:256]),
+
+	.out0(outp[31:0]),
+	.out1(outp[63:32]),
+	.out2(outp[95:64]),
+	.cascade_out(outp[175:96]),
+	.acc0_out(outp[207:176]),
+	.acc1_out(outp[239:208]),
+	.acc2_out(outp[271:240]),
+
+	.mux1_select(inp[259]),
+	.dot_unit_input_1_enable(inp[260]),
+	.bank0_data_in_enable(inp[261]),
+	.bank1_data_in_enable(inp[262]),
+	.cascade_out_select(inp[263]),
+	.dot_unit_input_2_select(inp[264])
+
+	);
+
+endmodule
+
+module tensor_block_module (input clk, input reset, input [264:0] inp, output reg [250:0] outp);
+
+tensor_block inst(
+	.clk(clk),
+	.reset(reset),
+
+	.data_in(inp[79:0]),
+	.cascade_in(inp[159:80]),
+	.acc0_in(inp[191:160]),
+	.acc1_in(inp[223:192]),
+	.acc2_in(inp[255:224]),
+	.accumulator_input1_select(inp[258:256]),
+
+	.out0(outp[24:0]),
+	.out1(outp[49:25]),
+	.out2(outp[74:50]),
+	.cascade_out(outp[154:75]),
+	.acc0_out(outp[186:155]),
+	.acc1_out(outp[218:187]),
+	.acc2_out(outp[250:219]),
+
+	.mux1_select(inp[259]),
+	.dot_unit_input_1_enable(inp[260]),
+	.bank0_data_in_enable(inp[261]),
+	.bank1_data_in_enable(inp[262]),
+	.cascade_out_select(inp[263]),
+	.dot_unit_input_2_select(inp[264])
+
+	);
+
+endmodule
+
+
+module activation_32_8bit_module (input clk, input reset, input [260:0] inp, output reg [257:0] outp);
+
+activation inst (
+    .activation_type(inp[0]),
+    .enable_activation(inp[1]),
+    .in_data_available(inp[2]),
+    .inp_data(inp[258:3]),
+    .out_data(outp[255:0]),
+    .out_data_available(outp[256]),
+    .validity_mask(inp[260:259]),
+    .done_activation(outp[257]),
+    .clk(clk),
+    .reset(reset)
+);
+
+endmodule
+
+module activation_32_16bit_module (input clk, input reset, input [515:0] inp, output reg [513:0] outp);
+
+activation inst (
+    .activation_type(inp[0]),
+    .enable_activation(inp[1]),
+    .in_data_available(inp[2]),
+    .inp_data(inp[514:3]),
+    .out_data(outp[511:0]),
+    .out_data_available(outp[512]),
+    .validity_mask(inp[515:514]),
+    .done_activation(outp[513]),
+    .clk(clk),
+    .reset(reset)
+);
 
 endmodule
 
