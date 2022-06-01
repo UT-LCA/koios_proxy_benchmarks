@@ -608,8 +608,45 @@ def generate_top(hardware, instance, module_dict):
 
         f.writelines("\n endmodule \n")
 
+def print_cat(hardware,instance,module_dict):
+    no_of_instances = len(instance)
+    file_names = []
+    L = "cat top.v interfaces.v parallel_modules.v modules/wrapper_modules/wrapped_modules.v modules/fsm.v modules/xor.v  "
+    for i in range(no_of_instances):
+        instance_name = instance[i]
+        type = hardware[instance[i]]["type"]
+        size = hardware[instance[i]]["size"]
+        precision = hardware[instance[i]]["precision"]
+        number = hardware[instance[i]]["number"]
+
+        module = []
+        for k in module_dict[type]:
+            module.append(k)
+        module_len = len(module)
+
+        #module_dict stores the no. of input bits to a particular instance
+        #determining input bits to the ith instance, which is output bits of the interface
+        # finding inp/outp bits to an instance
+        for j in range(module_len):
+            if (module_dict[type][module[j]]["size"] == size) and (module_dict[type][module[j]]["precision"] == precision):
+                file_name = random.choice(module_dict[type][module[j]]["filename"])
+                file_names.append(file_name)
+            else:
+                #print("Error: Instance " + instance_name + "does not match any module in module_dict")
+                pass
+
+    unique_list = []
+    for i in file_names:
+        if i not in unique_list:
+            unique_list.append(i)
+            L = L + "modules/" + str(i) + " "
+        else:
+            pass
+    L = L + ">> all.v"
+    print(L)
+
 #structure.yml is the yaml file provided by user
-with open("graphs/simple.yml", "r") as ymlfile:
+with open("graphs/koios1.yml", "r") as ymlfile:
     hardware = yaml.safe_load(ymlfile)
 
 # empty list created that will store instance names
@@ -640,77 +677,96 @@ no_of_instances = len(instance)
 module_dict = {
 "adder_tree": {
     "module1" : {
-        "name": "adder_tree_1stage_16bit",
+        "name": "adder_tree_1_16bit",
         "size":1,
         "precision":16,
         "inputs":32,
-        "outputs":32,},
+        "outputs":32,
+        "filename": ["adder_tree_1stage_16bit.v"],},
     "module2": {
-        "name": "adder_tree_2stage_16bit",
+        "name": "adder_tree_2_16bit",
         "size":2,
         "precision":16,
         "inputs":64,
-        "outputs":32,},
+        "outputs":32,
+        "filename": ["adder_tree_2stage_16bit.v"],},
     "module3": {
-        "name": "adder_tree_3stage_16bit",
+        "name": "adder_tree_3_16bit",
         "size":3,
         "precision":16,
         "inputs":128,
-        "outputs":32,},
+        "outputs":32,
+        "filename": ["adder_tree_3stage_16bit.v"],},
     "module4": {
         "name": "adder_tree_4_16bit",
         "size":4,
         "precision":16,
         "inputs":256,
-        "outputs":32,},
+        "outputs":32,
+        "filename": ["adder_tree_4stage_16bit.v"],},
     "module5" : {
-        "name": "adder_tree_1stage_8bit",
+        "name": "adder_tree_1_8bit",
         "size":1,
         "precision":8,
         "inputs":16,
-        "outputs":16,},
+        "outputs":16,
+        "filename": ["adder_tree_1stage_8bit.v"],},
     "module6": {
-        "name": "adder_tree_2stage_8bit",
+        "name": "adder_tree_2_8bit",
         "size":2,
         "precision":8,
         "inputs":32,
-        "outputs":16,},
+        "outputs":16,
+        "filename": ["adder_tree_2stage_8bit.v"],},
     "module7": {
-        "name": "adder_tree_3stage_8bit",
+        "name": "adder_tree_3_8bit",
         "size":3,
         "precision":8,
         "inputs":64,
-        "outputs":16,},
+        "outputs":16,
+        "filename": ["adder_tree_3stage_8bit.v"],},
     "module8": {
-        "name": "adder_tree_4stage_8bit",
+        "name": "adder_tree_4_8bit",
         "size":4,
         "precision":8,
         "inputs":128,
-        "outputs":16,},
+        "outputs":16,
+        "filename": ["adder_tree_4stage_8bit.v"],},
     "module9" : {
-        "name": "adder_tree_1stage_4bit",
+        "name": "adder_tree_1_4bit",
         "size":1,
         "precision":4,
         "inputs":8,
-        "outputs":8,},
+        "outputs":8,
+        "filename": ["adder_tree_1stage_4bit.v"],},
     "module10": {
-        "name": "adder_tree_2stage_4bit",
+        "name": "adder_tree_2_4bit",
         "size":2,
         "precision":4,
         "inputs":16,
-        "outputs":8,},
+        "outputs":8,
+        "filename": ["adder_tree_2stage_4bit.v"],},
     "module11": {
-        "name": "adder_tree_3stage_4bit",
+        "name": "adder_tree_3_4bit",
         "size":3,
         "precision":4,
         "inputs":32,
-        "outputs":8,},
+        "outputs":8,
+        "filename": ["adder_tree_3stage_4bit.v"],},
     "module12": {
-        "name": "adder_tree_4stage_4bit",
+        "name": "adder_tree_4_4bit",
         "size":4,
         "precision":4,
         "inputs":64,
-        "outputs":8,}
+        "outputs":8,
+        "filename": ["adder_tree_4stage_4bit.v"],},
+    "module13": {
+        "name": "adder_tree_3_fp16bit",
+        "size":4,
+        "precision":4,
+        "inputs":132,
+        "outputs":16,
+        "filename": ["adder_tree_3stage_fp16bit.v"],}
     },
 "systolic_array": {
     "module1": {
@@ -718,13 +774,220 @@ module_dict = {
         "size":4,
         "precision":16,
         "inputs":253,
-        "outputs":131 },
+        "outputs":131,
+        "filename": ["systolic_4x4.v"],},
     "module2": {
         "name": "systolic_array_8_16bit",
         "size":8,
         "precision":16,
-        "inputs":160,
-        "outputs":100 }
+        "inputs":775,
+        "outputs":433,
+        "filename": ["systolic_8x8.v"],},
+    "module3": {
+        "name": "systolic_array_8_16bit",
+        "size":4,
+        "precision": "fp16",
+        "inputs":435,
+        "outputs":224,
+        "filename": ["systolic_4x4_fp.v"],}
+    },
+"dot_product": {
+    "module1": {
+        "name": "tensor_block_bf16_module",
+        "size":10,
+        "precision":"fp16",
+        "inputs":265,
+        "outputs":272,
+        "filename": ["tensor_block_bf16.v"],},
+    "module2": {
+        "name": "tensor_block_int8_module",
+        "size":10,
+        "precision":8,
+        "inputs":265,
+        "outputs":251,
+        "filename": ["tensor_block_int8.v"],}
+    },
+"tanh": {
+    "module1": {
+        "name": "activation_32_8bit_module",
+        "size":32,
+        "precision":8,
+        "inputs":261,
+        "outputs":258,
+        "filename": ["activations_8bit.v"],},
+    "module2": {
+        "name": "activation_32_16bit_module",
+        "size":32,
+        "precision":16,
+        "inputs":516,
+        "outputs":514,
+        "filename": ["activations_16bit.v"],}
+    },
+"relu": {
+    "module1": {
+        "name": "activation_32_8bit_module",
+        "size":32,
+        "precision":8,
+        "inputs":261,
+        "outputs":258,
+        "filename": ["activations_8bit.v"],},
+    "module2": {
+        "name": "activation_32_16bit_module",
+        "size":32,
+        "precision":16,
+        "inputs":516,
+        "outputs":514,
+        "filename": ["activations_16bit.v"],},
+    "module3": {
+        "name": "tanh_16bit",
+        "size":16,
+        "precision":16,
+        "inputs":16,
+        "outputs":16,
+        "filename": ["tanh.v"],}
+    },
+"sigmoid": {
+    "module1": {
+        "name": "sigmoid_16bit",
+        "size":16,
+        "precision":16,
+        "inputs":16,
+        "outputs":16,
+        "filename": ["sigmoid.v"],}
+    },
+"dpram": {
+    "module1": {
+        "name": "dpram_1024_40bit_module",
+        "size":1024,
+        "precision":40,
+        "inputs":102,
+        "outputs":80,
+        "filename": ["dpram_1024_40bit.v"],},
+    "module2": {
+        "name": "dpram_1024_60bit_module",
+        "size":1024,
+        "precision":40,
+        "inputs":142,
+        "outputs":120,
+        "filename": ["dpram_1024_60bit.v"],},
+    "module3": {
+        "name": "dpram_2048_40bit_module",
+        "size":2048,
+        "precision":40,
+        "inputs":104,
+        "outputs":80,
+        "filename": ["dpram_2048_40bit.v"],},
+    "module4": {
+        "name": "dpram_2048_60bit_module",
+        "size":2048,
+        "precision":60,
+        "inputs":144,
+        "outputs":120,
+        "filename": ["dpram_2048_60bit.v"],},
+    "module5": {
+        "name": "dpram_4096_40bit_module",
+        "size":4096,
+        "precision":40,
+        "inputs":106,
+        "outputs":80,
+        "filename": ["dpram_4096_40bit.v"],},
+    "module6": {
+        "name": "dpram_4096_60bit_module",
+        "size":4096,
+        "precision":60,
+        "inputs":146,
+        "outputs":120,
+        "filename": ["dpram_4096_60bit.v"],},
+    },
+"spram": {
+    "module1": {
+        "name": "spram_2048_40bit_module",
+        "size":2048,
+        "precision":40,
+        "inputs":52,
+        "outputs":40,
+        "filename": ["spram_2048_40bit.v"],},
+    "module2": {
+        "name": "spram_2048_60bit_module",
+        "size":2048,
+        "precision":60,
+        "inputs":72,
+        "outputs":60,
+        "filename": ["spram_2048_60bit.v"],},
+    "module3": {
+        "name": "spram_4096_40bit_module",
+        "size":4096,
+        "precision":40,
+        "inputs":53,
+        "outputs":40,
+        "filename": ["spram_4096_40bit.v"],},
+    "module4": {
+        "name": "spram_4096_60bit_module",
+        "size":4096,
+        "precision":60,
+        "inputs":73,
+        "outputs":60,
+        "filename": ["spram_4096_60bit.v"],},
+    },
+"dbram": {
+    "module1": {
+        "name": "dbram_2048_40bit_module",
+        "size":2048,
+        "precision":40,
+        "inputs":104,
+        "outputs":80,
+        "filename": ["dbram_2048_40bit.v"],},
+    "module2": {
+        "name": "dbram_2048_60bit_module",
+        "size":2048,
+        "precision":60,
+        "inputs":144,
+        "outputs":120,
+        "filename": ["dbram_2048_60bit.v"],},
+    "module3": {
+        "name": "dbram_4096_40bit_module",
+        "size":4096,
+        "precision":40,
+        "inputs":106,
+        "outputs":80,
+        "filename": ["dbram_4096_40bit.v"],},
+    "module4": {
+        "name": "dbram_4096_60bit_module",
+        "size":4096,
+        "precision":60,
+        "inputs":146,
+        "outputs":120,
+        "filename": ["dbram_4096_60bit.v"],},
+    },
+"fifo": {
+    "module1": {
+        "name": "fifo_256_40bit_module",
+        "size":256,
+        "precision":40,
+        "inputs":43,
+        "outputs":42,
+        "filename": ["fifo_256_40bit.v"],},
+    "module2": {
+        "name": "fifo_256_60bit_module",
+        "size":256,
+        "precision":60,
+        "inputs":63,
+        "outputs":62,
+        "filename": ["fifo_256_60bit.v"],},
+    "module3": {
+        "name": "fifo_512_40bit_module",
+        "size":512,
+        "precision":40,
+        "inputs":43,
+        "outputs":42,
+        "filename": ["fifo_512_40bit.v"],},
+    "module4": {
+        "name": "fifo_512_60bit_module",
+        "size":512,
+        "precision":60,
+        "inputs":63,
+        "outputs":62,
+        "filename": ["fifo_512_60bit.v"],},
     },
 "dsp_chain": {
     "module1": {
@@ -732,19 +995,43 @@ module_dict = {
         "size":2,
         "precision":18,
         "inputs":148,
-        "outputs":37 },
+        "outputs":37,
+        "filename": ["dsp_chain_2_int_sop_2.v"], },
     "module2": {
-        "name": "dsp_chain_3_int_sop_2",
+        "name": "dsp_chain_3_int_sop_2_module",
         "size":3,
         "precision":18,
         "inputs":222,
-        "outputs":37 },
+        "outputs":37,
+        "filename": ["dsp_chain_3_int_sop_2.v"], },
     "module3": {
-        "name": "dsp_chain_4_int_sop_2",
+        "name": "dsp_chain_4_int_sop_2_module",
         "size":4,
         "precision":18,
         "inputs":296,
-        "outputs":37 }
+        "outputs":37,
+        "filename": ["dsp_chain_4_int_sop_2.v"], },
+    "module4": {
+        "name": "dsp_chain_2_fp16_sop2_mult_module",
+        "size":2,
+        "precision":"fp16",
+        "inputs":128,
+        "outputs":32,
+        "filename": ["dsp_chain_2_fp16_sop2_mult.v"], },
+    "module5": {
+        "name": "dsp_chain_3_fp16_sop2_mult_module",
+        "size":3,
+        "precision":"fp16",
+        "inputs":192,
+        "outputs":32,
+        "filename": ["dsp_chain_3_fp16_sop2_mult.v"], },
+    "module6": {
+        "name": "dsp_chain_4_fp16_sop2_mult_module",
+        "size":4,
+        "precision":"fp16",
+        "inputs":256,
+        "outputs":32,
+        "filename": ["dsp_chain_4_fp16_sop2_mult.v"], }
     }
 }
 
@@ -752,7 +1039,7 @@ module_dict = {
 generate_interface(hardware, instance, module_dict)
 generate_top(hardware, instance, module_dict)
 generate_parallel_modules(hardware,instance,module_dict)
-
+print_cat(hardware,instance,module_dict)
 
 #with open("final.v", "w") as f:
 #    f.writelines()
