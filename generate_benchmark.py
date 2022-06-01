@@ -8,7 +8,7 @@ def interface_algorithm(f, interface_name, input_bits, output_bits):
     f.writelines("\n")
     f.writelines("module " + interface_name + "(input reg [" + str(int(input_bits - 1)) + ":0] inp, " + "output reg [" + str(int(output_bits - 1)) + ":0] outp, input clk, input reset);" + "\n")
 
-    list1 = ["fsm","xor_module"]
+    list1 = ["fsm","xor_module","mux_module"]
     func = random.choice(list1)
 
     if input_bits == output_bits:
@@ -98,16 +98,23 @@ def interface_algorithm(f, interface_name, input_bits, output_bits):
 
                     f.writelines("reg [" + str(int((new_input_bits/2) -1 )) + ":0]" + L + "_" + str(i) + "; \n \n" )
                     #f.writelines("always@(posedge clk) begin \n")
+                    sel = L + "_" + str(int(i-1)) + "[0]"
 
                     if odd_flag == 0:
                         for k in range(int(new_input_bits/2)):
                             #f.writelines(L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" "<= " + L +"_" + str(int(i-1)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "^" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "] ;\n" )
                             func = random.choice(list1)
-                            f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + L +"_" + str(int(i-1)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + ")); \n")
+                            if func == "mux_module":
+                                f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + L +"_" + str(int(i-1)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + "),.sel(" + sel + ")); \n")
+                            else:
+                                f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + L +"_" + str(int(i-1)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + ")); \n")
                     else:
                         for k in range(int(new_input_bits/2)):
                             func = random.choice(list1)
-                            f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + l +"_" + str(int(i)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + l + "_" + str(int(i)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + ")); \n")
+                            if func == "mux_module":
+                                f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + l +"_" + str(int(i)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + l + "_" + str(int(i)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + "),.sel(" + sel + ")); \n")
+                            else:
+                                f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + l +"_" + str(int(i)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + l + "_" + str(int(i)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + ")); \n")
                     #f.writelines("end \n \n")
                     new_input_bits = new_input_bits/2
                     i = i + 1
@@ -296,24 +303,32 @@ def assertions_function(hardware, instance, module_dict):
     for i in range(no_of_instances):
         instance_name = instance[i]
         type = hardware[instance[i]]["type"]
+        types = hardware[instance[i]]["type"]
         size = hardware[instance[i]]["size"]
         precision = hardware[instance[i]]["precision"]
         number = hardware[instance[i]]["number"]
-
+       # print(type)
         assert(number>= 1), f"Number is less than one: {number}"
 
         module_d = []
 
         for z in module_dict:
             module_d.append(z)
+           # print(z)
         module_len_d = len(module_d)
+
+        type_flag = 0
+        size_flag = 0 
+        precision_flag = 0 
 
         for y in range(module_len_d):
             if module_d[y] == type:
-                pass
+            #    print("succes")
+                type_flag =1
+               # pass
             else:
-                matching_assertion(type,module_d[y])
-
+                pass
+                #matching_assertion(type,module_d[y])
 
         module = []
         for k in module_dict[type]:
@@ -324,10 +339,30 @@ def assertions_function(hardware, instance, module_dict):
             #determining input bits to the ith instance, which is output bits of the interface
         for j in range(module_len):
             if (module_dict[type][module[j]]["size"] == size) and (module_dict[type][module[j]]["precision"] == precision):
-                pass
-            else:
+                #pass
                 matching_assertion(size,module_dict[type][module[j]]["size"])
                 matching_assertion(precision,module_dict[type][module[j]]["precision"])
+                size_flag =1
+                precision_flag = 1
+            else:
+                #matching_assertion(size,module_dict[type][module[j]]["size"])
+                #matching_assertion(precision,module_dict[type][module[j]]["precision"])
+                pass
+
+        if type_flag == 0:
+            matching_assertion(type,module_d[y])
+        else:
+            pass
+
+        if size_flag == 0:
+            matching_assertion(size,module_dict[type][module[j]]["size"])
+        else:
+            pass
+
+        if precision_flag == 0:
+            matching_assertion(precision,module_dict[type][module[j]]["precision"])
+        else:
+            pass
 
         if hardware[instance[i]]["inputs"][0] == "top":
             top_inp_flag = 1
@@ -611,7 +646,7 @@ def generate_top(hardware, instance, module_dict):
 def print_cat(hardware,instance,module_dict):
     no_of_instances = len(instance)
     file_names = []
-    L = "cat top.v interfaces.v parallel_modules.v modules/wrapper_modules/wrapped_modules.v modules/fsm.v modules/xor.v  "
+    L = "cat top.v interfaces.v parallel_modules.v modules/wrapper_modules/wrapped_modules.v modules/fsm.v modules/xor.v modules/2x1_mux.v  "
     for i in range(no_of_instances):
         instance_name = instance[i]
         type = hardware[instance[i]]["type"]
@@ -781,10 +816,10 @@ module_dict = {
         "size":8,
         "precision":16,
         "inputs":775,
-        "outputs":433,
+        "outputs":434,
         "filename": ["systolic_8x8.v"],},
     "module3": {
-        "name": "systolic_array_8_16bit",
+        "name": "systolic_array_4_fp16bit",
         "size":4,
         "precision": "fp16",
         "inputs":435,
@@ -807,7 +842,7 @@ module_dict = {
         "outputs":251,
         "filename": ["tensor_block_int8.v"],}
     },
-"tanh": {
+"relu": {
     "module1": {
         "name": "activation_32_8bit_module",
         "size":32,
@@ -823,7 +858,7 @@ module_dict = {
         "outputs":514,
         "filename": ["activations_16bit.v"],}
     },
-"relu": {
+"tanh": {
     "module1": {
         "name": "activation_32_8bit_module",
         "size":32,
@@ -866,7 +901,7 @@ module_dict = {
     "module2": {
         "name": "dpram_1024_60bit_module",
         "size":1024,
-        "precision":40,
+        "precision":60,
         "inputs":142,
         "outputs":120,
         "filename": ["dpram_1024_60bit.v"],},
@@ -1035,7 +1070,7 @@ module_dict = {
     }
 }
 
-#assertions_function(hardware, instance, module_dict)
+assertions_function(hardware, instance, module_dict)
 generate_interface(hardware, instance, module_dict)
 generate_top(hardware, instance, module_dict)
 generate_parallel_modules(hardware,instance,module_dict)
