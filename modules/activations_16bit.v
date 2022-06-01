@@ -1,8 +1,8 @@
-`define DWIDTH 8
+`define DWIDTH 16
 `define DESIGN_SIZE 32
 `define MASK_WIDTH 2
 
-module activation_32_8bit(
+module activation_32_16bit(
     input activation_type,
     input enable_activation,
     input in_data_available,
