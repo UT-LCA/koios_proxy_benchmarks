@@ -72,7 +72,7 @@ endmodule
 
 module adder_tree_3_fp16bit (input clk, input reset, input [131:0] inp, output reg [15:0] outp);
 
-mode4_adder_tree(
+mode4_adder_tree inst(
   .inp0(inp[15:0]),
   .inp1(inp[31:16]),
   .inp2(inp[47:32]),
@@ -183,6 +183,31 @@ spram_4096_60bit inst (.clk(clk),.address(inp[11:0]),.wren(inp[12]),.data(inp[72
 
 endmodule
 
+module dbram_2048_40bit_module (input clk,input reset,input [103:0] inp, output reg [79:0] outp);
+
+dbram_2048_40bit inst (.clk(clk),.reset(reset),.address_a(inp[10:0]),.address_b(inp[21:11]),.wren_a(inp[22]),.wren_b(inp[23]),.data_a(inp[63:24]),.data_b(inp[103:64]),.out_a(outp[39:0]),.out_b(outp[79:40]));
+
+endmodule
+
+module dbram_2048_60bit_module (input clk,input reset,input [143:0] inp, output reg [119:0] outp);
+
+dbram_2048_60bit inst (.clk(clk),.reset(reset),.address_a(inp[10:0]),.address_b(inp[21:11]),.wren_a(inp[22]),.wren_b(inp[23]),.data_a(inp[83:24]),.data_b(inp[143:84]),.out_a(outp[59:0]),.out_b(outp[119:60]));
+
+endmodule
+
+module dbram_4096_40bit_module (input clk,input reset,input [105:0] inp, output reg [79:0] outp);
+
+dbram_4096_40bit inst (.clk(clk),.reset(reset),.address_a(inp[11:0]),.address_b(inp[23:12]),.wren_a(inp[24]),.wren_b(inp[25]),.data_a(inp[65:26]),.data_b(inp[105:66]),.out_a(outp[39:0]),.out_b(outp[79:40]));
+
+endmodule
+
+module dbram_4096_60bit_module (input clk,input reset,input [145:0] inp, output reg [119:0] outp);
+
+dbram_4096_60bit inst (.clk(clk),.reset(reset),.address_a(inp[11:0]),.address_b(inp[23:12]),.wren_a(inp[24]),.wren_b(inp[25]),.data_a(inp[85:26]),.data_b(inp[145:86]),.out_a(outp[59:0]),.out_b(outp[119:40]));
+
+endmodule
+
+
 module fifo_256_40bit_module (input clk,input reset,input [42:0] inp, output reg [41:0] outp);
 
 fifo_256_40bit inst (.clk(clk),.rst(reset),.clr(inp[0]),.din(inp[40:1]),.we(inp[41]),.dout(outp[39:0]),.re(inp[42]),.full(outp[40]),.empty(outp[41]));
@@ -257,7 +282,7 @@ endmodule
 
 module systolic_array_8_16bit (input clk, input reset, input [774:0] inp, output reg [432:0] outp);
 
-matmul_4x4_systolic inst(
+matmul_8x8_systolic inst(
  .clk(clk),
  .reset(reset),
  .pe_reset(reset),
@@ -430,7 +455,7 @@ endmodule
 
 module activation_32_8bit_module (input clk, input reset, input [260:0] inp, output reg [257:0] outp);
 
-activation inst (
+activation_32_8bit inst (
     .activation_type(inp[0]),
     .enable_activation(inp[1]),
     .in_data_available(inp[2]),
@@ -447,7 +472,7 @@ endmodule
 
 module activation_32_16bit_module (input clk, input reset, input [515:0] inp, output reg [513:0] outp);
 
-activation inst (
+activation_32_16bit inst (
     .activation_type(inp[0]),
     .enable_activation(inp[1]),
     .in_data_available(inp[2]),
