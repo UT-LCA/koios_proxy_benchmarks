@@ -280,7 +280,7 @@ matmul_4x4_systolic inst(
 
 endmodule
 
-module systolic_array_8_16bit (input clk, input reset, input [774:0] inp, output reg [432:0] outp);
+module systolic_array_8_16bit (input clk, input reset, input [774:0] inp, output reg [433:0] outp);
 
 matmul_8x8_systolic inst(
  .clk(clk),
@@ -302,10 +302,10 @@ matmul_8x8_systolic inst(
  .c_data_out(outp[128:1]), //Data values going out to next matmul - systolic shifting
  .a_data_out(outp[256:129]),
  .b_data_out(outp[384:257]),
- .a_addr(outp[399:384]),
- .b_addr(outp[415:400]),
- .c_addr(outp[431:416]),
- .c_data_available(outp[432]),
+ .a_addr(outp[400:385]),
+ .b_addr(outp[416:401]),
+ .c_addr(outp[432:417]),
+ .c_data_available(outp[433]),
  .validity_mask_a_rows(inp[734:727]),
  .validity_mask_a_cols_b_rows(inp[742:735]),
  .validity_mask_b_cols(inp[750:743]),
@@ -420,7 +420,7 @@ tensor_block_bf16 inst(
 
 endmodule
 
-module tensor_block_module (input clk, input reset, input [264:0] inp, output reg [250:0] outp);
+module tensor_block_int8_module (input clk, input reset, input [264:0] inp, output reg [250:0] outp);
 
 tensor_block inst(
 	.clk(clk),
