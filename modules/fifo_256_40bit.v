@@ -117,7 +117,7 @@ input [(DWIDTH-1):0] data_b;
 output reg [(DWIDTH-1):0] out_a;
 output reg [(DWIDTH-1):0] out_b;
 
-`ifdef SIMULATION
+`ifndef hard_mem
 
 	reg [DWIDTH-1:0] ram[NUM_WORDS-1:0];
 
@@ -140,6 +140,10 @@ output reg [(DWIDTH-1):0] out_b;
 	end
 
 `else
+
+defparam u_dual_port_ram.ADDR_WIDTH = AWIDTH;
+defparam u_dual_port_ram.DATA_WIDTH = DWIDTH;
+
 
 	dual_port_ram u_dual_port_ram(
 	.addr1(address_a),

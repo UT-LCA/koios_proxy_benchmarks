@@ -7,13 +7,13 @@ module dbram_4096_40bit (
     data_a,
     data_b,
     out_a,
-    out_b
+    out_b,reset
 ); 
 
 parameter AWIDTH=12;
 parameter NUM_WORDS=4096;
 parameter DWIDTH=40;
-input clk;
+input clk, reset;
 input [(AWIDTH-1):0] address_a;
 input [(AWIDTH-1):0] address_b;
 input  wren_a;
@@ -45,12 +45,18 @@ wire [(DWIDTH-1):0] data_b1,data_b2;
 wire [(DWIDTH-1):0] out_a1,out_a2;
 wire [(DWIDTH-1):0] out_b1,out_b2;
 
-assign address_a = count?address_a1:address_a2; 
-assign address_b = count?address_b1:address_b2;
-assign wren_a = count?wren_a1:wren_a2;
-assign wren_b = count?wren_b1:wren_b2;
-assign data_a = count?data_a1:data_a2;
-assign data_b = count?data_b1:data_b2;
+assign address_a1 = count|address_a; 
+assign address_a2 = (~count)|address_a;
+assign address_b1 = count|address_b; 
+assign address_b2 = (~count)|address_b;
+assign wren_a1 = count|wren_a; 
+assign wren_a2 = (~count)|wren_a; 
+assign wren_b1 = count|wren_b; 
+assign wren_b2 = (~count)|wren_b; 
+assign data_a1 = count|data_a;
+assign data_a2 = (~count)|data_a;
+assign data_b1 = count|data_b;
+assign data_b2 = (~count)|data_b;
 assign out_a = count?out_a1:out_a2;
 assign out_b = count?out_b1:out_b2;
 
@@ -84,7 +90,7 @@ input [(DWIDTH-1):0] data_b;
 output reg [(DWIDTH-1):0] out_a;
 output reg [(DWIDTH-1):0] out_b;
 
-`ifdef SIMULATION_MEMORY
+`ifndef hard_mem
 
 reg [DWIDTH-1:0] ram[NUM_WORDS-1:0];
 always @ (posedge clk) begin 
@@ -106,6 +112,9 @@ always @ (posedge clk) begin
 end
 
 `else
+
+defparam u_dual_port_ram.ADDR_WIDTH = AWIDTH;
+defparam u_dual_port_ram.DATA_WIDTH = DWIDTH;
 
 dual_port_ram u_dual_port_ram(
 .addr1(address_a),
