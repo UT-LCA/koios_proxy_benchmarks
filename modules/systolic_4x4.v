@@ -266,7 +266,7 @@ wire [`DWIDTH-1:0] matrixC33;
 //////////////////////////////////////////////////////////////////////////
 // Instantiation of the output logic
 //////////////////////////////////////////////////////////////////////////
-output_logic u_output_logic(
+output_logic_systolic_4x4 u_output_logic_systolic_4x4(
 .clk(clk),
 .reset(reset),
 .start_mat_mul(start_mat_mul),
@@ -339,7 +339,7 @@ endmodule
 //////////////////////////////////////////////////////////////////////////
 // Output logic
 //////////////////////////////////////////////////////////////////////////
-module output_logic(
+module output_logic_systolic_4x4(
 clk,
 reset,
 start_mat_mul,
@@ -968,5 +968,4 @@ output [`DWIDTH-1:0] c;
 assign c = a + b;
 //DW01_add #(`DWIDTH) u_add(.A(a), .B(b), .CI(1'b0), .SUM(c), .CO());
 endmodule
-
 
