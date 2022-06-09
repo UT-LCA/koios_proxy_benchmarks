@@ -318,8 +318,8 @@ def assertions_function(hardware, instance, module_dict):
         module_len_d = len(module_d)
 
         type_flag = 0
-        size_flag = 0 
-        precision_flag = 0 
+        size_flag = 0
+        precision_flag = 0
 
         for y in range(module_len_d):
             if module_d[y] == type:
@@ -680,8 +680,61 @@ def print_cat(hardware,instance,module_dict):
     L = L + ">> all.v"
     print(L)
 
+def count_resources(hardware,instance,module_dict):
+    no_of_instances = len(instance)
+    total_io = 0
+    total_clb = 0
+    total_dsp = 0
+    total_bram =  0
+    top_output_bits = 0
+    top_input_bits = 0
+    for i in range(no_of_instances):
+        type = hardware[instance[i]]["type"]
+        size = hardware[instance[i]]["size"]
+        precision = hardware[instance[i]]["precision"]
+        number = hardware[instance[i]]["number"]
+
+        clb = 0
+        dsp = 0
+        bram = 0
+        input_bits = 0
+        output_bits = 0
+
+        module = []
+        for k in module_dict[type]:
+            module.append(k)
+        module_len = len(module)
+
+        for j in range(module_len):
+            if (module_dict[type][module[j]]["size"] == size) and (module_dict[type][module[j]]["precision"] == precision):
+                clb = module_dict[type][module[j]]["resource_usage"]["clb"]*number
+                dsp = module_dict[type][module[j]]["resource_usage"]["dsp"]*number
+                bram = module_dict[type][module[j]]["resource_usage"]["bram"]*number
+                input_bits = module_dict[type][module[j]]["inputs"]*number
+                output_bits = module_dict[type][module[j]]["outputs"]*number
+                total_clb = total_clb + clb
+                total_dsp = total_dsp + dsp
+                total_bram = total_bram + bram
+            else:
+                pass
+
+        if hardware[instance[i]]["outputs"][0] == "top":
+            top_output_bits = top_output_bits + output_bits
+        else:
+            pass
+
+        if hardware[instance[i]]["inputs"][0] == "top":
+            top_input_bits = top_input_bits + input_bits
+        else:
+            pass
+
+    total_io = top_input_bits + top_output_bits
+    print("\n")
+    print("Total Number of Expected Resources Used:\n IO:" + str(total_io) + "\n CLB:" + str(total_clb) + "\n DSP:" + str(total_dsp) + "\n BRAM:" + str(total_bram) + "\n")
+
+
 #structure.yml is the yaml file provided by user
-with open("graphs/koios1.yml", "r") as ymlfile:
+with open("graphs/bench4.yml", "r") as ymlfile:
     hardware = yaml.safe_load(ymlfile)
 
 # empty list created that will store instance names
@@ -717,91 +770,104 @@ module_dict = {
         "precision":16,
         "inputs":32,
         "outputs":32,
-        "filename": ["adder_tree_1stage_16bit.v"],},
+        "filename": ["adder_tree_1stage_16bit.v"],
+        "resource_usage": {"io":66,"clb":17,"dsp":0,"bram":0},},
     "module2": {
         "name": "adder_tree_2_16bit",
         "size":2,
         "precision":16,
         "inputs":64,
         "outputs":32,
-        "filename": ["adder_tree_2stage_16bit.v"],},
+        "filename": ["adder_tree_2stage_16bit.v"],
+        "resource_usage": {"io":98,"clb":18,"dsp":0,"bram":0},},
     "module3": {
         "name": "adder_tree_3_16bit",
         "size":3,
         "precision":16,
         "inputs":128,
         "outputs":32,
-        "filename": ["adder_tree_3stage_16bit.v"],},
+        "filename": ["adder_tree_3stage_16bit.v"],
+        "resource_usage": {"io":162,"clb":21,"dsp":0,"bram":0},},
     "module4": {
         "name": "adder_tree_4_16bit",
         "size":4,
         "precision":16,
         "inputs":256,
         "outputs":32,
-        "filename": ["adder_tree_4stage_16bit.v"],},
+        "filename": ["adder_tree_4stage_16bit.v"],
+        "resource_usage": {"io":290,"clb":29,"dsp":0,"bram":0},},
     "module5" : {
         "name": "adder_tree_1_8bit",
         "size":1,
         "precision":8,
         "inputs":16,
         "outputs":16,
-        "filename": ["adder_tree_1stage_8bit.v"],},
+        "filename": ["adder_tree_1stage_8bit.v"],
+        "resource_usage": {"io":34,"clb":8,"dsp":0,"bram":0},},
     "module6": {
         "name": "adder_tree_2_8bit",
         "size":2,
         "precision":8,
         "inputs":32,
         "outputs":16,
-        "filename": ["adder_tree_2stage_8bit.v"],},
+        "filename": ["adder_tree_2stage_8bit.v"],
+        "resource_usage": {"io":50,"clb":9,"dsp":0,"bram":0},},
     "module7": {
         "name": "adder_tree_3_8bit",
         "size":3,
         "precision":8,
         "inputs":64,
         "outputs":16,
-        "filename": ["adder_tree_3stage_8bit.v"],},
+        "filename": ["adder_tree_3stage_8bit.v"],
+        "resource_usage": {"io":82,"clb":13,"dsp":0,"bram":0},},
     "module8": {
         "name": "adder_tree_4_8bit",
         "size":4,
         "precision":8,
         "inputs":128,
         "outputs":16,
-        "filename": ["adder_tree_4stage_8bit.v"],},
+        "filename": ["adder_tree_4stage_8bit.v"],
+        "resource_usage": {"io":146,"clb":20,"dsp":0,"bram":0},},
     "module9" : {
         "name": "adder_tree_1_4bit",
         "size":1,
         "precision":4,
         "inputs":8,
         "outputs":8,
-        "filename": ["adder_tree_1stage_4bit.v"],},
+        "filename": ["adder_tree_1stage_4bit.v"],
+        "resource_usage": {"io":18,"clb":4,"dsp":0,"bram":0},},
     "module10": {
         "name": "adder_tree_2_4bit",
         "size":2,
         "precision":4,
         "inputs":16,
         "outputs":8,
-        "filename": ["adder_tree_2stage_4bit.v"],},
+        "filename": ["adder_tree_2stage_4bit.v"],
+        "resource_usage": {"io":26,"clb":5,"dsp":0,"bram":0},},
     "module11": {
         "name": "adder_tree_3_4bit",
         "size":3,
         "precision":4,
         "inputs":32,
         "outputs":8,
-        "filename": ["adder_tree_3stage_4bit.v"],},
+        "filename": ["adder_tree_3stage_4bit.v"],
+        "resource_usage": {"io":42,"clb":8,"dsp":0,"bram":0},},
     "module12": {
         "name": "adder_tree_4_4bit",
         "size":4,
         "precision":4,
         "inputs":64,
         "outputs":8,
-        "filename": ["adder_tree_4stage_4bit.v"],},
+        "filename": ["adder_tree_4stage_4bit.v"],
+        "resource_usage": {"io":74,"clb":15,"dsp":0,"bram":0},},
     "module13": {
         "name": "adder_tree_3_fp16bit",
-        "size":4,
-        "precision":4,
+        "size":3,
+        "precision": "fp16",
         "inputs":132,
         "outputs":16,
-        "filename": ["adder_tree_3stage_fp16bit.v"],}
+        "filename": ["adder_tree_3stage_fp16bit.v"],
+        "resource_usage": {"io":150,"clb":148,"dsp":0,"bram":0},}
     },
 "systolic_array": {
     "module1": {
@@ -810,21 +876,24 @@ module_dict = {
         "precision":16,
         "inputs":253,
         "outputs":131,
-        "filename": ["systolic_4x4.v"],},
+        "filename": ["systolic_4x4.v"],
+        "resource_usage": {"io":388,"clb":81,"dsp":16,"bram":0},},
     "module2": {
         "name": "systolic_array_8_16bit",
         "size":8,
         "precision":16,
         "inputs":775,
         "outputs":434,
-        "filename": ["systolic_8x8.v"],},
+        "filename": ["systolic_8x8.v"],
+        "resource_usage": {"io":1222,"clb":608,"dsp":64,"bram":0},},
     "module3": {
         "name": "systolic_array_4_fp16bit",
         "size":4,
         "precision": "fp16",
         "inputs":435,
         "outputs":224,
-        "filename": ["systolic_4x4_fp.v"],}
+        "filename": ["systolic_4x4_fp.v"],
+        "resource_usage": {"io":644,"clb":86,"dsp":16,"bram":0},}
     },
 "dot_product": {
     "module1": {
@@ -833,14 +902,16 @@ module_dict = {
         "precision":"fp16",
         "inputs":265,
         "outputs":272,
-        "filename": ["tensor_block_bf16.v"],},
+        "filename": ["tensor_block_bf16.v"],
+        "resource_usage": {"io":539,"clb":495,"dsp":3,"bram":0},},
     "module2": {
         "name": "tensor_block_int8_module",
         "size":10,
         "precision":8,
         "inputs":265,
         "outputs":251,
-        "filename": ["tensor_block_int8.v"],}
+        "filename": ["tensor_block_int8.v"],
+        "resource_usage": {"io":518,"clb":119,"dsp":10,"bram":0},}
     },
 "relu": {
     "module1": {
@@ -849,14 +920,16 @@ module_dict = {
         "precision":8,
         "inputs":261,
         "outputs":258,
-        "filename": ["activations_8bit.v"],},
+        "filename": ["activations_8bit.v"],
+        "resource_usage": {"io":519,"clb":127,"dsp":8,"bram":0},},
     "module2": {
         "name": "activation_32_16bit_module",
         "size":32,
         "precision":16,
         "inputs":516,
         "outputs":514,
-        "filename": ["activations_16bit.v"],}
+        "filename": ["activations_16bit.v"],
+        "resource_usage": {"io":1031,"clb":211,"dsp":16,"bram":0},}
     },
 "tanh": {
     "module1": {
@@ -865,21 +938,24 @@ module_dict = {
         "precision":8,
         "inputs":261,
         "outputs":258,
-        "filename": ["activations_8bit.v"],},
+        "filename": ["activations_8bit.v"],
+        "resource_usage": {"io":519,"clb":127,"dsp":8,"bram":0},},
     "module2": {
         "name": "activation_32_16bit_module",
         "size":32,
         "precision":16,
         "inputs":516,
         "outputs":514,
-        "filename": ["activations_16bit.v"],},
+        "filename": ["activations_16bit.v"],
+        "resource_usage": {"io":1031,"clb":211,"dsp":16,"bram":0},},
     "module3": {
         "name": "tanh_16bit",
         "size":16,
         "precision":16,
         "inputs":16,
         "outputs":16,
-        "filename": ["tanh.v"],}
+        "filename": ["tanh.v"],
+        "resource_usage": {"io":32,"clb":9,"dsp":0,"bram":0},}
     },
 "sigmoid": {
     "module1": {
@@ -888,7 +964,8 @@ module_dict = {
         "precision":16,
         "inputs":16,
         "outputs":16,
-        "filename": ["sigmoid.v"],}
+        "filename": ["sigmoid.v"],
+        "resource_usage": {"io":32,"clb":10,"dsp":0,"bram":0},}
     },
 "dpram": {
     "module1": {
@@ -897,42 +974,48 @@ module_dict = {
         "precision":40,
         "inputs":102,
         "outputs":80,
-        "filename": ["dpram_1024_40bit.v"],},
+        "filename": ["dpram_1024_40bit.v"],
+        "resource_usage": {"io":185,"clb":0,"dsp":0,"bram":4},},
     "module2": {
         "name": "dpram_1024_60bit_module",
         "size":1024,
         "precision":60,
         "inputs":142,
         "outputs":120,
-        "filename": ["dpram_1024_60bit.v"],},
+        "filename": ["dpram_1024_60bit.v"],
+        "resource_usage": {"io":100,"clb":100,"dsp":100,"bram":100},},
     "module3": {
         "name": "dpram_2048_40bit_module",
         "size":2048,
         "precision":40,
         "inputs":104,
         "outputs":80,
-        "filename": ["dpram_2048_40bit.v"],},
+        "filename": ["dpram_2048_40bit.v"],
+        "resource_usage": {"io":185,"clb":0,"dsp":0,"bram":4},},
     "module4": {
         "name": "dpram_2048_60bit_module",
         "size":2048,
         "precision":60,
         "inputs":144,
         "outputs":120,
-        "filename": ["dpram_2048_60bit.v"],},
+        "filename": ["dpram_2048_60bit.v"],
+        "resource_usage": {"io":265,"clb":0,"dsp":0,"bram":6},},
     "module5": {
         "name": "dpram_4096_40bit_module",
         "size":4096,
         "precision":40,
         "inputs":106,
         "outputs":80,
-        "filename": ["dpram_4096_40bit.v"],},
+        "filename": ["dpram_4096_40bit.v"],
+        "resource_usage": {"io":187,"clb":6,"dsp":0,"bram":8},},
     "module6": {
         "name": "dpram_4096_60bit_module",
         "size":4096,
         "precision":60,
         "inputs":146,
         "outputs":120,
-        "filename": ["dpram_4096_60bit.v"],},
+        "filename": ["dpram_4096_60bit.v"],
+        "resource_usage": {"io":267,"clb":8,"dsp":0,"bram":12},},
     },
 "spram": {
     "module1": {
@@ -941,28 +1024,32 @@ module_dict = {
         "precision":40,
         "inputs":52,
         "outputs":40,
-        "filename": ["spram_2048_40bit.v"],},
+        "filename": ["spram_2048_40bit.v"],
+        "resource_usage": {"io":93,"clb":0,"dsp":0,"bram":4},},
     "module2": {
         "name": "spram_2048_60bit_module",
         "size":2048,
         "precision":60,
         "inputs":72,
         "outputs":60,
-        "filename": ["spram_2048_60bit.v"],},
+        "filename": ["spram_2048_60bit.v"],
+        "resource_usage": {"io":133,"clb":0,"dsp":0,"bram":6},},
     "module3": {
         "name": "spram_4096_40bit_module",
         "size":4096,
         "precision":40,
         "inputs":53,
         "outputs":40,
-        "filename": ["spram_4096_40bit.v"],},
+        "filename": ["spram_4096_40bit.v"],
+        "resource_usage": {"io":94,"clb":3,"dsp":0,"bram":8},},
     "module4": {
         "name": "spram_4096_60bit_module",
         "size":4096,
         "precision":60,
         "inputs":73,
         "outputs":60,
-        "filename": ["spram_4096_60bit.v"],},
+        "filename": ["spram_4096_60bit.v"],
+        "resource_usage": {"io":134,"clb":4,"dsp":0,"bram":12},},
     },
 "dbram": {
     "module1": {
@@ -971,28 +1058,32 @@ module_dict = {
         "precision":40,
         "inputs":104,
         "outputs":80,
-        "filename": ["dbram_2048_40bit.v"],},
+        "filename": ["dbram_2048_40bit.v"],
+        "resource_usage": {"io":186,"clb":10,"dsp":0,"bram":8},},
     "module2": {
         "name": "dbram_2048_60bit_module",
         "size":2048,
         "precision":60,
         "inputs":144,
         "outputs":120,
-        "filename": ["dbram_2048_60bit.v"],},
+        "filename": ["dbram_2048_60bit.v"],
+        "resource_usage": {"io":266,"clb":12,"dsp":0,"bram":12},},
     "module3": {
         "name": "dbram_4096_40bit_module",
         "size":4096,
         "precision":40,
         "inputs":106,
         "outputs":80,
-        "filename": ["dbram_4096_40bit.v"],},
+        "filename": ["dbram_4096_40bit.v"],
+        "resource_usage": {"io":188,"clb":7,"dsp":0,"bram":8},},
     "module4": {
         "name": "dbram_4096_60bit_module",
         "size":4096,
         "precision":60,
         "inputs":146,
         "outputs":120,
-        "filename": ["dbram_4096_60bit.v"],},
+        "filename": ["dbram_4096_60bit.v"],
+        "resource_usage": {"io":268,"clb":9,"dsp":0,"bram":12},},
     },
 "fifo": {
     "module1": {
@@ -1001,28 +1092,32 @@ module_dict = {
         "precision":40,
         "inputs":43,
         "outputs":42,
-        "filename": ["fifo_256_40bit.v"],},
+        "filename": ["fifo_256_40bit.v"],
+        "resource_usage": {"io":87,"clb":4,"dsp":0,"bram":2},},
     "module2": {
         "name": "fifo_256_60bit_module",
         "size":256,
         "precision":60,
         "inputs":63,
         "outputs":62,
-        "filename": ["fifo_256_60bit.v"],},
+        "filename": ["fifo_256_60bit.v"],
+        "resource_usage": {"io":127,"clb":4,"dsp":0,"bram":3},},
     "module3": {
         "name": "fifo_512_40bit_module",
         "size":512,
         "precision":40,
         "inputs":43,
         "outputs":42,
-        "filename": ["fifo_512_40bit.v"],},
+        "filename": ["fifo_512_40bit.v"],
+        "resource_usage": {"io":87,"clb":5,"dsp":0,"bram":2},},
     "module4": {
         "name": "fifo_512_60bit_module",
         "size":512,
         "precision":60,
         "inputs":63,
         "outputs":62,
-        "filename": ["fifo_512_60bit.v"],},
+        "filename": ["fifo_512_60bit.v"],
+        "resource_usage": {"io":127,"clb":5,"dsp":0,"bram":3},},
     },
 "dsp_chain": {
     "module1": {
@@ -1031,42 +1126,48 @@ module_dict = {
         "precision":18,
         "inputs":148,
         "outputs":37,
-        "filename": ["dsp_chain_2_int_sop_2.v"], },
+        "filename": ["dsp_chain_2_int_sop_2.v"],
+        "resource_usage": {"io":185,"clb":3,"dsp":2,"bram":0},},
     "module2": {
         "name": "dsp_chain_3_int_sop_2_module",
         "size":3,
         "precision":18,
         "inputs":222,
         "outputs":37,
-        "filename": ["dsp_chain_3_int_sop_2.v"], },
+        "filename": ["dsp_chain_3_int_sop_2.v"],
+        "resource_usage": {"io":259,"clb":4,"dsp":3,"bram":0},},
     "module3": {
         "name": "dsp_chain_4_int_sop_2_module",
         "size":4,
         "precision":18,
         "inputs":296,
         "outputs":37,
-        "filename": ["dsp_chain_4_int_sop_2.v"], },
+        "filename": ["dsp_chain_4_int_sop_2.v"],
+        "resource_usage": {"io":333,"clb":5,"dsp":4,"bram":0},},
     "module4": {
         "name": "dsp_chain_2_fp16_sop2_mult_module",
         "size":2,
         "precision":"fp16",
         "inputs":128,
         "outputs":32,
-        "filename": ["dsp_chain_2_fp16_sop2_mult.v"], },
+        "filename": ["dsp_chain_2_fp16_sop2_mult.v"],
+        "resource_usage": {"io":160,"clb":3,"dsp":2,"bram":0},},
     "module5": {
         "name": "dsp_chain_3_fp16_sop2_mult_module",
         "size":3,
         "precision":"fp16",
         "inputs":192,
         "outputs":32,
-        "filename": ["dsp_chain_3_fp16_sop2_mult.v"], },
+        "filename": ["dsp_chain_3_fp16_sop2_mult.v"],
+        "resource_usage": {"io":224,"clb":4,"dsp":3,"bram":0},},
     "module6": {
         "name": "dsp_chain_4_fp16_sop2_mult_module",
         "size":4,
         "precision":"fp16",
         "inputs":256,
         "outputs":32,
-        "filename": ["dsp_chain_4_fp16_sop2_mult.v"], }
+        "filename": ["dsp_chain_4_fp16_sop2_mult.v"],
+        "resource_usage": {"io":288,"clb":5,"dsp":4,"bram":0},}
     }
 }
 
@@ -1075,6 +1176,7 @@ generate_interface(hardware, instance, module_dict)
 generate_top(hardware, instance, module_dict)
 generate_parallel_modules(hardware,instance,module_dict)
 print_cat(hardware,instance,module_dict)
+count_resources(hardware,instance,module_dict)
 
 #with open("final.v", "w") as f:
 #    f.writelines()
