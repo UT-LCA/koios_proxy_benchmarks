@@ -1,14 +1,16 @@
 import yaml
 import random
+import argparse
 
 
 # need to add some random no. xor/or/and operations
-def interface_algorithm(f, interface_name, input_bits, output_bits):
+def interface_algorithm(f, interface_name, input_bits, output_bits,interconnect_list):
 
     f.writelines("\n")
     f.writelines("module " + interface_name + "(input reg [" + str(int(input_bits - 1)) + ":0] inp, " + "output reg [" + str(int(output_bits - 1)) + ":0] outp, input clk, input reset);" + "\n")
 
-    list1 = ["fsm","xor_module","mux_module"]
+    #list1 = ["fsm","xor_module","mux_module"]
+    list1 = interconnect_list
     func = random.choice(list1)
 
     if input_bits == output_bits:
@@ -162,7 +164,7 @@ def interface_algorithm(f, interface_name, input_bits, output_bits):
 
 #module_inputs_dict contains the no. of input bits, indexed by type and size
 #module_outputs_dict contains the no. of output bits, indexed by type and size
-def generate_interface(hardware, instance, module_dict):
+def generate_interface(hardware, instance, module_dict,interconnect_list):
     no_of_instances = len(instance)
     print(instance)
     print(instance[0])
@@ -220,7 +222,7 @@ def generate_interface(hardware, instance, module_dict):
                         else:
                             pass
 
-            interface_algorithm(f,interface_name,interface_input_bits,interface_output_bits)
+            interface_algorithm(f,interface_name,interface_input_bits,interface_output_bits,interconnect_list)
     print("all interface modules generated")
 
 def generate_parallel_modules(hardware,instance,module_dict):
@@ -643,7 +645,7 @@ def generate_top(hardware, instance, module_dict):
 
         f.writelines("\n endmodule \n")
 
-def print_cat(hardware,instance,module_dict):
+def print_cat(hardware,instance,module_dict,verilog_file):
     no_of_instances = len(instance)
     file_names = []
     L = "cat top.v interfaces.v parallel_modules.v modules/wrapper_modules/wrapped_modules.v modules/fsm.v modules/xor.v modules/2x1_mux.v  "
@@ -677,7 +679,7 @@ def print_cat(hardware,instance,module_dict):
             L = L + "modules/" + str(i) + " "
         else:
             pass
-    L = L + ">> all.v"
+    L = L + ">> " + str(verilog_file)
     print(L)
 
 def count_resources(hardware,instance,module_dict):
@@ -733,8 +735,15 @@ def count_resources(hardware,instance,module_dict):
     print("Total Number of Expected Resources Used:\n IO:" + str(total_io) + "\n CLB:" + str(total_clb) + "\n DSP:" + str(total_dsp) + "\n BRAM:" + str(total_bram) + "\n")
 
 
+parser = argparse.ArgumentParser()
+parser.add_argument("-i","--interconnect",action='store',default="fsm,xor_module,mux_module",help="List of hardware in interconnect")
+parser.add_argument("-y","--yaml_file",action='store',default="graphs/simple.yml",help="provide yaml file")
+parser.add_argument("-v","--verilog_file",action='store',default="all.v",help="provide verilog file to write to")
+args = parser.parse_args()
+interconnect_list = [str(item) for item in args.interconnect.split(',')]
+verilog_file = args.verilog_file
 #structure.yml is the yaml file provided by user
-with open("graphs/bench4.yml", "r") as ymlfile:
+with open(args.yaml_file, "r") as ymlfile:
     hardware = yaml.safe_load(ymlfile)
 
 # empty list created that will store instance names
@@ -746,6 +755,7 @@ for instance_name in hardware:
     instance.append(instance_name)
 
 no_of_instances = len(instance)
+
 
 #top_inputs = 0
 #top_outputs = 0
@@ -1172,10 +1182,10 @@ module_dict = {
 }
 
 assertions_function(hardware, instance, module_dict)
-generate_interface(hardware, instance, module_dict)
+generate_interface(hardware, instance, module_dict,interconnect_list)
 generate_top(hardware, instance, module_dict)
 generate_parallel_modules(hardware,instance,module_dict)
-print_cat(hardware,instance,module_dict)
+print_cat(hardware,instance,module_dict,verilog_file)
 count_resources(hardware,instance,module_dict)
 
 #with open("final.v", "w") as f:
