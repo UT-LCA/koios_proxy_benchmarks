@@ -1,0 +1,231 @@
+fifo1:
+ type: "fifo"
+ size: 512
+ precision: 40
+ number: 4
+ inputs: [top]
+ outputs: [dsp_ch1,dsp_ch2]
+fifo2:
+ type: "fifo"
+ size: 256
+ precision: 40
+ number: 4
+ inputs: [top]
+ outputs: [activ1,activ2]
+dsp_ch1:
+ type: "dsp_chain"
+ size: 4
+ precision: 18
+ number: 8
+ inputs: [fifo1]
+ outputs: [fifo4]
+dsp_ch2:
+ type: "dsp_chain"
+ size: 3
+ precision: 18
+ number: 16
+ inputs: [fifo1,activ1]
+ outputs: [fifo3]
+fifo4:
+ type: "fifo"
+ size: 256
+ precision: 60
+ number: 24
+ inputs: [dsp_ch1]
+ outputs: [dsp_ch3]
+fifo3:
+ type: "fifo"
+ size: 512
+ precision: 60
+ number: 40
+ inputs: [dsp_ch2]
+ outputs: [dsp_ch3]
+activ1:
+ type: "relu"
+ size: 32
+ precision: 8
+ number: 2
+ inputs: [fifo2]
+ outputs: [dsp_ch4,dsp_ch5,dsp_ch2]
+activ2:
+ type: "tanh"
+ size: 16
+ precision: 16
+ number: 5
+ inputs: [fifo2]
+ outputs: [dsp_ch4,dsp_ch5]
+dsp_ch3:
+ type: "dsp_chain"
+ size: 4
+ precision: 18
+ number: 40
+ inputs: [fifo3,fifo4]
+ outputs: [adder_tree1,activ3,activ4]
+dsp_ch4:
+ type: "dsp_chain"
+ size: 3
+ precision: 18
+ number: 25
+ inputs: [activ1,activ2]
+ outputs: [adder_tree1]
+dsp_ch5:
+ type: "dsp_chain"
+ size: 2
+ precision: 18
+ number: 32
+ inputs: [activ1,activ2]
+ outputs: [adder_tree1]
+activ3:
+ type: "tanh"
+ size: 32
+ precision: 8
+ number: 5
+ inputs: [dsp_ch3]
+ outputs: [adder_tree1]
+activ4:
+ type: "sigmoid"
+ size: 16
+ precision: 16
+ number: 10
+ inputs: [dsp_ch3]
+ outputs: [adder_tree1]
+adder_tree1:
+ type: "adder_tree"
+ size: 4
+ precision: 8
+ number: 25
+ inputs: [dsp_ch3,dsp_ch4,dsp_ch5,activ3,activ4]
+ outputs: [fifo5,fifo6,fifo7]
+fifo5:
+ type: "fifo"
+ size: 512
+ precision: 60
+ number: 40
+ inputs: [adder_tree1,dsp_ch7,dsp_ch8]
+ outputs: [dsp_ch7,dsp_ch8]
+fifo6:
+ type: "fifo"
+ size: 512
+ precision: 40
+ number: 50
+ inputs: [adder_tree1,dsp_ch9,activ5]
+ outputs: [dsp_ch9,activ5]
+fifo7:
+ type: "fifo"
+ size: 256
+ precision: 60
+ number: 12
+ inputs: [adder_tree1]
+ outputs: [dsp_ch10,activ6]
+fifo10:
+ type: "fifo"
+ size: 512
+ precision: 40
+ number: 30
+ inputs: [dsp_ch7,dsp_ch8]
+ outputs: [dsp_ch12]
+dsp_ch12:
+ type: "dsp_chain"
+ size: 3
+ precision: 18
+ number: 3
+ inputs: [fifo10]
+ outputs: [top]
+dsp_ch6:
+ type: "dsp_chain"
+ size: 2
+ precision: 18
+ number: 4
+ inputs: [top]
+ outputs: [fifo8]
+dsp_ch7:
+ type: "dsp_chain"
+ size: 4
+ precision: 18
+ number: 18
+ inputs: [fifo5]
+ outputs: [fifo5,adder_tree2]
+dsp_ch8:
+ type: "dsp_chain"
+ size: 3
+ precision: 18
+ number: 40
+ inputs: [fifo5]
+ outputs: [fifo5,adder_tree2]
+dsp_ch9:
+ type: "dsp_chain"
+ size: 4
+ precision: 18
+ number: 12
+ inputs: [fifo6]
+ outputs: [fifo6,adder_tree3]
+activ5:
+ type: "relu"
+ size: 32
+ precision: 16
+ number: 6
+ inputs: [fifo6]
+ outputs: [fifo6,adder_tree3]
+dsp_ch10:
+ type: "dsp_chain"
+ size: 2
+ precision: 18
+ number: 40
+ inputs: [fifo7,adder_tree3]
+ outputs: [adder_tree3]
+activ6:
+ type: "sigmoid"
+ size: 16
+ precision: 16
+ number: 7
+ inputs: [fifo7]
+ outputs: [adder_tree3]
+fifo8:
+ type: "fifo"
+ size: 256
+ precision: 60
+ number: 10
+ inputs: [dsp_ch6]
+ outputs: [adder_tree2]
+adder_tree2:
+ type: "adder_tree"
+ size: 3
+ precision: 16
+ number: 16
+ inputs: [dsp_ch7,dsp_ch8,fifo8]
+ outputs: [dsp_ch11]
+adder_tree3:
+ type: "adder_tree"
+ size: 4
+ precision: 8
+ number: 20
+ inputs: [dsp_ch9,dsp_ch10,activ5,activ6]
+ outputs: [fifo9]
+dsp_ch11:
+ type: "dsp_chain"
+ size: 4
+ precision: 18
+ number: 24
+ inputs: [adder_tree2,fifo9]
+ outputs: [adder_tree4]
+fifo9:
+ type: "fifo"
+ size: 512
+ precision: 40
+ number: 28
+ inputs: [adder_tree3,adder_tree2]
+ outputs: [activ7]
+activ7:
+ type: "tanh"
+ size: 32
+ precision: 8
+ number: 7
+ inputs: [dsp_ch6]
+ outputs: [adder_tree4]
+adder_tree4:
+ type: "adder_tree"
+ size: 4
+ precision: 4
+ number: 8
+ inputs: [dsp_ch11,activ7]
+ outputs: [top]
