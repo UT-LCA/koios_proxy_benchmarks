@@ -14,6 +14,8 @@
 `define REG_ADDRWIDTH 8
 `define ADDR_STRIDE_WIDTH 16
 `define MAX_BITS_POOL 3
+`define EXPONENT 5
+`define MANTISSA 10
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
