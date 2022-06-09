@@ -1,0 +1,196 @@
+dpram1:
+ type: "dpram"
+ size: 2048
+ precision: 40
+ number: 4
+ inputs: [top]
+ outputs: [dsp_ch1,dsp_ch2,dsp_ch3]
+dsp_ch1:
+ type: "dsp_chain"
+ size: 4
+ precision: "fp16"
+ number: 8
+ inputs: [dpram1]
+ outputs: [activ1,activ2]
+dsp_ch2:
+ type: "dsp_chain"
+ size: 2
+ precision: "fp16"
+ number: 4
+ inputs: [dpram1]
+ outputs: [activ3,activ4]
+dsp_ch3:
+ type: "dsp_chain"
+ size: 3
+ precision: "fp16"
+ number: 6
+ inputs: [dpram1]
+ outputs: [activ5,activ6]
+activ1:
+ type: "tanh"
+ size: 32
+ precision: 8
+ number: 4
+ inputs: [dsp_ch1]
+ outputs: [dpram2]
+activ2:
+ type: "relu"
+ size: 32
+ precision: 16
+ number: 3
+ inputs: [dsp_ch1]
+ outputs: [dpram3]
+activ3:
+ type: "tanh"
+ size: 16
+ precision: 16
+ number: 12
+ inputs: [dsp_ch2]
+ outputs: [dpram4]
+activ4:
+ type: "relu"
+ size: 32
+ precision: 8
+ number: 6
+ inputs: [dsp_ch2]
+ outputs: [dpram5]
+activ5:
+ type: "sigmoid"
+ size: 16
+ precision: 16
+ number: 24
+ inputs: [dsp_ch3]
+ outputs: [dpram6]
+activ6:
+ type: "tanh"
+ size: 32
+ precision: 8
+ number: 8
+ inputs: [dsp_ch3]
+ outputs: [dpram7]
+dpram2:
+ type: "dpram"
+ size: 4096
+ precision: 40
+ number: 10
+ inputs: [activ1]
+ outputs: [dsp_ch4]
+dpram3:
+ type: "dpram"
+ size: 4096
+ precision: 60
+ number: 8
+ inputs: [activ2]
+ outputs: [dsp_ch4]
+dpram4:
+ type: "dpram"
+ size: 2048
+ precision: 60
+ number: 20
+ inputs: [activ3]
+ outputs: [dsp_ch7,dsp_ch8]
+dpram5:
+ type: "dpram"
+ size: 2048
+ precision: 40
+ number: 24
+ inputs: [activ4]
+ outputs: [dsp_ch7,dsp_ch8]
+dpram6:
+ type: "dpram"
+ size: 4096
+ precision: 40
+ number: 22
+ inputs: [activ5]
+ outputs: [dsp_ch7,dpram10]
+dpram7:
+ type: "dpram"
+ size: 2048
+ precision: 60
+ number: 30
+ inputs: [activ6]
+ outputs: [dsp_ch7,dpram10]
+dsp_ch5:
+ type: "dsp_chain"
+ size: 2
+ precision: "fp16"
+ number: 1
+ inputs: [top]
+ outputs: [dpram8]
+dpram8:
+ type: "dpram"
+ size: 4096
+ precision: 40
+ number: 16
+ inputs: [dsp_ch5]
+ outputs: [activ7,dsp_ch6]
+dsp_ch4:
+ type: "dsp_chain"
+ size: 4
+ precision: "fp16"
+ number: 20
+ inputs: [dpram2,dpram3]
+ outputs: [activ7]
+activ7:
+ type: "sigmoid"
+ size: 16
+ precision: 16
+ number: 30
+ inputs: [dsp_ch5]
+ outputs: [dsp_ch6]
+dsp_ch6:
+ type: "dsp_chain"
+ size: 3
+ precision: "fp16"
+ number: 26
+ inputs: [dpram8,activ7]
+ outputs: [activ8]
+activ8:
+ type: "relu"
+ size: 32
+ precision: 16
+ number: 4
+ inputs: [dsp_ch6]
+ outputs: [dpram9]
+dpram9:
+ type: "dpram"
+ size: 2048
+ precision: 40
+ number: 3
+ inputs: [activ8]
+ outputs: [top]
+dsp_ch7:
+ type: "dsp_chain"
+ size: 3
+ precision: "fp16"
+ number: 50
+ inputs: [dpram10,dpram6,dpram7]
+ outputs: [adder_tree1]
+dsp_ch8:
+ type: "dsp_chain"
+ size: 4
+ precision: "fp16"
+ number: 20
+ inputs: [dpram6,dpram7]
+ outputs: [adder_tree1]
+adder_tree1:
+ type: "adder_tree"
+ size: 3
+ precision: "fp16"
+ number: 4
+ inputs: [dsp_ch7,dsp_ch8]
+ outputs: [top]
+dpram10:
+ type: "dpram"
+ size: 2048
+ precision: 60
+ number: 30
+ inputs: [dpram6,dpram7]
+ outputs: [activ9]
+activ9:
+ type: "tanh"
+ size: 32
+ precision: 16
+ number: 3
+ inputs: [dpram10]
+ outputs: [top]

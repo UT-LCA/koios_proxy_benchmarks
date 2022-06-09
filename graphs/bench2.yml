@@ -1,0 +1,203 @@
+dbram1:
+ type: "dbram"
+ size: 2048
+ precision: 40
+ number: 2
+ inputs: [top]
+ outputs: [dot1,dot2]
+dot4:
+ type: "dot_product"
+ size: 10
+ precision: 8
+ number: 1
+ inputs: [top]
+ outputs: [activ6,activ5,dot5]
+dbram5:
+ type: "dbram"
+ size: 4096
+ precision: 40
+ number: 1
+ inputs: [top]
+ outputs: [dot7,activ13]
+dot1:
+ type: "dot_product"
+ size: 10
+ precision: 8
+ number: 4
+ inputs: [dbram1]
+ outputs: [dbram2]
+dot2:
+ type: "dot_product"
+ size: 10
+ precision: 8
+ number: 3
+ inputs: [dbram1]
+ outputs: [dbram2]
+dbram2:
+ type: "dbram"
+ size: 4096
+ precision: 40
+ number: 62
+ inputs: [dot1,dot2]
+ outputs: [activ1,activ2,activ3,activ4]
+activ1:
+ type: "relu"
+ size: 32
+ precision: 8
+ number: 2
+ inputs: [dbram2]
+ outputs: [adder_tree1]
+activ2:
+ type: "tanh"
+ size: 32
+ precision: 16
+ number: 2
+ inputs: [dbram2]
+ outputs: [adder_tree1]
+activ3:
+ type: "relu"
+ size: 32
+ precision: 16
+ number: 1
+ inputs: [dbram2]
+ outputs: [adder_tree1]
+activ4:
+ type: "sigmoid"
+ size: 16
+ precision: 16
+ number: 4
+ inputs: [dbram2,dbram3]
+ outputs: [dot5,adder_tree3]
+adder_tree1:
+ type: "adder_tree"
+ size: 4
+ precision: 16
+ number: 4
+ inputs: [activ1,activ2,activ3,dot3]
+ outputs: [dbram3,dot6,adder_tree3,adder_tree4,dot3]
+dot3:
+ type: "dot_product"
+ size: 10
+ precision: 8
+ number: 1
+ inputs: [adder_tree1]
+ outputs: [adder_tree1]
+dbram3:
+ type: "dbram"
+ size: 2048
+ precision: 40
+ number: 4
+ inputs: [adder_tree1,adder_tree2]
+ outputs: [activ4]
+activ6:
+ type: "sigmoid"
+ size: 16
+ precision: 16
+ number: 5
+ inputs: [dot4]
+ outputs: [adder_tree2]
+activ5:
+ type: "tanh"
+ size: 32
+ precision: 8
+ number: 2
+ inputs: [dot4]
+ outputs: [adder_tree2]
+dot5:
+ type: "dot_product"
+ size: 10
+ precision: 8
+ number: 6
+ inputs: [activ4,dot4]
+ outputs: [adder_tree2]
+adder_tree2:
+ type: "adder_tree"
+ size: 4
+ precision: 8
+ number: 10
+ inputs: [dot5,activ5,activ6]
+ outputs: [dbram4,activ7,dot6,dbram3]
+dbram4:
+ type: "dbram"
+ size: 2048
+ precision: 40
+ number: 60
+ inputs: [dot6,adder_tree2,dot2]
+ outputs: [adder_tree4]
+activ7:
+ type: "relu"
+ size: 32
+ precision: 16
+ number: 1
+ inputs: [adder_tree2]
+ outputs: [top]
+dot6:
+ type: "dot_product"
+ size: 10
+ precision: 8
+ number: 1
+ inputs: [adder_tree2,adder_tree1]
+ outputs: [adder_tree4]
+adder_tree4:
+ type: "adder_tree"
+ size: 2
+ precision: 8
+ number: 24
+ inputs: [dbram4,dot6,activ9,adder_tree1]
+ outputs: [activ8]
+activ8:
+ type: "tanh"
+ size: 32
+ precision: 16
+ number: 2
+ inputs: [adder_tree4]
+ outputs: [top]
+dot7:
+ type: "dot_product"
+ size: 10
+ precision: 8
+ number: 4
+ inputs: [dbram5,activ13]
+ outputs: [activ9,activ10,activ11]
+activ13:
+ type: "tanh"
+ size: 16
+ precision: 16
+ number: 2
+ inputs: [dbram5]
+ outputs: [dot7]
+activ9:
+ type: "relu"
+ size: 32
+ precision: 8
+ number: 2
+ inputs: [dot7]
+ outputs: [adder_tree4,adder_tree3]
+activ10:
+ type: "tanh"
+ size: 32
+ precision: 8
+ number: 3
+ inputs: [dot7]
+ outputs: [adder_tree3]
+activ11:
+ type: "relu"
+ size: 32
+ precision: 16
+ number: 1
+ inputs: [dot7]
+ outputs: [adder_tree3]
+adder_tree3:
+ type: "adder_tree"
+ size: 4
+ precision: 8
+ number: 36
+ inputs: [activ9,activ10,activ11,activ4,adder_tree1]
+ outputs: [dbram6]
+dbram6:
+ type: "dbram"
+ size: 4096
+ precision: 40
+ number: 2
+ inputs: [adder_tree3]
+ outputs: [top]

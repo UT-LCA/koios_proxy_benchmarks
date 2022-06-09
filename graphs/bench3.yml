@@ -1,0 +1,141 @@
+spram1:
+ type: "spram"
+ size: 2048
+ precision: 40
+ number: 4
+ inputs: [top]
+ outputs: [dot1,sys_array1,sys_array5]
+dot1:
+ type: "dot_product"
+ size: 10
+ precision: "fp16"
+ number: 3
+ inputs: [spram1]
+ outputs: [sys_array2,sys_array3,sys_array5]
+sys_array1:
+ type: "systolic_array"
+ size: 4
+ precision: "fp16"
+ number: 4
+ inputs: [spram1,adder_tree1]
+ outputs: [spram2]
+sys_array2:
+ type: "systolic_array"
+ size: 4
+ precision: "fp16"
+ number: 6
+ inputs: [dot1]
+ outputs: [adder_tree1]
+sys_array3:
+ type: "systolic_array"
+ size: 4
+ precision: "fp16"
+ number: 6
+ inputs: [dot1]
+ outputs: [adder_tree1,spram3]
+spram2:
+ type: "spram"
+ size: 4096
+ precision: 60
+ number: 12
+ inputs: [sys_array1]
+ outputs: [adder_tree1]
+adder_tree1:
+ type: "adder_tree"
+ size: 4
+ precision: 8
+ number: 12
+ inputs: [spram2,sys_array2,sys_array3,spram3]
+ outputs: [dot2,sys_array1]
+spram3:
+ type: "spram"
+ size: 4096
+ precision: 40
+ number: 60
+ inputs: [dot2,sys_array3,sys_array5]
+ outputs: [adder_tree1,adder_tree5,adder_tree2,adder_tree4]
+dot2:
+ type: "dot_product"
+ size: 10
+ precision: "fp16"
+ number: 2
+ inputs: [adder_tree1]
+ outputs: [spram3]
+sys_array4:
+ type: "systolic_array"
+ size: 4
+ precision: "fp16"
+ number: 2
+ inputs: [top]
+ outputs: [adder_tree2,adder_tree3]
+adder_tree2:
+ type: "adder_tree"
+ size: 3
+ precision: "fp16"
+ number: 8
+ inputs: [spram3,sys_array4]
+ outputs: [adder_tree4]
+spram4:
+ type: "spram"
+ size: 2048
+ precision: 40
+ number: 2
+ inputs: [top]
+ outputs: [adder_tree3]
+adder_tree3:
+ type: "adder_tree"
+ size: 3
+ precision: 16
+ number: 4
+ inputs: [spram4,sys_array4]
+ outputs: [adder_tree4]
+adder_tree4:
+ type: "adder_tree"
+ size: 3
+ precision: "fp16"
+ number: 10
+ inputs: [spram3,sys_array5,adder_tree2,adder_tree3,dot3]
+ outputs: [adder_tree5,spram5]
+adder_tree5:
+ type: "adder_tree"
+ size: 3
+ precision: "fp16"
+ number: 8
+ inputs: [spram3,adder_tree4,adder_tree3]
+ outputs: [sys_array6,spram5]
+sys_array5:
+ type: "systolic_array"
+ size: 4
+ precision: "fp16"
+ number: 10
+ inputs: [spram1,dot1]
+ outputs: [spram3,adder_tree4]
+sys_array6:
+ type: "systolic_array"
+ size: 4
+ precision: "fp16"
+ number: 1
+ inputs: [adder_tree5]
+ outputs: [top]
+spram5:
+ type: "spram"
+ size: 4096
+ precision: 40
+ number: 24
+ inputs: [adder_tree4,adder_tree5]
+ outputs: [dot3]
+dot3:
+ type: "dot_product"
+ size: 10
+ precision: "fp16"
+ number: 3
+ inputs: [spram5]
+ outputs: [adder_tree4,spram6]
+spram6:
+ type: "spram"
+ size: 2048
+ precision: 40
+ number: 2
+ inputs: [dot3]
+ outputs: [top]
+
