@@ -2,15 +2,22 @@ dbram1:
  type: "dbram"
  size: 2048
  precision: 40
- number: 2
+ number: 1
  inputs: [top]
  outputs: [dot1,dot2]
+dbram7:
+ type: "dbram"
+ size: 4096
+ precision: 40
+ number: 1
+ inputs: [top]
+ outputs: [dot4]
 dot4:
  type: "dot_product"
  size: 10
  precision: 8
  number: 1
- inputs: [top]
+ inputs: [dbram7]
  outputs: [activ6,activ5,dot5]
 dbram5:
  type: "dbram"
@@ -125,8 +132,8 @@ dbram4:
  inputs: [dot6,adder_tree2,dot2]
  outputs: [adder_tree4]
 activ7:
- type: "relu"
- size: 32
+ type: "sigmoid"
+ size: 16
  precision: 16
  number: 1
  inputs: [adder_tree2]
@@ -147,9 +154,9 @@ adder_tree4:
  outputs: [activ8]
 activ8:
  type: "tanh"
- size: 32
+ size: 16
  precision: 16
- number: 2
+ number: 10
  inputs: [adder_tree4]
  outputs: [top]
 dot7:
@@ -196,8 +203,8 @@ adder_tree3:
  outputs: [dbram6]
 dbram6:
  type: "dbram"
- size: 4096
+ size: 2048
  precision: 40
- number: 2
+ number: 1
  inputs: [adder_tree3]
  outputs: [top]
