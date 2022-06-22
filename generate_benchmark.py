@@ -238,7 +238,7 @@ def generate_parallel_modules(hardware,instance,module_dict):
             size = hardware[instance[i]]["size"]
             precision = hardware[instance[i]]["precision"]
             number = hardware[instance[i]]["number"]
-            module_numbers.append(number)
+           # module_numbers.append(number)
             module = []
             for k in module_dict[type]:
                 module.append(k)
@@ -258,6 +258,7 @@ def generate_parallel_modules(hardware,instance,module_dict):
                     for z in range(module_names_len):
                         if((module_names[z] == name) and (module_numbers[z] == number)):
                             flag = 1
+                            print("\n flag is 1 for: \n" + "module " + name + "_" + str(number) + "\n")
                             break
                         else:
                             pass
@@ -266,6 +267,7 @@ def generate_parallel_modules(hardware,instance,module_dict):
                     else:
                         pass
                     module_names.append(name)
+                    module_numbers.append(number)
                     ins = module_dict[type][module[j]]["inputs"]
                     out = module_dict[type][module[j]]["outputs"]
                     inp = ins*number
