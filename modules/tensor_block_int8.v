@@ -118,9 +118,9 @@ wire [19:0] dot_unit_output_0;
 wire [19:0] dot_unit_output_1;
 wire [19:0] dot_unit_output_2;
 
-dot_product_unit dot_unit0 (dot_unit_input_1, dot_unit_input_2_0, dot_unit_output_0);
-dot_product_unit dot_unit1 (dot_unit_input_1, dot_unit_input_2_1, dot_unit_output_1);
-dot_product_unit dot_unit2 (dot_unit_input_1, dot_unit_input_2_2, dot_unit_output_2);
+dot_product_unit dot_unit0 (dot_unit_input_1, dot_unit_input_2_0, dot_unit_output_0,clk);
+dot_product_unit dot_unit1 (dot_unit_input_1, dot_unit_input_2_1, dot_unit_output_1,clk);
+dot_product_unit dot_unit2 (dot_unit_input_1, dot_unit_input_2_2, dot_unit_output_2,clk);
 
 // Flopping after dot product compute
 reg [19:0] dot_unit_output_0_flopped;
@@ -200,86 +200,118 @@ endmodule
 module dot_product_unit (
 	data_in_1,
 	data_in_2,
-	data_out
+	data_out,
+  clk
 	);
 
+input clk;
 input [79:0] data_in_1;
 input [79:0] data_in_2;
-output [19:0] data_out;
+output reg [19:0] data_out;
 
 wire [7:0] mult1_in1;
 wire [7:0] mult1_in2;
-wire [15:0] mult1_out;
+reg [15:0] mult1_out;
 wire [7:0] mult2_in1;
 wire [7:0] mult2_in2;
-wire [15:0] mult2_out;
+reg [15:0] mult2_out;
 wire [7:0] mult3_in1;
 wire [7:0] mult3_in2;
-wire [15:0] mult3_out;
+reg [15:0] mult3_out;
 wire [7:0] mult4_in1;
 wire [7:0] mult4_in2;
-wire [15:0] mult4_out;
+reg [15:0] mult4_out;
 wire [7:0] mult5_in1;
 wire [7:0] mult5_in2;
-wire [15:0] mult5_out;
+reg [15:0] mult5_out;
 wire [7:0] mult6_in1;
 wire [7:0] mult6_in2;
-wire [15:0] mult6_out;
+reg [15:0] mult6_out;
 wire [7:0] mult7_in1;
 wire [7:0] mult7_in2;
-wire [15:0] mult7_out;
+reg [15:0] mult7_out;
 wire [7:0] mult8_in1;
 wire [7:0] mult8_in2;
-wire [15:0] mult8_out;
+reg [15:0] mult8_out;
 wire [7:0] mult9_in1;
 wire [7:0] mult9_in2;
-wire [15:0] mult9_out;
+reg [15:0] mult9_out;
 wire [7:0] mult10_in1;
 wire [7:0] mult10_in2;
-wire [15:0] mult10_out;
+reg [15:0] mult10_out;
 
 assign mult1_in1 = data_in_1[7:0];
 assign mult1_in2 = data_in_2[7:0];
-assign mult1_out = mult1_in1 * mult1_in2;
 
 assign mult2_in1 = data_in_1[15:8];
 assign mult2_in2 = data_in_2[15:8];
-assign mult2_out = mult2_in1 * mult2_in2;
+
 
 assign mult3_in1 = data_in_1[23:16];
 assign mult3_in2 = data_in_2[23:16];
-assign mult3_out = mult3_in1 * mult3_in2;
 
 assign mult4_in1 = data_in_1[31:24];
 assign mult4_in2 = data_in_2[31:24];
-assign mult4_out = mult4_in1 * mult4_in2;
 
 assign mult5_in1 = data_in_1[39:32];
 assign mult5_in2 = data_in_2[39:32];
-assign mult5_out = mult5_in1 * mult5_in2;
 
 assign mult6_in1 = data_in_1[47:40];
 assign mult6_in2 = data_in_2[47:40];
-assign mult6_out = mult6_in1 * mult6_in2;
 
 assign mult7_in1 = data_in_1[55:48];
 assign mult7_in2 = data_in_2[55:48];
-assign mult7_out = mult7_in1 * mult7_in2;
 
 assign mult8_in1 = data_in_1[63:56];
 assign mult8_in2 = data_in_2[63:56];
-assign mult8_out = mult8_in1 * mult8_in2;
 
 assign mult9_in1 = data_in_1[71:64];
 assign mult9_in2 = data_in_2[71:64];
-assign mult9_out = mult9_in1 * mult9_in2;
+
 
 assign mult10_in1 = data_in_1[79:72];
 assign mult10_in2 = data_in_2[79:72];
-assign mult10_out = mult10_in1 * mult10_in2;
 
-assign data_out = 	mult1_out + mult2_out + mult3_out + mult4_out + mult5_out +  
-					mult6_out + mult7_out + mult8_out + mult9_out + mult10_out;
+always@(posedge clk) begin 
+mult1_out <= mult1_in1 * mult1_in2;
+mult2_out <= mult2_in1 * mult2_in2;
+mult3_out <= mult3_in1 * mult3_in2;
+mult4_out <= mult4_in1 * mult4_in2;
+mult5_out <= mult5_in1 * mult5_in2;
+mult6_out <= mult6_in1 * mult6_in2;
+mult7_out <= mult7_in1 * mult7_in2;
+mult8_out <= mult8_in1 * mult8_in2;
+mult9_out <= mult9_in1 * mult9_in2;
+mult10_out <= mult10_in1 * mult10_in2;
+end
+
+
+
+reg [16:0] s01,s02,s03,s04,s05;
+
+always@(posedge clk) begin 
+  s01<= mult1_out + mult2_out;
+  s02<= mult3_out + mult4_out;
+  s03<= mult5_out + mult6_out;
+  s04<= mult7_out + mult8_out;
+  s05<= mult9_out + mult10_out;
+end
+
+reg [17:0] s11,s12;
+
+always@(posedge clk) begin 
+s11<= s01 + s02;
+s12<= s03 + s04; 
+end
+
+reg [18:0] s21;
+
+always@(posedge clk) begin 
+s21<= s11 + s12;
+data_out <= s21 + s05; 
+end
+
+
 
 endmodule
 
@@ -297,5 +329,4 @@ output [31:0] output_accumlator;
 assign output_accumlator = input_accumlator_1 + input_accumlator_2;
 
 endmodule
-
 

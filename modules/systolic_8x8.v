@@ -1,6 +1,6 @@
 
 `timescale 1ns / 1ps
-
+`define complex_dsp
 `define DWIDTH 16
 `define AWIDTH 16
 `define MEM_SIZE 2048

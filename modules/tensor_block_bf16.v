@@ -299,7 +299,7 @@ wire [4:0] dummy_flag_4;
 FPAddSub_single_32 sum_10_times_adder_1(clk,reset,num1,num2,1'b0,add_1_out,dummy_flag_1);
 FPAddSub_single_32 sum_10_times_adder_2(clk,reset,num3,num4,1'b0,add_2_out,dummy_flag_2);
 FPAddSub_single_32 sum_10_times_adder_3(clk,reset,add_1_out,add_2_out,1'b0,add_3_out,dummy_flag_3);
-FPAddSub_single_32 sum_10_times_adder_4(clk,reset,add_3_out,num4,1'b0,add_4_out,dummy_flag_4);
+FPAddSub_single_32 sum_10_times_adder_4(clk,reset,add_3_out,num5,1'b0,add_4_out,dummy_flag_4);
 
 assign out = add_4_out;
 

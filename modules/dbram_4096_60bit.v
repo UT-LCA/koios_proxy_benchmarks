@@ -31,7 +31,7 @@ if (reset) begin
 	count <= 1'b0; 
 end
 else begin 
-	count <= count + 1'b1; 
+	count <= ~count; 
 end
 
 end
@@ -57,8 +57,10 @@ assign data_a1 = count|data_a;
 assign data_a2 = (~count)|data_a;
 assign data_b1 = count|data_b;
 assign data_b2 = (~count)|data_b;
-assign out_a = count?out_a1:out_a2;
-assign out_b = count?out_b1:out_b2;
+always@(posedge clk) begin
+out_a = count?out_a1:out_a2;
+out_b = count?out_b1:out_b2;
+end
 
 dpram_4096_60bit_db inst1(.clk(clk),.address_a(address_a1),.address_b(address_b1),.wren_a(wren_a1),.wren_b(wren_b1),.data_a(data_a1),.data_b(data_b1),.out_a(out_a1),.out_b(out_b1));
 dpram_4096_60bit_db inst2(.clk(clk),.address_a(address_a2),.address_b(address_b2),.wren_a(wren_a2),.wren_b(wren_b2),.data_a(data_a2),.data_b(data_b2),.out_a(out_a2),.out_b(out_b2));

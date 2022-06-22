@@ -888,11 +888,11 @@ module FPAddSub_NormalizeShift1(
 			// Rotate by 0
 			2'b00: Lvl2 <= Stage1[`DWIDTH:0];       		
 			// Rotate by 4
-			2'b01: begin for (i=33; i>=17; i=i-1) begin Lvl2[33-i] <= Stage1[i-4]; end Lvl2[3:0] <= 0; end
+			2'b01: begin for (i=33; i>=17; i=i-1) begin Lvl2[i-`DWIDTH -1] <= Stage1[i-4]; end Lvl2[3:0] <= 0; end
 			// Rotate by 8
-			2'b10: begin for (i=33; i>=17; i=i-1) begin Lvl2[33-i] <= Stage1[i-8]; end Lvl2[7:0] <= 0; end
+			2'b10: begin for (i=33; i>=17; i=i-1) begin Lvl2[i-`DWIDTH -1] <= Stage1[i-8]; end Lvl2[7:0] <= 0; end
 			// Rotate by 12
-			2'b11: begin for (i=33; i>=17; i=i-1) begin Lvl2[33-i] <= Stage1[i-12]; end Lvl2[11:0] <= 0; end
+			2'b11: begin for (i=33; i>=17; i=i-1) begin Lvl2[i-`DWIDTH -1] <= Stage1[i-12]; end Lvl2[11:0] <= 0; end
 	  endcase
 	end
 	

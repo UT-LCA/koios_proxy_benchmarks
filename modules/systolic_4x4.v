@@ -1,5 +1,6 @@
 
 `timescale 1ns / 1ps
+`define complex_dsp
 `define DWIDTH 8
 `define AWIDTH 11
 `define MEM_SIZE 2048
@@ -278,7 +279,6 @@ output_logic_systolic_4x4 u_output_logic_systolic_4x4(
 .c_addr(c_addr),
 .c_data_available(c_data_available),
 .clk_cnt(clk_cnt),
-.row_latch_en(row_latch_en),
 .final_mat_mul_size(final_mat_mul_size),
 .matrixC00(matrixC00),
 .matrixC01(matrixC01),
@@ -351,7 +351,6 @@ c_data_out, //Data values going out to next matmul - systolic shifting
 c_addr,
 c_data_available,
 clk_cnt,
-row_latch_en,
 final_mat_mul_size,
 matrixC00,
 matrixC01,
@@ -382,7 +381,7 @@ output [`MAT_MUL_SIZE*`DWIDTH-1:0] c_data_out;
 output [`AWIDTH-1:0] c_addr;
 output c_data_available;
 input [7:0] clk_cnt;
-output row_latch_en;
+//output row_latch_en;
 input [7:0] final_mat_mul_size;
 input [`DWIDTH-1:0] matrixC00;
 input [`DWIDTH-1:0] matrixC01;

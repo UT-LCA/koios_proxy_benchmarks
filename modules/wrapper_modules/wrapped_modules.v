@@ -318,7 +318,7 @@ endmodule
 
 module systolic_array_4_fp16bit (input clk, input reset, input [434:0] inp, output reg [223:0] outp);
 
-matmul_4x4_systolic inst(
+matmul_4x4_fp_systolic inst(
  .clk(clk),
  .reset(reset),
  .pe_reset(reset),
