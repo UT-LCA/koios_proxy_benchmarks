@@ -39,6 +39,7 @@ def interface_algorithm(f, interface_name, input_bits, output_bits,interconnect_
         L = "intermediate_reg"
         i = 0
         l = "intermediate_wire"
+        el = L
         #f.writelines("reg [" + str(int(input_bits -1 )) + ":0]" + L + "_" + str(i) + "; \n" )
         #f.writelines("always@(posedge clk) begin \n")
         #f.writelines(L + "_" + str(i) + " <= inp; \n" )
@@ -47,9 +48,11 @@ def interface_algorithm(f, interface_name, input_bits, output_bits,interconnect_
         loop = 1
         new_input_bits = input_bits
         odd_flag = 0
+        output_flag =-1
 
         while loop:
             odd_flag = 0
+            el = L
             if i == 0:
                 f.writelines("reg [" + str(int(new_input_bits -1 )) + ":0]" + L + "_" + str(i) + "; \n" )
                 f.writelines("always@(posedge clk) begin \n")
@@ -72,15 +75,17 @@ def interface_algorithm(f, interface_name, input_bits, output_bits,interconnect_
                         f.writelines("end \n \n")
                     output_bits = output_bits -1
                     new_input_bits = new_input_bits -1
+                    output_flag = -1
                     #now both are even
                 else: #if output bits are not odd, we need to make input_bits as even
                     if i ==0:
                         #f.writelines("always@(posedge clk) begin \n")
-                        f.writelines("wire [" + str(int(new_input_bits-2)) + ":0]" + l + "_" + str(i) + "; \n")
-                        f.writelines("assign " + l + "_" + str(i) + "[" + str(int(new_input_bits-2)) + "] = " + L + "_" + str(i) + "[" + str(int(new_input_bits-1)) + "]" + "^" + L + "_" + str(i) + "[" + str(int(new_input_bits-2)) + "] ; \n")
-                        f.writelines("assign " + l + "_" + str(i) + "[" + str(int(new_input_bits-3)) + ":0] = " + L + "_" + str(int(i)) + "[" + str(int(new_input_bits-3)) + ":0] ; \n")
+                        f.writelines("wire [" + str(int(new_input_bits-2)) + ":0]" + l + "_" + str(i+1) + "; \n")
+                        f.writelines("assign " + l + "_" + str(i+1) + "[" + str(int(new_input_bits-2)) + "] = " + L + "_" + str(i) + "[" + str(int(new_input_bits-1)) + "]" + "^" + L + "_" + str(i) + "[" + str(int(new_input_bits-2)) + "] ; \n")
+                        f.writelines("assign " + l + "_" + str(i+1) + "[" + str(int(new_input_bits-3)) + ":0] = " + L + "_" + str(int(i)) + "[" + str(int(new_input_bits-3)) + ":0] ; \n")
                         #f.writelines(L + "_" + str(i) + "[" + str(int(new_input_bits-2)) + "]" " <= " + L + "_" + str(i) + "[" + str(int(new_input_bits-1)) + "]" + "^" + L + "_" + str(i) + "[" + str(int(new_input_bits-2)) + "] ; \n" )
                         #f.writelines("end \n \n")
+                        m = i+1
                     else:
                         #f.writelines("always@(posedge clk) begin \n")
                         f.writelines("wire [" + str(int(new_input_bits-2)) + ":0]" + l + "_" + str(i) + "; \n")
@@ -88,7 +93,9 @@ def interface_algorithm(f, interface_name, input_bits, output_bits,interconnect_
                         f.writelines("assign " + l + "_" + str(i) + "[" + str(int(new_input_bits-3)) + ":0] = " + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-3)) + ":0] ; \n")
                         #f.writelines(L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-2)) + "]" " <= " + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-1)) + "]" + "^" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits-2)) + "] ; \n" )
                         #f.writelines("end \n \n")
+                        m = i
                     new_input_bits = new_input_bits -1 #we have reduced the intermediate_reg bitwidth by 1 (made it even)
+                    output_flag = m
             else:
                 pass
             if i == 0:
@@ -102,6 +109,14 @@ def interface_algorithm(f, interface_name, input_bits, output_bits,interconnect_
                     #f.writelines("always@(posedge clk) begin \n")
                     sel = L + "_" + str(int(i-1)) + "[0]"
 
+                    if output_flag == -1:
+                        el = L
+                        x = i-1
+                    elif output_flag == i:
+                        el = l
+                        x = i
+                        output_flag = -1
+
                     if odd_flag == 0:
                         for k in range(int(new_input_bits/2)):
                             #f.writelines(L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" "<= " + L +"_" + str(int(i-1)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "^" + L + "_" + str(int(i-1)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "] ;\n" )
@@ -114,9 +129,9 @@ def interface_algorithm(f, interface_name, input_bits, output_bits,interconnect_
                         for k in range(int(new_input_bits/2)):
                             func = random.choice(list1)
                             if func == "mux_module":
-                                f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + l +"_" + str(int(i)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + l + "_" + str(int(i)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + "),.sel(" + sel + ")); \n")
+                                f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + el +"_" + str(int(x)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + el + "_" + str(int(x)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + "),.sel(" + sel + ")); \n")
                             else:
-                                f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + l +"_" + str(int(i)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + l + "_" + str(int(i)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + ")); \n")
+                                f.writelines(func + " " + func + "_inst" + "_" + str(i) + "_" + str(k) + "(.clk(clk),.reset(reset),.i1(" + el +"_" + str(int(x)) + "[" + str(int(new_input_bits - 1 - (2*k)) ) + "]" + "),.i2(" + el + "_" + str(int(x)) + "[" + str(int(new_input_bits - 2 - (2*k)) ) + "]" + "),.o(" + L + "_" + str(i) + "[" + str(int((new_input_bits/2) -1 - k)) + "]" + ")); \n")
                     #f.writelines("end \n \n")
                     new_input_bits = new_input_bits/2
                     i = i + 1
@@ -125,17 +140,26 @@ def interface_algorithm(f, interface_name, input_bits, output_bits,interconnect_
                 if new_input_bits < output_bits:
 
                     round_down = int(output_bits/new_input_bits)
+
+                    if output_flag == -1:
+                        el = L
+                        x = i-1
+                    elif output_flag == i:
+                        el = l
+                        x = i
+                        output_flag = -1
+
                     f.writelines("always@(posedge clk) begin \n")
                     for z in range(round_down):
                         if odd_flag == 0:
                             f.writelines("outp [" + str(int(((z+1)*new_input_bits)-1)) + ":" + str(int(z*new_input_bits)) + "] <= " + L + "_" + str(int(i-1)) + "; \n" )
                         else:
-                            f.writelines("outp [" + str(int(((z+1)*new_input_bits)-1)) + ":" + str(int(z*new_input_bits)) + "] <= " + l + "_" + str(int(i)) + "; \n" )
+                            f.writelines("outp [" + str(int(((z+1)*new_input_bits)-1)) + ":" + str(int(z*new_input_bits)) + "] <= " + el + "_" + str(int(x)) + "; \n" )
                     if output_bits%new_input_bits != 0:
                         if odd_flag == 0:
                             f.writelines("outp[" + str(int(output_bits - 1)) + ":" + str(int(output_bits - (output_bits%new_input_bits) )) + "] <= " + L + "_" + str(int(i-1)) + "[" + str(int( (output_bits%new_input_bits) - 1 )) + ":0] ; \n")
                         else:
-                            f.writelines("outp[" + str(int(output_bits - 1)) + ":" + str(int(output_bits - (output_bits%new_input_bits) )) + "] <= " + l + "_" + str(int(i)) + "[" + str(int( (output_bits%new_input_bits) - 1 )) + ":0] ; \n")
+                            f.writelines("outp[" + str(int(output_bits - 1)) + ":" + str(int(output_bits - (output_bits%new_input_bits) )) + "] <= " + el + "_" + str(int(x)) + "[" + str(int( (output_bits%new_input_bits) - 1 )) + ":0] ; \n")
 
                     f.writelines("end \n")
                     i = i+1
@@ -144,11 +168,19 @@ def interface_algorithm(f, interface_name, input_bits, output_bits,interconnect_
 
                 if new_input_bits == output_bits:
 
+                    if output_flag == -1:
+                        el = L
+                        x = i-1
+                    elif output_flag == i:
+                        el = l
+                        x = i
+                        output_flag = -1
+
                     f.writelines("always@(posedge clk) begin \n")
                     if odd_flag == 0:
-                        f.writelines("outp[" + str(int(output_bits - 1)) +  "] <= " + L + "_" + str(int(i-1)) + " ; \n")
+                        f.writelines("outp[" + str(int(output_bits - 1)) +  ":0] <= " + L + "_" + str(int(i-1)) + " ; \n")
                     else:
-                        f.writelines("outp[" + str(int(output_bits - 1)) +  "] <= " + l + "_" + str(int(i)) + " ; \n")
+                        f.writelines("outp[" + str(int(output_bits - 1)) +  ":0] <= " + el + "_" + str(int(x)) + " ; \n")
                     f.writelines("end \n")
 
                     i = i+1
@@ -689,7 +721,9 @@ def count_resources(hardware,instance,module_dict):
     total_io = 0
     total_clb = 0
     total_dsp = 0
-    total_bram =  0
+    total_bram = 0
+    total_mult_9x9 = 0
+    total_other_dsp = 0
     top_output_bits = 0
     top_input_bits = 0
     for i in range(no_of_instances):
@@ -701,6 +735,8 @@ def count_resources(hardware,instance,module_dict):
         clb = 0
         dsp = 0
         bram = 0
+        mult_9x9 = 0
+        other_dsp = 0
         input_bits = 0
         output_bits = 0
 
@@ -714,11 +750,15 @@ def count_resources(hardware,instance,module_dict):
                 clb = module_dict[type][module[j]]["resource_usage"]["clb"]*number
                 dsp = module_dict[type][module[j]]["resource_usage"]["dsp"]*number
                 bram = module_dict[type][module[j]]["resource_usage"]["bram"]*number
+                mult_9x9 = module_dict[type][module[j]]["resource_usage"]["mult_9x9"]*number
+                other_dsp = module_dict[type][module[j]]["resource_usage"]["other_dsp"]*number
                 input_bits = module_dict[type][module[j]]["inputs"]*number
                 output_bits = module_dict[type][module[j]]["outputs"]*number
                 total_clb = total_clb + clb
                 total_dsp = total_dsp + dsp
                 total_bram = total_bram + bram
+                total_mult_9x9 = total_mult_9x9 + mult_9x9
+                total_other_dsp = total_other_dsp + other_dsp
             else:
                 pass
 
@@ -734,7 +774,7 @@ def count_resources(hardware,instance,module_dict):
 
     total_io = top_input_bits + top_output_bits
     print("\n")
-    print("Total Number of Expected Resources Used:\n IO:" + str(total_io) + "\n CLB:" + str(total_clb) + "\n DSP:" + str(total_dsp) + "\n BRAM:" + str(total_bram) + "\n")
+    print("Total Number of Expected Resources Used:\n IO:" + str(total_io) + "\n CLB:" + str(total_clb) + "\n DSP:" + str(total_dsp) + "\n BRAM:" + str(total_bram) + "\n mult_9x9:" + str(total_mult_9x9) + "\n other_dsp:" + str(total_other_dsp) + "\n")
 
 
 parser = argparse.ArgumentParser()
@@ -783,7 +823,7 @@ module_dict = {
         "inputs":32,
         "outputs":32,
         "filename": ["adder_tree_1stage_16bit.v"],
-        "resource_usage": {"io":66,"clb":17,"dsp":0,"bram":0},},
+        "resource_usage": {"io":66,"clb":17,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},},
     "module2": {
         "name": "adder_tree_2_16bit",
         "size":2,
@@ -791,7 +831,7 @@ module_dict = {
         "inputs":64,
         "outputs":32,
         "filename": ["adder_tree_2stage_16bit.v"],
-        "resource_usage": {"io":98,"clb":18,"dsp":0,"bram":0},},
+        "resource_usage": {"io":98,"clb":18,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},},
     "module3": {
         "name": "adder_tree_3_16bit",
         "size":3,
@@ -799,7 +839,7 @@ module_dict = {
         "inputs":128,
         "outputs":32,
         "filename": ["adder_tree_3stage_16bit.v"],
-        "resource_usage": {"io":162,"clb":21,"dsp":0,"bram":0},},
+        "resource_usage": {"io":162,"clb":21,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},},
     "module4": {
         "name": "adder_tree_4_16bit",
         "size":4,
@@ -807,7 +847,7 @@ module_dict = {
         "inputs":256,
         "outputs":32,
         "filename": ["adder_tree_4stage_16bit.v"],
-        "resource_usage": {"io":290,"clb":29,"dsp":0,"bram":0},},
+        "resource_usage": {"io":290,"clb":29,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},},
     "module5" : {
         "name": "adder_tree_1_8bit",
         "size":1,
@@ -815,7 +855,7 @@ module_dict = {
         "inputs":16,
         "outputs":16,
         "filename": ["adder_tree_1stage_8bit.v"],
-        "resource_usage": {"io":34,"clb":8,"dsp":0,"bram":0},},
+        "resource_usage": {"io":34,"clb":8,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},},
     "module6": {
         "name": "adder_tree_2_8bit",
         "size":2,
@@ -823,7 +863,7 @@ module_dict = {
         "inputs":32,
         "outputs":16,
         "filename": ["adder_tree_2stage_8bit.v"],
-        "resource_usage": {"io":50,"clb":9,"dsp":0,"bram":0},},
+        "resource_usage": {"io":50,"clb":9,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},},
     "module7": {
         "name": "adder_tree_3_8bit",
         "size":3,
@@ -831,7 +871,7 @@ module_dict = {
         "inputs":64,
         "outputs":16,
         "filename": ["adder_tree_3stage_8bit.v"],
-        "resource_usage": {"io":82,"clb":13,"dsp":0,"bram":0},},
+        "resource_usage": {"io":82,"clb":13,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},},
     "module8": {
         "name": "adder_tree_4_8bit",
         "size":4,
@@ -839,7 +879,7 @@ module_dict = {
         "inputs":128,
         "outputs":16,
         "filename": ["adder_tree_4stage_8bit.v"],
-        "resource_usage": {"io":146,"clb":20,"dsp":0,"bram":0},},
+        "resource_usage": {"io":146,"clb":20,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},},
     "module9" : {
         "name": "adder_tree_1_4bit",
         "size":1,
@@ -847,7 +887,7 @@ module_dict = {
         "inputs":8,
         "outputs":8,
         "filename": ["adder_tree_1stage_4bit.v"],
-        "resource_usage": {"io":18,"clb":4,"dsp":0,"bram":0},},
+        "resource_usage": {"io":18,"clb":4,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},},
     "module10": {
         "name": "adder_tree_2_4bit",
         "size":2,
@@ -855,7 +895,7 @@ module_dict = {
         "inputs":16,
         "outputs":8,
         "filename": ["adder_tree_2stage_4bit.v"],
-        "resource_usage": {"io":26,"clb":5,"dsp":0,"bram":0},},
+        "resource_usage": {"io":26,"clb":5,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},},
     "module11": {
         "name": "adder_tree_3_4bit",
         "size":3,
@@ -863,7 +903,7 @@ module_dict = {
         "inputs":32,
         "outputs":8,
         "filename": ["adder_tree_3stage_4bit.v"],
-        "resource_usage": {"io":42,"clb":8,"dsp":0,"bram":0},},
+        "resource_usage": {"io":42,"clb":8,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},},
     "module12": {
         "name": "adder_tree_4_4bit",
         "size":4,
@@ -871,7 +911,7 @@ module_dict = {
         "inputs":64,
         "outputs":8,
         "filename": ["adder_tree_4stage_4bit.v"],
-        "resource_usage": {"io":74,"clb":15,"dsp":0,"bram":0},},
+        "resource_usage": {"io":74,"clb":15,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},},
     "module13": {
         "name": "adder_tree_3_fp16bit",
         "size":3,
@@ -879,7 +919,7 @@ module_dict = {
         "inputs":132,
         "outputs":16,
         "filename": ["adder_tree_3stage_fp16bit.v"],
-        "resource_usage": {"io":150,"clb":148,"dsp":0,"bram":0},}
+        "resource_usage": {"io":150,"clb":148,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},}
     },
 "systolic_array": {
     "module1": {
@@ -889,7 +929,7 @@ module_dict = {
         "inputs":253,
         "outputs":131,
         "filename": ["systolic_4x4.v"],
-        "resource_usage": {"io":388,"clb":81,"dsp":16,"bram":0},},
+        "resource_usage": {"io":388,"clb":81,"dsp":16,"bram":0,"mult_9x9":16,"other_dsp":0},},
     "module2": {
         "name": "systolic_array_8_16bit",
         "size":8,
@@ -897,7 +937,7 @@ module_dict = {
         "inputs":775,
         "outputs":434,
         "filename": ["systolic_8x8.v"],
-        "resource_usage": {"io":1222,"clb":608,"dsp":64,"bram":0},},
+        "resource_usage": {"io":1222,"clb":608,"dsp":64,"bram":0,"mult_9x9":0,"other_dsp":64},},
     "module3": {
         "name": "systolic_array_4_fp16bit",
         "size":4,
@@ -905,7 +945,7 @@ module_dict = {
         "inputs":435,
         "outputs":224,
         "filename": ["systolic_4x4_fp.v"],
-        "resource_usage": {"io":644,"clb":86,"dsp":16,"bram":0},}
+        "resource_usage": {"io":644,"clb":86,"dsp":16,"bram":0,"mult_9x9":0,"other_dsp":16},}
     },
 "dot_product": {
     "module1": {
@@ -915,7 +955,7 @@ module_dict = {
         "inputs":265,
         "outputs":272,
         "filename": ["tensor_block_bf16.v"],
-        "resource_usage": {"io":539,"clb":495,"dsp":3,"bram":0},},
+        "resource_usage": {"io":539,"clb":495,"dsp":3,"bram":0,"mult_9x9":15,"other_dsp":0},},
     "module2": {
         "name": "tensor_block_int8_module",
         "size":10,
@@ -923,7 +963,7 @@ module_dict = {
         "inputs":265,
         "outputs":251,
         "filename": ["tensor_block_int8.v"],
-        "resource_usage": {"io":518,"clb":119,"dsp":10,"bram":0},}
+        "resource_usage": {"io":518,"clb":119,"dsp":10,"bram":0,"mult_9x9":30,"other_dsp":0},}
     },
 "relu": {
     "module1": {
@@ -933,7 +973,7 @@ module_dict = {
         "inputs":261,
         "outputs":258,
         "filename": ["activations_8bit.v"],
-        "resource_usage": {"io":519,"clb":127,"dsp":8,"bram":0},},
+        "resource_usage": {"io":519,"clb":127,"dsp":8,"bram":0,"mult_9x9":32,"other_dsp":0},},
     "module2": {
         "name": "activation_32_16bit_module",
         "size":32,
@@ -941,7 +981,7 @@ module_dict = {
         "inputs":516,
         "outputs":514,
         "filename": ["activations_16bit.v"],
-        "resource_usage": {"io":1031,"clb":211,"dsp":16,"bram":0},}
+        "resource_usage": {"io":1031,"clb":211,"dsp":16,"bram":0,"mult_9x9":32,"other_dsp":32},}
     },
 "tanh": {
     "module1": {
@@ -951,7 +991,7 @@ module_dict = {
         "inputs":261,
         "outputs":258,
         "filename": ["activations_8bit.v"],
-        "resource_usage": {"io":519,"clb":127,"dsp":8,"bram":0},},
+        "resource_usage": {"io":519,"clb":127,"dsp":8,"bram":0,"mult_9x9":32,"other_dsp":0},},
     "module2": {
         "name": "activation_32_16bit_module",
         "size":32,
@@ -959,7 +999,7 @@ module_dict = {
         "inputs":516,
         "outputs":514,
         "filename": ["activations_16bit.v"],
-        "resource_usage": {"io":1031,"clb":211,"dsp":16,"bram":0},},
+        "resource_usage": {"io":1031,"clb":211,"dsp":16,"bram":0,"mult_9x9":32,"other_dsp":32},},
     "module3": {
         "name": "tanh_16bit",
         "size":16,
@@ -967,7 +1007,7 @@ module_dict = {
         "inputs":16,
         "outputs":16,
         "filename": ["tanh.v"],
-        "resource_usage": {"io":32,"clb":9,"dsp":0,"bram":0},}
+        "resource_usage": {"io":32,"clb":9,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},}
     },
 "sigmoid": {
     "module1": {
@@ -977,7 +1017,7 @@ module_dict = {
         "inputs":16,
         "outputs":16,
         "filename": ["sigmoid.v"],
-        "resource_usage": {"io":32,"clb":10,"dsp":0,"bram":0},}
+        "resource_usage": {"io":32,"clb":10,"dsp":0,"bram":0,"mult_9x9":0,"other_dsp":0},}
     },
 "dpram": {
     "module1": {
@@ -987,7 +1027,7 @@ module_dict = {
         "inputs":102,
         "outputs":80,
         "filename": ["dpram_1024_40bit.v"],
-        "resource_usage": {"io":185,"clb":0,"dsp":0,"bram":4},},
+        "resource_usage": {"io":185,"clb":0,"dsp":0,"bram":4,"mult_9x9":0,"other_dsp":0},},
     "module2": {
         "name": "dpram_1024_60bit_module",
         "size":1024,
@@ -995,7 +1035,7 @@ module_dict = {
         "inputs":142,
         "outputs":120,
         "filename": ["dpram_1024_60bit.v"],
-        "resource_usage": {"io":100,"clb":100,"dsp":100,"bram":100},},
+        "resource_usage": {"io":100,"clb":100,"dsp":100,"bram":100,"mult_9x9":0,"other_dsp":0},},
     "module3": {
         "name": "dpram_2048_40bit_module",
         "size":2048,
@@ -1003,7 +1043,7 @@ module_dict = {
         "inputs":104,
         "outputs":80,
         "filename": ["dpram_2048_40bit.v"],
-        "resource_usage": {"io":185,"clb":0,"dsp":0,"bram":4},},
+        "resource_usage": {"io":185,"clb":0,"dsp":0,"bram":4,"mult_9x9":0,"other_dsp":0},},
     "module4": {
         "name": "dpram_2048_60bit_module",
         "size":2048,
@@ -1011,7 +1051,7 @@ module_dict = {
         "inputs":144,
         "outputs":120,
         "filename": ["dpram_2048_60bit.v"],
-        "resource_usage": {"io":265,"clb":0,"dsp":0,"bram":6},},
+        "resource_usage": {"io":265,"clb":0,"dsp":0,"bram":6,"mult_9x9":0,"other_dsp":0},},
     "module5": {
         "name": "dpram_4096_40bit_module",
         "size":4096,
@@ -1019,7 +1059,7 @@ module_dict = {
         "inputs":106,
         "outputs":80,
         "filename": ["dpram_4096_40bit.v"],
-        "resource_usage": {"io":187,"clb":6,"dsp":0,"bram":8},},
+        "resource_usage": {"io":187,"clb":6,"dsp":0,"bram":8,"mult_9x9":0,"other_dsp":0},},
     "module6": {
         "name": "dpram_4096_60bit_module",
         "size":4096,
@@ -1027,7 +1067,7 @@ module_dict = {
         "inputs":146,
         "outputs":120,
         "filename": ["dpram_4096_60bit.v"],
-        "resource_usage": {"io":267,"clb":8,"dsp":0,"bram":12},},
+        "resource_usage": {"io":267,"clb":8,"dsp":0,"bram":12,"mult_9x9":0,"other_dsp":0},},
     },
 "spram": {
     "module1": {
@@ -1037,7 +1077,7 @@ module_dict = {
         "inputs":52,
         "outputs":40,
         "filename": ["spram_2048_40bit.v"],
-        "resource_usage": {"io":93,"clb":0,"dsp":0,"bram":4},},
+        "resource_usage": {"io":93,"clb":0,"dsp":0,"bram":4,"mult_9x9":0,"other_dsp":0},},
     "module2": {
         "name": "spram_2048_60bit_module",
         "size":2048,
@@ -1045,7 +1085,7 @@ module_dict = {
         "inputs":72,
         "outputs":60,
         "filename": ["spram_2048_60bit.v"],
-        "resource_usage": {"io":133,"clb":0,"dsp":0,"bram":6},},
+        "resource_usage": {"io":133,"clb":0,"dsp":0,"bram":6,"mult_9x9":0,"other_dsp":0},},
     "module3": {
         "name": "spram_4096_40bit_module",
         "size":4096,
@@ -1053,7 +1093,7 @@ module_dict = {
         "inputs":53,
         "outputs":40,
         "filename": ["spram_4096_40bit.v"],
-        "resource_usage": {"io":94,"clb":3,"dsp":0,"bram":8},},
+        "resource_usage": {"io":94,"clb":3,"dsp":0,"bram":8,"mult_9x9":0,"other_dsp":0},},
     "module4": {
         "name": "spram_4096_60bit_module",
         "size":4096,
@@ -1061,7 +1101,7 @@ module_dict = {
         "inputs":73,
         "outputs":60,
         "filename": ["spram_4096_60bit.v"],
-        "resource_usage": {"io":134,"clb":4,"dsp":0,"bram":12},},
+        "resource_usage": {"io":134,"clb":4,"dsp":0,"bram":12,"mult_9x9":0,"other_dsp":0},},
     },
 "dbram": {
     "module1": {
@@ -1071,7 +1111,7 @@ module_dict = {
         "inputs":104,
         "outputs":80,
         "filename": ["dbram_2048_40bit.v"],
-        "resource_usage": {"io":186,"clb":10,"dsp":0,"bram":8},},
+        "resource_usage": {"io":186,"clb":10,"dsp":0,"bram":8,"mult_9x9":0,"other_dsp":0},},
     "module2": {
         "name": "dbram_2048_60bit_module",
         "size":2048,
@@ -1079,7 +1119,7 @@ module_dict = {
         "inputs":144,
         "outputs":120,
         "filename": ["dbram_2048_60bit.v"],
-        "resource_usage": {"io":266,"clb":12,"dsp":0,"bram":12},},
+        "resource_usage": {"io":266,"clb":12,"dsp":0,"bram":12,"mult_9x9":0,"other_dsp":0},},
     "module3": {
         "name": "dbram_4096_40bit_module",
         "size":4096,
@@ -1087,7 +1127,7 @@ module_dict = {
         "inputs":106,
         "outputs":80,
         "filename": ["dbram_4096_40bit.v"],
-        "resource_usage": {"io":188,"clb":7,"dsp":0,"bram":8},},
+        "resource_usage": {"io":188,"clb":7,"dsp":0,"bram":8,"mult_9x9":0,"other_dsp":0},},
     "module4": {
         "name": "dbram_4096_60bit_module",
         "size":4096,
@@ -1095,7 +1135,7 @@ module_dict = {
         "inputs":146,
         "outputs":120,
         "filename": ["dbram_4096_60bit.v"],
-        "resource_usage": {"io":268,"clb":9,"dsp":0,"bram":12},},
+        "resource_usage": {"io":268,"clb":9,"dsp":0,"bram":12,"mult_9x9":0,"other_dsp":0},},
     },
 "fifo": {
     "module1": {
@@ -1105,7 +1145,7 @@ module_dict = {
         "inputs":43,
         "outputs":42,
         "filename": ["fifo_256_40bit.v"],
-        "resource_usage": {"io":87,"clb":4,"dsp":0,"bram":2},},
+        "resource_usage": {"io":87,"clb":4,"dsp":0,"bram":2,"mult_9x9":0,"other_dsp":0},},
     "module2": {
         "name": "fifo_256_60bit_module",
         "size":256,
@@ -1113,7 +1153,7 @@ module_dict = {
         "inputs":63,
         "outputs":62,
         "filename": ["fifo_256_60bit.v"],
-        "resource_usage": {"io":127,"clb":4,"dsp":0,"bram":3},},
+        "resource_usage": {"io":127,"clb":4,"dsp":0,"bram":3,"mult_9x9":0,"other_dsp":0},},
     "module3": {
         "name": "fifo_512_40bit_module",
         "size":512,
@@ -1121,7 +1161,7 @@ module_dict = {
         "inputs":43,
         "outputs":42,
         "filename": ["fifo_512_40bit.v"],
-        "resource_usage": {"io":87,"clb":5,"dsp":0,"bram":2},},
+        "resource_usage": {"io":87,"clb":5,"dsp":0,"bram":2,"mult_9x9":0,"other_dsp":0},},
     "module4": {
         "name": "fifo_512_60bit_module",
         "size":512,
@@ -1129,7 +1169,7 @@ module_dict = {
         "inputs":63,
         "outputs":62,
         "filename": ["fifo_512_60bit.v"],
-        "resource_usage": {"io":127,"clb":5,"dsp":0,"bram":3},},
+        "resource_usage": {"io":127,"clb":5,"dsp":0,"bram":3,"mult_9x9":0,"other_dsp":0},},
     },
 "dsp_chain": {
     "module1": {
@@ -1139,7 +1179,7 @@ module_dict = {
         "inputs":148,
         "outputs":37,
         "filename": ["dsp_chain_2_int_sop_2.v"],
-        "resource_usage": {"io":185,"clb":3,"dsp":2,"bram":0},},
+        "resource_usage": {"io":185,"clb":3,"dsp":2,"bram":0,"mult_9x9":0,"other_dsp":2},},
     "module2": {
         "name": "dsp_chain_3_int_sop_2_module",
         "size":3,
@@ -1147,7 +1187,7 @@ module_dict = {
         "inputs":222,
         "outputs":37,
         "filename": ["dsp_chain_3_int_sop_2.v"],
-        "resource_usage": {"io":259,"clb":4,"dsp":3,"bram":0},},
+        "resource_usage": {"io":259,"clb":4,"dsp":3,"bram":0,"mult_9x9":0,"other_dsp":3},},
     "module3": {
         "name": "dsp_chain_4_int_sop_2_module",
         "size":4,
@@ -1155,7 +1195,7 @@ module_dict = {
         "inputs":296,
         "outputs":37,
         "filename": ["dsp_chain_4_int_sop_2.v"],
-        "resource_usage": {"io":333,"clb":5,"dsp":4,"bram":0},},
+        "resource_usage": {"io":333,"clb":5,"dsp":4,"bram":0,"mult_9x9":0,"other_dsp":4},},
     "module4": {
         "name": "dsp_chain_2_fp16_sop2_mult_module",
         "size":2,
@@ -1163,7 +1203,7 @@ module_dict = {
         "inputs":128,
         "outputs":32,
         "filename": ["dsp_chain_2_fp16_sop2_mult.v"],
-        "resource_usage": {"io":160,"clb":3,"dsp":2,"bram":0},},
+        "resource_usage": {"io":160,"clb":3,"dsp":2,"bram":0,"mult_9x9":0,"other_dsp":2},},
     "module5": {
         "name": "dsp_chain_3_fp16_sop2_mult_module",
         "size":3,
@@ -1171,7 +1211,7 @@ module_dict = {
         "inputs":192,
         "outputs":32,
         "filename": ["dsp_chain_3_fp16_sop2_mult.v"],
-        "resource_usage": {"io":224,"clb":4,"dsp":3,"bram":0},},
+        "resource_usage": {"io":224,"clb":4,"dsp":3,"bram":0,"mult_9x9":0,"other_dsp":3},},
     "module6": {
         "name": "dsp_chain_4_fp16_sop2_mult_module",
         "size":4,
@@ -1179,7 +1219,7 @@ module_dict = {
         "inputs":256,
         "outputs":32,
         "filename": ["dsp_chain_4_fp16_sop2_mult.v"],
-        "resource_usage": {"io":288,"clb":5,"dsp":4,"bram":0},}
+        "resource_usage": {"io":288,"clb":5,"dsp":4,"bram":0,"mult_9x9":0,"other_dsp":4},}
     }
 }
 
