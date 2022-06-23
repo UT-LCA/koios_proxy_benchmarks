@@ -144,14 +144,14 @@ dsp_ch7:
  precision: 18
  number: 18
  inputs: [fifo5]
- outputs: [fifo5,adder_tree2]
+ outputs: [fifo10,fifo5,adder_tree2]
 dsp_ch8:
  type: "dsp_chain"
  size: 3
  precision: 18
  number: 40
  inputs: [fifo5]
- outputs: [fifo5,adder_tree2]
+ outputs: [fifo10,fifo5,adder_tree2]
 dsp_ch9:
  type: "dsp_chain"
  size: 4
@@ -193,14 +193,14 @@ adder_tree2:
  precision: 16
  number: 16
  inputs: [dsp_ch7,dsp_ch8,fifo8]
- outputs: [dsp_ch11]
+ outputs: [dsp_ch11,fifo9]
 adder_tree3:
  type: "adder_tree"
  size: 4
  precision: 8
  number: 20
  inputs: [dsp_ch9,dsp_ch10,activ5,activ6]
- outputs: [fifo9]
+ outputs: [fifo9,dsp_ch10]
 dsp_ch11:
  type: "dsp_chain"
  size: 4
@@ -214,13 +214,13 @@ fifo9:
  precision: 40
  number: 28
  inputs: [adder_tree3,adder_tree2]
- outputs: [activ7]
+ outputs: [activ7,dsp_ch11]
 activ7:
  type: "tanh"
  size: 32
  precision: 8
  number: 7
- inputs: [dsp_ch6]
+ inputs: [fifo9]
  outputs: [adder_tree4]
 adder_tree4:
  type: "adder_tree"

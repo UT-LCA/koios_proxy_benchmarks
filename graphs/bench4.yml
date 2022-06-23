@@ -88,14 +88,14 @@ dpram4:
  precision: 60
  number: 20
  inputs: [activ3]
- outputs: [dsp_ch7,dsp_ch8]
+ outputs: [dsp_ch6,dsp_ch7,dsp_ch8]
 dpram5:
  type: "dpram"
  size: 2048
  precision: 40
  number: 24
  inputs: [activ4]
- outputs: [dsp_ch7,dsp_ch8]
+ outputs: [dsp_ch6,dsp_ch7,dsp_ch8]
 dpram6:
  type: "dpram"
  size: 4096
@@ -136,14 +136,14 @@ activ7:
  size: 16
  precision: 16
  number: 30
- inputs: [dsp_ch5]
+ inputs: [dsp_ch4,dpram8]
  outputs: [dsp_ch6]
 dsp_ch6:
  type: "dsp_chain"
  size: 3
  precision: "fp16"
  number: 26
- inputs: [dpram8,activ7]
+ inputs: [dpram8,activ7,dpram4,dpram5]
  outputs: [activ8]
 activ8:
  type: "relu"
@@ -164,14 +164,14 @@ dsp_ch7:
  size: 3
  precision: "fp16"
  number: 50
- inputs: [dpram10,dpram6,dpram7]
+ inputs: [dpram6,dpram7,dpram4,dpram5]
  outputs: [adder_tree1]
 dsp_ch8:
  type: "dsp_chain"
  size: 4
  precision: "fp16"
  number: 20
- inputs: [dpram6,dpram7]
+ inputs: [dpram5,dpram4]
  outputs: [adder_tree1]
 adder_tree1:
  type: "adder_tree"
