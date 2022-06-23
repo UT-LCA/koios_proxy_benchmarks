@@ -240,6 +240,11 @@ wire [31:0] mult4_out;
 wire [15:0] mult5_in1;
 wire [15:0] mult5_in2;
 wire [31:0] mult5_out;
+reg [31:0] mult1_out_reg;
+reg [31:0] mult2_out_reg;
+reg [31:0] mult3_out_reg;
+reg [31:0] mult4_out_reg;
+reg [31:0] mult5_out_reg;
 
 wire [4:0] flags_dummy_1;
 wire [4:0] flags_dummy_2;
@@ -268,7 +273,15 @@ assign mult5_in1 = data_in_1[79:54];
 assign mult5_in2 = data_in_2[79:54];
 FPMult_16 mult_5_dut(clk,reset,mult5_in1,mult5_in2,mult5_out,flags_dummy_5);
 
-sum_5_times sum_it_up(clk, reset, mult1_out, mult2_out, mult3_out, mult4_out, mult5_out, data_out);
+always@(posedge clk) begin 
+mult1_out_reg <= mult1_out; 
+mult2_out_reg <= mult2_out; 
+mult3_out_reg <= mult3_out; 
+mult4_out_reg <= mult4_out; 
+mult5_out_reg <= mult5_out; 
+end
+
+sum_5_times sum_it_up(clk, reset, mult1_out_reg, mult2_out_reg, mult3_out_reg, mult4_out_reg, mult5_out_reg, data_out);
 //assign data_out = 	mult1_out + mult2_out + mult3_out + mult4_out + mult5_out +  
 //					mult6_out + mult7_out + mult8_out + mult9_out + mult10_out;
 endmodule
@@ -290,6 +303,10 @@ wire [31:0]add_2_out;
 wire [31:0]add_3_out;
 wire [31:0]add_4_out;
 
+reg [31:0] add_1_out_reg; 
+reg [31:0] add_2_out_reg;
+reg [31:0] add_3_out_reg;
+
 wire [4:0] dummy_flag_1;
 wire [4:0] dummy_flag_2;
 wire [4:0] dummy_flag_3;
@@ -297,9 +314,27 @@ wire [4:0] dummy_flag_4;
 
 
 FPAddSub_single_32 sum_10_times_adder_1(clk,reset,num1,num2,1'b0,add_1_out,dummy_flag_1);
+always@(posedge clk) begin 
+add_1_out_reg<= add_1_out;
+end
+
 FPAddSub_single_32 sum_10_times_adder_2(clk,reset,num3,num4,1'b0,add_2_out,dummy_flag_2);
-FPAddSub_single_32 sum_10_times_adder_3(clk,reset,add_1_out,add_2_out,1'b0,add_3_out,dummy_flag_3);
-FPAddSub_single_32 sum_10_times_adder_4(clk,reset,add_3_out,num5,1'b0,add_4_out,dummy_flag_4);
+always@(posedge clk) begin 
+add_2_out_reg<= add_2_out;
+end
+
+FPAddSub_single_32 sum_10_times_adder_3(clk,reset,add_1_out_reg,add_2_out_reg,1'b0,add_3_out,dummy_flag_3);
+always@(posedge clk) begin 
+add_3_out_reg<= add_3_out;
+end
+reg [31:0] num5_del0,num5_del1;
+
+always@(posedge clk) begin 
+num5_del0<= num5;
+num5_del1<= num5_del0;
+end
+
+FPAddSub_single_32 sum_10_times_adder_4(clk,reset,add_3_out_reg,num5_del1,1'b0,add_4_out,dummy_flag_4);
 
 assign out = add_4_out;
 
