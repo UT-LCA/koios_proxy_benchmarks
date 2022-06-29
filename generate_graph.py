@@ -220,6 +220,12 @@ def select_hardware(module_dict,resources_dict,hardware_dict,seed,threshold):
     print("\n total clb: " + str(total_clb) + "\n")
     print("\n total dsp: " + str(total_dsp) + "\n")
     print("\n total bram: " + str(total_bram) + "\n")
+    print("\n instance top input list:\n")
+    print(instance_top_inplist)
+    print("\n instance top output list:\n")
+    print(instance_top_outplist)
+    print("\n instance list:\n")
+    print(instance_list)
 
 
 
