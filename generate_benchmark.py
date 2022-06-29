@@ -781,9 +781,12 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-i","--interconnect",action='store',default="fsm,xor_module,mux_module",help="List of hardware in interconnect")
 parser.add_argument("-y","--yaml_file",action='store',default="graphs/simple.yml",help="provide yaml file")
 parser.add_argument("-v","--verilog_file",action='store',default="all.v",help="provide verilog file to write to")
+parser.add_argument("-s","--seed",action='store',default=5,help="Seed value")
 args = parser.parse_args()
 interconnect_list = [str(item) for item in args.interconnect.split(',')]
 verilog_file = args.verilog_file
+seed = args.seed
+random.seed(seed)
 #structure.yml is the yaml file provided by user
 with open(args.yaml_file, "r") as ymlfile:
     hardware = yaml.safe_load(ymlfile)
