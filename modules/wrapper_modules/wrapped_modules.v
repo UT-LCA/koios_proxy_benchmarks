@@ -244,25 +244,25 @@ sigmoid inst (.x(inp),.sig_out(outp));
 
 endmodule
 
-module systolic_array_4_16bit (input clk, input reset, input [252:0] inp, output reg [130:0] outp);
+module systolic_array_4_16bit (input clk, input reset, input [254:0] inp, output reg [130:0] outp);
 
 matmul_4x4_systolic inst(
  .clk(clk),
- .reset(reset),
+ .reset(inp[254]),
  .pe_reset(reset),
  .start_mat_mul(inp[0]),
  .done_mat_mul(outp[0]),
  .address_mat_a(inp[11:1]),
  .address_mat_b(inp[22:12]),
  .address_mat_c(inp[33:23]),
- .address_stride_a(inp[40:33]),
- .address_stride_b(inp[48:41]),
- .address_stride_c(inp[56:49]),
- .a_data(inp[88:57]),
- .b_data(inp[120:89]),
- .a_data_in(inp[152:121]), //Data values coming in from previous matmul - systolic connections
- .b_data_in(inp[184:153]),
- .c_data_in(inp[216:185]), //Data values coming in from previous matmul - systolic shifting
+ .address_stride_a(inp[41:34]),
+ .address_stride_b(inp[49:42]),
+ .address_stride_c(inp[57:50]),
+ .a_data(inp[89:58]),
+ .b_data(inp[121:90]),
+ .a_data_in(inp[153:122]), //Data values coming in from previous matmul - systolic connections
+ .b_data_in(inp[185:154]),
+ .c_data_in(inp[217:186]), //Data values coming in from previous matmul - systolic shifting
  .c_data_out(outp[32:1]), //Data values going out to next matmul - systolic shifting
  .a_data_out(outp[64:33]),
  .b_data_out(outp[96:65]),
@@ -270,35 +270,35 @@ matmul_4x4_systolic inst(
  .b_addr(outp[118:108]),
  .c_addr(outp[129:119]),
  .c_data_available(outp[130]),
- .validity_mask_a_rows(inp[220:217]),
- .validity_mask_a_cols_b_rows(inp[224:221]),
- .validity_mask_b_cols(inp[228:225]),
- .final_mat_mul_size(inp[236:229]),
- .a_loc(inp[244:237]),
- .b_loc(inp[252:245])
+ .validity_mask_a_rows(inp[221:218]),
+ .validity_mask_a_cols_b_rows(inp[225:222]),
+ .validity_mask_b_cols(inp[229:226]),
+ .final_mat_mul_size(inp[237:230]),
+ .a_loc(inp[245:238]),
+ .b_loc(inp[253:246])
 );
 
 endmodule
 
-module systolic_array_8_16bit (input clk, input reset, input [774:0] inp, output reg [433:0] outp);
+module systolic_array_8_16bit (input clk, input reset, input [785:0] inp, output reg [433:0] outp);
 
 matmul_8x8_systolic inst(
  .clk(clk),
  .reset(reset),
- .pe_reset(reset),
+ .pe_reset(inp[785]),
  .start_mat_mul(inp[0]),
  .done_mat_mul(outp[0]),
  .address_mat_a(inp[16:1]),
  .address_mat_b(inp[32:17]),
  .address_mat_c(inp[48:33]),
  .address_stride_a(inp[64:49]),
- .address_stride_b(inp[70:65]),
- .address_stride_c(inp[86:71]),
- .a_data(inp[214:87]),
- .b_data(inp[342:215]),
- .a_data_in(inp[470:343]), //Data values coming in from previous matmul - systolic connections
- .b_data_in(inp[598:471]),
- .c_data_in(inp[726:599]), //Data values coming in from previous matmul - systolic shifting
+ .address_stride_b(inp[80:65]),
+ .address_stride_c(inp[96:81]),
+ .a_data(inp[224:97]),
+ .b_data(inp[352:225]),
+ .a_data_in(inp[480:353]), //Data values coming in from previous matmul - systolic connections
+ .b_data_in(inp[608:481]),
+ .c_data_in(inp[736:609]), //Data values coming in from previous matmul - systolic shifting
  .c_data_out(outp[128:1]), //Data values going out to next matmul - systolic shifting
  .a_data_out(outp[256:129]),
  .b_data_out(outp[384:257]),
@@ -306,35 +306,35 @@ matmul_8x8_systolic inst(
  .b_addr(outp[416:401]),
  .c_addr(outp[432:417]),
  .c_data_available(outp[433]),
- .validity_mask_a_rows(inp[734:727]),
- .validity_mask_a_cols_b_rows(inp[742:735]),
- .validity_mask_b_cols(inp[750:743]),
- .final_mat_mul_size(inp[758:751]),
- .a_loc(inp[766:759]),
- .b_loc(inp[774:767])
+ .validity_mask_a_rows(inp[744:737]),
+ .validity_mask_a_cols_b_rows(inp[752:745]),
+ .validity_mask_b_cols(inp[760:753]),
+ .final_mat_mul_size(inp[768:761]),
+ .a_loc(inp[776:769]),
+ .b_loc(inp[784:777])
 );
 
 endmodule
 
-module systolic_array_4_fp16bit (input clk, input reset, input [434:0] inp, output reg [223:0] outp);
+module systolic_array_4_fp16bit (input clk, input reset, input [417:0] inp, output reg [223:0] outp);
 
 matmul_4x4_fp_systolic inst(
  .clk(clk),
  .reset(reset),
- .pe_reset(reset),
+ .pe_reset(inp[417]),
  .start_mat_mul(inp[0]),
  .done_mat_mul(outp[0]),
  .address_mat_a(inp[10:1]),
  .address_mat_b(inp[20:11]),
  .address_mat_c(inp[30:21]),
- .address_stride_a(inp[46:31]),
- .address_stride_b(inp[62:47]),
- .address_stride_c(inp[78:63]),
- .a_data(inp[142:79]),
- .b_data(inp[206:143]),
- .a_data_in(inp[270:207]), //Data values coming in from previous matmul - systolic connections
- .b_data_in(inp[334:271]),
- .c_data_in(inp[398:335]), //Data values coming in from previous matmul - systolic shifting
+ .address_stride_a(inp[40:31]),
+ .address_stride_b(inp[50:41]),
+ .address_stride_c(inp[60:51]),
+ .a_data(inp[124:61]),
+ .b_data(inp[188:125]),
+ .a_data_in(inp[252:189]), //Data values coming in from previous matmul - systolic connections
+ .b_data_in(inp[316:253]),
+ .c_data_in(inp[380:317]), //Data values coming in from previous matmul - systolic shifting
  .c_data_out(outp[64:1]), //Data values going out to next matmul - systolic shifting
  .a_data_out(outp[128:65]),
  .b_data_out(outp[192:129]),
@@ -342,12 +342,12 @@ matmul_4x4_fp_systolic inst(
  .b_addr(outp[212:203]),
  .c_addr(outp[222:213]),
  .c_data_available(outp[223]),
- .validity_mask_a_rows(inp[402:399]),
- .validity_mask_a_cols_b_rows(inp[406:403]),
- .validity_mask_b_cols(inp[410:407]),
- .final_mat_mul_size(inp[418:411]),
- .a_loc(inp[426:419]),
- .b_loc(inp[434:427])
+ .validity_mask_a_rows(inp[384:381]),
+ .validity_mask_a_cols_b_rows(inp[388:385]),
+ .validity_mask_b_cols(inp[392:389]),
+ .final_mat_mul_size(inp[400:393]),
+ .a_loc(inp[408:401]),
+ .b_loc(inp[416:409])
 );
 
 endmodule
