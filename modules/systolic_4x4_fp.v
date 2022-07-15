@@ -1,6 +1,6 @@
 
 `timescale 1ns / 1ps
-`define complex_dsp
+//`define complex_dsp
 `define DWIDTH 16
 `define AWIDTH 10
 `define MEM_SIZE 1024
@@ -13,7 +13,7 @@
 `define MEM_ACCESS_LATENCY 1
 `define REG_DATAWIDTH 32
 `define REG_ADDRWIDTH 8
-`define ADDR_STRIDE_WIDTH 16
+`define ADDR_STRIDE_WIDTH 10
 `define MAX_BITS_POOL 3
 `define EXPONENT 5
 `define MANTISSA 10
