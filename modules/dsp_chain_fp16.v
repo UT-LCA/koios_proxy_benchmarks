@@ -1,8 +1,18 @@
-
 `ifdef complex_dsp
+module fp16_sop2_mult_dspchain (clk,reset,top_a,top_b,bot_a,bot_b,fp32_in,mode_sigs,chainin,chainout,result);
+input clk; 
+input reset;
+input [10:0] mode_sigs; 
+input [15:0] top_a,top_b,bot_a,bot_b;
+input [31:0] chainin,fp32_in; 
+output reg [31:0] chainout, result;
+
+fp16_sop2_mult inst1(.clk(clk),.reset(reset),.top_a(top_a),.top_b(top_b),.bot_a(bot_a),.bot_b(bot_b),.fp32_in(fp32_in),.mode_sigs(mode_sigs),.chainin(chainin),.chainout(chainout),.result(result)); 
+
+endmodule
 
 `else
-module fp16_sop2_mult (clk,reset,top_a,top_b,bot_a,bot_b,fp32_in,mode_sigs,chainin,chainout,result);
+module fp16_sop2_mult_dspchain (clk,reset,top_a,top_b,bot_a,bot_b,fp32_in,mode_sigs,chainin,chainout,result);
 input clk; 
 input reset;
 input [10:0] mode_sigs; 
@@ -19,14 +29,17 @@ top_a_reg<= 16'b0;
 top_b_reg<= 16'b0; 
 bot_a_reg<= 16'b0; 
 bot_b_reg<= 16'b0;
-result<=32'b0;  
+//result<=32'b0;
+//chainout<=32'b0;
+chainin_reg<=32'b0;   
 end
 else begin 
 top_a_reg<=top_a; 
 top_b_reg<=top_b; 
 bot_a_reg<=bot_a;
 bot_b_reg<=bot_b;
-chainout<=result;
+//chainout<=result;
+chainin_reg<=chainin; 
 end
 end
 
@@ -34,12 +47,12 @@ wire [4:0] flags1,flags2,flags3,flags4;
 
 FPMult_16_dspchain inst1(.clk(clk),.rst(reset),.a(top_a_reg),.b(top_b_reg),.flags(flags1),.result(r1)); 
 FPMult_16_dspchain inst2(.clk(clk),.rst(reset),.a(bot_a_reg),.b(bot_b_reg),.flags(flags2),.result(r2));
-FPAddSub_reduced_dspchain inst3(.clk(clk),.rst(reset),.a(r1),.b(r2),.flags(flags3),.operation(1'b1),.result(r3));
-FPAddSub_reduced_dspchain inst4(.clk(clk),.rst(reset),.a(r3),.b(chainin),.flags(flags4),.operation(1'b1),.result(result));
-
+FPAddSub_single_dspchain inst3(.clk(clk),.rst(reset),.a(r1),.b(r2),.flags(flags3),.operation(1'b1),.result(r3));
+FPAddSub_single_dspchain inst4(.clk(clk),.rst(reset),.a(r3),.b(chainin),.flags(flags4),.operation(1'b1),.result(result));
+assign chainout = result; 
 endmodule
-`endif
- 
+//`endif
+
 //`timescale 1ns / 1ps
 
 
@@ -384,8 +397,7 @@ module FPMult_RoundModule_dspchain(
 endmodule
 
 
-//`timescale 1ns / 1ps
-module FPAddSub_reduced_dspchain(
+module FPAddSub_single_dspchain(
 		clk,
 		rst,
 		a,
@@ -466,7 +478,6 @@ pipe_1:
 	[51:29] Mmax;
 	[28:24] InputExc;
 	[23:0] Mmin_3;	
-
 */
 
 pipe_1 <= {Opout,Sa,Sb,MaxAB,CExp,Shift,Mmax,InputExc,Mmin_3};
@@ -505,8 +516,9 @@ pipe_3 <= {NormM,NormE,ZeroSum,NegE,R,S,FG, pipe_2[8], pipe_2[7], pipe_2[6], pip
 
 end
 end
+
 endmodule
-//`timescale 1ns / 1ps
+
 // Prealign + Align + Shift 1 + Shift 2
 module FPAddSub_a_dspchain(
 		A,
@@ -564,9 +576,9 @@ module FPAddSub_a_dspchain(
 	
 	//assign DAB = (A[30:23] - B[30:23]) ;
 	//assign DBA = (B[30:23] - A[30:23]) ;
-	assign DAB = (A[30:23] + ~(B[30:23]) + 1) ;
+  assign DAB = (A[30:23] + ~(B[30:23]) + 1) ;
 	assign DBA = (B[30:23] + ~(A[30:23]) + 1) ;
-	
+
 	assign Sa = A[31] ;									// A's sign bit
 	assign Sb = B[31] ;									// B's sign	bit
 	assign ShiftDet = {DBA[4:0], DAB[4:0]} ;		// Shift data
@@ -668,7 +680,6 @@ module FPAddSub_a_dspchain(
 
 	
 endmodule
-//`timescale 1ns / 1ps
 
 module FpAddSub_b_dspchain(
 		Mmax,
@@ -701,7 +712,6 @@ module FpAddSub_b_dspchain(
 
 	// Perform effective operation
 	assign Sum = (OpMode^Sa^Sb) ? ({1'b1, Mmax, 8'b00000000} - {Mmin, 8'b00000000}) : ({1'b1, Mmax, 8'b00000000} + {Mmin, 8'b00000000}) ;
-	
 	// Assign result sign
 	assign PSgn = (MaxAB ? Sb : Sa) ;
 
@@ -748,10 +758,6 @@ module FpAddSub_b_dspchain(
 	assign SumS_5 = Lvl1;	
 
 endmodule
-
-
-
-//`timescale 1ns / 1ps
 
 module FPAddSub_c_dspchain(
 		SumS_5,
@@ -853,7 +859,6 @@ module FPAddSub_c_dspchain(
 	assign S = |SumS_7[6:0] ;		
 	
 endmodule
-//`timescale 1ns / 1ps
 
 module FPAddSub_d_dspchain(
 		ZeroSum,
@@ -961,3 +966,7 @@ module FPAddSub_d_dspchain(
 	assign Flags = {Overflow, Underflow, DivideByZero, Invalid, Inexact} ; 	
 	
 endmodule
+
+`endif 
+
+

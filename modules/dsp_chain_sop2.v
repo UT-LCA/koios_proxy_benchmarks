@@ -1,7 +1,29 @@
 `ifdef complex_dsp
+module int_sop_2_dspchain (mode_sigs,
+	clk,
+	reset,
+	ax,
+	ay,
+	bx,
+	by,
+	chainin,
+	resulta,
+	chainout);
+input [10:0] mode_sigs;
+input clk;
+input reset; 
+input [17:0] ax, bx;
+input [18:0] ay, by;
+input [36:0] chainin;
 
+output reg [36:0] resulta;
+output reg [36:0] chainout;
+
+int_sop_2 inst1(.clk(clk),.reset(reset),.ax(ax),.bx(bx),.ay(ay),.by(by),.mode_sigs(mode_sigs),.chainin(chainin),.resulta(resulta),.chainout(chainout)); 
+
+endmodule
 `else
-module int_sop_2 (mode_sigs,
+module int_sop_2_dspchain (mode_sigs,
 	clk,
 	reset,
 	ax,
