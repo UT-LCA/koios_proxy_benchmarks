@@ -682,7 +682,7 @@ def generate_top(hardware, instance, module_dict):
 def print_cat(hardware,instance,module_dict,verilog_file):
     no_of_instances = len(instance)
     file_names = []
-    L = "cat top.v interfaces.v parallel_modules.v modules/wrapper_modules/wrapped_modules.v modules/fsm.v modules/xor.v modules/2x1_mux.v  "
+    L = "cat top.v interfaces.v parallel_modules.v modules/wrapper_modules/wrapped_modules.v modules/fsm.v modules/xor.v modules/2x1_mux.v modules/dsp_chain_sop2.v modules/dsp_chain_fp16.v "
     for i in range(no_of_instances):
         instance_name = instance[i]
         type = hardware[instance[i]]["type"]
@@ -929,7 +929,7 @@ module_dict = {
         "name": "systolic_array_4_16bit",
         "size":4,
         "precision":16,
-        "inputs":253,
+        "inputs":255,
         "outputs":131,
         "filename": ["systolic_4x4.v"],
         "resource_usage": {"io":388,"clb":81,"dsp":16,"bram":0,"mult_9x9":16,"other_dsp":0},},
@@ -937,7 +937,7 @@ module_dict = {
         "name": "systolic_array_8_16bit",
         "size":8,
         "precision":16,
-        "inputs":775,
+        "inputs":786,
         "outputs":434,
         "filename": ["systolic_8x8.v"],
         "resource_usage": {"io":1222,"clb":608,"dsp":64,"bram":0,"mult_9x9":0,"other_dsp":64},},
@@ -945,7 +945,7 @@ module_dict = {
         "name": "systolic_array_4_fp16bit",
         "size":4,
         "precision": "fp16",
-        "inputs":435,
+        "inputs":418,
         "outputs":224,
         "filename": ["systolic_4x4_fp.v"],
         "resource_usage": {"io":644,"clb":86,"dsp":16,"bram":0,"mult_9x9":0,"other_dsp":16},}
