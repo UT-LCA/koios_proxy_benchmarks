@@ -1,3 +1,4 @@
+# python generate_benchmark.py -i "mux_module,fsm" -y graphs/bench4.yml -v bench4.v -s 5
 dpram1:
  type: "dpram"
  size: 2048

@@ -1,3 +1,4 @@
+# python generate_benchmark.py -i "mux_module,xor_module" -y graphs/bench3.yml -v bench3.v -s 5
 spram1:
  type: "spram"
  size: 2048

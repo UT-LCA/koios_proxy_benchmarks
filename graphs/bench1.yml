@@ -1,3 +1,4 @@
+# python generate_benchmark.py -i "mux_module,xor_module" -y graphs/bench1.yml -v bench1.v -s 5
 fifo1:
  type: "fifo"
  size: 512

@@ -1,3 +1,4 @@
+# python generate_benchmark.py -i "fsm,xor_module" -y graphs/bench2.yml -v bench2.v -s 5
 dbram1:
  type: "dbram"
  size: 2048
