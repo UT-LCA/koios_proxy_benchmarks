@@ -1,0 +1,128 @@
+# python generate_benchmark.py -i "mux_module,xor_module" -y graphs/bench7.yml -v bench7.v -s 5
+dbram1:
+ type: "dbram"
+ size: 2048
+ precision: 40
+ number: 2
+ inputs: [top]
+ outputs: [sysarr1]
+sysarr1:
+ type: "systolic_array"
+ size: 4
+ precision: "fp16"
+ number: 2
+ inputs: [dbram1]
+ outputs: [dbram2,dbram3]
+dbram2:
+ type: "dbram"
+ size: 2048
+ precision: 60
+ number: 12
+ inputs: [sysarr1,sysarr5]
+ outputs: [adder_tree2,sysarr3]
+dbram3:
+ type: "dbram"
+ size: 4096
+ precision: 40
+ number: 10
+ inputs: [sysarr1,sysarr5]
+ outputs: [adder_tree1,sysarr2]
+sysarr2:
+ type: "systolic_array"
+ size: 4
+ precision: "fp16"
+ number: 2
+ inputs: [dbram3]
+ outputs: [adder_tree1,dbram4]
+sysarr3:
+ type: "systolic_array"
+ size: 4
+ precision: "fp16"
+ number: 2
+ inputs: [dbram2]
+ outputs: [dbram4,adder_tree2]
+dbram4:
+ type: "dbram"
+ size: 4096
+ precision: 60
+ number: 20
+ inputs: [sysarr2,sysarr3]
+ outputs: [activ1,activ2]
+activ1:
+ type: "relu"
+ size: 32
+ precision: 16
+ number: 6
+ inputs: [dbram4]
+ outputs: [adder_tree3,sysarr5]
+activ2:
+ type: "tanh"
+ size: 32
+ precision: 8
+ number: 12
+ inputs: [dbram4]
+ outputs: [adder_tree3,sysarr5]
+adder_tree1:
+ type: "adder_tree"
+ size: 3
+ precision: 8
+ number: 14
+ inputs: [sysarr2,dbram3]
+ outputs: [adder_tree3,sysarr5]
+adder_tree2:
+ type: "adder_tree"
+ size: 4
+ precision: 4
+ number: 24
+ inputs: [sysarr3,dbram2]
+ outputs: [adder_tree3,sysarr5]
+adder_tree3:
+ type: "adder_tree"
+ size: 4
+ precision: 16
+ number: 20
+ inputs: [adder_tree1,adder_tree2,activ1,activ2]
+ outputs: [adder_tree5]
+sysarr5:
+ type: "systolic_array"
+ size: 4
+ precision: "fp16"
+ number: 2
+ inputs: [adder_tree1,adder_tree2,activ1,activ2]
+ outputs: [dbram3,dbram2]
+dbram5:
+ type: "dbram"
+ size: 2048
+ precision: 60
+ number: 1
+ inputs: [top]
+ outputs: [sysarr4,adder_tree4]
+sysarr4:
+ type: "systolic_array"
+ size: 4
+ precision: "fp16"
+ number: 1
+ inputs: [dbram5]
+ outputs: [activ3]
+activ3:
+ type: "sigmoid"
+ size: 16
+ precision: 16
+ number: 8
+ inputs: [sysarr4]
+ outputs: [adder_tree5]
+adder_tree4:
+ type: "adder_tree"
+ size: 3
+ precision: 8
+ number: 6
+ inputs: [dbram5]
+ outputs: [adder_tree5]
+adder_tree5:
+ type: "adder_tree"
+ size: 4
+ precision: 4
+ number: 18
+ inputs: [activ3,adder_tree4,adder_tree3]
+ outputs: [top]
+

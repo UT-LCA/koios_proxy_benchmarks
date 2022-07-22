@@ -1,0 +1,134 @@
+# python generate_benchmark.py -i "mux_module,fsm" -y graphs/bench8.yml -v bench8.v -s 5 
+fifo1:
+ type: "fifo"
+ size: 256
+ precision: 40
+ number: 4
+ inputs: [top]
+ outputs: [systolic1]
+systolic1:
+ type: "systolic_array"
+ size: 4
+ precision: 16
+ number: 2
+ inputs: [fifo1]
+ outputs: [dbram1]
+dbram1:
+ type: "dbram"
+ size: 2048
+ precision: 60
+ number: 8
+ inputs: [systolic1,adder_tree2]
+ outputs: [activ1]
+activ1:
+ type: "tanh"
+ precision: 8
+ size: 32
+ number: 2
+ inputs: [dbram1]
+ outputs: [adder_tree3]
+adder_tree3:
+ type: "adder_tree"
+ size: 4
+ precision: 8
+ number: 4
+ inputs: [dsp_chain3, activ1]
+ outputs: [dpram1]
+dpram1:
+ type: "dpram"
+ size: 2048
+ precision: 60
+ number: 4
+ inputs: [adder_tree3]
+ outputs: [systolic2]
+fifo2:
+ type: "fifo"
+ size: 512
+ precision: 40
+ number: 4
+ inputs: [top]
+ outputs: [dsp_chain1]
+dsp_chain1:
+ type: "dsp_chain"
+ size: 2
+ precision: 18
+ number: 24
+ inputs: [fifo2]
+ outputs: [dsp_chain3]
+dsp_chain3:
+ type: "dsp_chain"
+ size: 4
+ precision: 18
+ number: 4
+ inputs: [dsp_chain1]
+ outputs: [adder_tree3]
+systolic2:
+ type: "systolic_array"
+ size: 8
+ precision: 16
+ number: 2
+ inputs: [dpram1]
+ outputs: [activ2,adder_tree1]
+activ2:
+ type: "sigmoid"
+ precision: 16
+ size: 16
+ number: 4
+ inputs: [systolic2]
+ outputs: [dsp_chain2,adder_tree1]
+dsp_chain2: 
+ type: "dsp_chain"
+ size: 4
+ precision: 18
+ number: 7
+ inputs: [activ2]
+ outputs: [activ3]
+activ3:
+ type: "tanh"
+ precision: 8
+ size: 32
+ number: 2
+ inputs: [dsp_chain2]
+ outputs: [dsp_chain4]
+dsp_chain4:
+ type: "dsp_chain"
+ size: 3
+ precision: 18
+ number: 10
+ inputs: [activ3]
+ outputs: [adder_tree1]
+adder_tree1: 
+ type: "adder_tree"
+ size: 4
+ precision: 8
+ number: 1
+ inputs: [dsp_chain4, activ2, systolic2]
+ outputs: [top]
+spram1:
+ type: "dpram"
+ size: 2048
+ precision: 40
+ number: 15
+ inputs: [adder_tree1]
+ outputs: [systolic3]
+systolic3:
+ type: "systolic_array"
+ size: 4
+ precision: 16
+ number: 4
+ inputs: [spram1]
+ outputs: [adder_tree2]
+adder_tree2: 
+ type: "adder_tree"
+ size: 4
+ precision: 8
+ number: 2
+ inputs: [systolic3]
+ outputs: [dbram1, dpram2]
+dpram2:
+ type: "dpram"
+ size: 2048
+ precision: 40
+ number: 8
+ inputs: [adder_tree2]
+ outputs: [top]

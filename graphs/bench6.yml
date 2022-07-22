@@ -1,0 +1,120 @@
+# python generate_benchmark.py -i "fsm,xor_module" -y graphs/bench6.yml -v bench6.v -s 5
+fifo1:
+ type: "fifo"
+ size: 512
+ precision: 60
+ number: 4
+ inputs: [top]
+ outputs: [dot1,dspch1,dot2]
+fifo2:
+ type: "fifo"
+ size: 256
+ precision: 40
+ number: 2
+ inputs: [top]
+ outputs: [dot1,dspch1,dot2]
+dot1:
+ type: "dot_product"
+ size: 10
+ precision: 8
+ number: 4
+ inputs: [fifo1,fifo2]
+ outputs: [fifo3,fifo4]
+dot2:
+ type: "dot_product"
+ size: 10
+ precision: 8
+ number: 8
+ inputs: [fifo1,fifo2,fifo7]
+ outputs: [fifo5,fifo6]
+dspch1:
+ type: "dsp_chain"
+ size: 4
+ precision: 18
+ number: 6
+ inputs: [fifo1,fifo2]
+ outputs: [fifo5,fifo6]
+fifo3:
+ type: "fifo"
+ size: 256
+ precision: 40
+ number: 24
+ inputs: [dot1]
+ outputs: [dspch4]
+fifo4:
+ type: "fifo"
+ size: 512
+ precision: 60
+ number: 40
+ inputs: [dot1]
+ outputs: [dot3]
+fifo5:
+ type: "fifo"
+ size: 256
+ precision: 60
+ number: 18
+ inputs: [dot2]
+ outputs: [dspch3]
+fifo6:
+ type: "fifo"
+ size: 512
+ precision: 40
+ number: 26
+ inputs: [dot2]
+ outputs: [dspch3,dspch2]
+dspch4:
+ type: "dsp_chain"
+ size: 3
+ precision: 18
+ number: 16
+ inputs: [fifo3]
+ outputs: [fifo8]
+dot3:
+ type: "dot_product"
+ size: 10
+ precision: 8
+ number: 4
+ inputs: [fifo4]
+ outputs: [fifo8]
+fifo8:
+ type: "fifo"
+ size: 256
+ precision: 40
+ number: 4
+ inputs: [dspch4,dot3]
+ outputs: [top]
+dspch3:
+ type: "dsp_chain"
+ size: 4
+ precision: 18
+ number: 8
+ inputs: [fifo5,fifo6]
+ outputs: [fifo9]
+dot4:
+ type: "dot_product"
+ size: 10
+ precision: 8
+ number: 1
+ inputs: [top]
+ outputs: [fifo7]
+fifo7:
+ type: "fifo"
+ size: 512
+ precision: 60
+ number: 32
+ inputs: [dot4]
+ outputs: [dspch2,dot2]
+dspch2:
+ type: "dsp_chain"
+ size: 2
+ precision: 18
+ number: 25
+ inputs: [fifo7,fifo6]
+ outputs: [fifo9]
+fifo9:
+ type: "fifo"
+ size: 256
+ precision: 40
+ number: 6
+ inputs: [dspch2,dspch3]
+ outputs: [top]

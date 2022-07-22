@@ -17,21 +17,21 @@ sys_array1:
  type: "systolic_array"
  size: 4
  precision: "fp16"
- number: 4
+ number: 1
  inputs: [spram1,adder_tree1]
  outputs: [spram2]
 sys_array2:
  type: "systolic_array"
  size: 4
  precision: "fp16"
- number: 6
+ number: 2
  inputs: [dot1]
  outputs: [adder_tree1]
 sys_array3:
  type: "systolic_array"
  size: 4
  precision: "fp16"
- number: 6
+ number: 2
  inputs: [dot1]
  outputs: [adder_tree1,spram3]
 spram2:
@@ -66,7 +66,7 @@ sys_array4:
  type: "systolic_array"
  size: 4
  precision: "fp16"
- number: 2
+ number: 1
  inputs: [top]
  outputs: [adder_tree2,adder_tree3]
 adder_tree2:
@@ -108,7 +108,7 @@ sys_array5:
  type: "systolic_array"
  size: 4
  precision: "fp16"
- number: 10
+ number: 3
  inputs: [spram1,dot1]
  outputs: [spram3,adder_tree4]
 sys_array6:
