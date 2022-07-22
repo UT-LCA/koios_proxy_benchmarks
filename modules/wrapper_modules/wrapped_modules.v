@@ -203,7 +203,7 @@ endmodule
 
 module dbram_4096_60bit_module (input clk,input reset,input [145:0] inp, output reg [119:0] outp);
 
-dbram_4096_60bit inst (.clk(clk),.reset(reset),.address_a(inp[11:0]),.address_b(inp[23:12]),.wren_a(inp[24]),.wren_b(inp[25]),.data_a(inp[85:26]),.data_b(inp[145:86]),.out_a(outp[59:0]),.out_b(outp[119:40]));
+dbram_4096_60bit inst (.clk(clk),.reset(reset),.address_a(inp[11:0]),.address_b(inp[23:12]),.wren_a(inp[24]),.wren_b(inp[25]),.data_a(inp[85:26]),.data_b(inp[145:86]),.out_a(outp[59:0]),.out_b(outp[119:60]));
 
 endmodule
 

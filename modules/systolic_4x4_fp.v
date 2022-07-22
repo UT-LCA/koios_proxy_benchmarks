@@ -166,7 +166,7 @@ wire [`DWIDTH-1:0] b3_data_delayed_3;
 //////////////////////////////////////////////////////////////////////////
 // Instantiation of systolic data setup
 //////////////////////////////////////////////////////////////////////////
-systolic_data_setup u_systolic_data_setup(
+systolic_data_setup_systolic_4x4_fp u_systolic_data_setup_systolic_4x4_fp(
 .clk(clk),
 .reset(reset),
 .start_mat_mul(start_mat_mul),
@@ -268,7 +268,7 @@ wire [`DWIDTH-1:0] matrixC33;
 //////////////////////////////////////////////////////////////////////////
 // Instantiation of the output logic
 //////////////////////////////////////////////////////////////////////////
-output_logic u_output_logic(
+output_logic_systolic_4x4_fp u_output_logic_systolic_4x4_fp(
 .clk(clk),
 .reset(reset),
 .start_mat_mul(start_mat_mul),
@@ -302,7 +302,7 @@ output_logic u_output_logic(
 //////////////////////////////////////////////////////////////////////////
 // Instantiations of the actual PEs
 //////////////////////////////////////////////////////////////////////////
-systolic_pe_matrix u_systolic_pe_matrix(
+systolic_pe_matrix_systolic_4x4_fp u_systolic_pe_matrix_systolic_4x4_fp(
 .reset(reset),
 .clk(clk),
 .pe_reset(pe_reset),
@@ -340,7 +340,7 @@ endmodule
 //////////////////////////////////////////////////////////////////////////
 // Output logic
 //////////////////////////////////////////////////////////////////////////
-module output_logic(
+module output_logic_systolic_4x4_fp(
 clk,
 reset,
 start_mat_mul,
@@ -494,7 +494,7 @@ endmodule
 //////////////////////////////////////////////////////////////////////////
 // Systolic data setup
 //////////////////////////////////////////////////////////////////////////
-module systolic_data_setup(
+module systolic_data_setup_systolic_4x4_fp(
 clk,
 reset,
 start_mat_mul,
@@ -730,7 +730,7 @@ endmodule
 //////////////////////////////////////////////////////////////////////////
 // Systolically connected PEs
 //////////////////////////////////////////////////////////////////////////
-module systolic_pe_matrix(
+module systolic_pe_matrix_systolic_4x4_fp(
 reset,
 clk,
 pe_reset,
@@ -801,25 +801,25 @@ wire [`DWIDTH-1:0] b03to13, b13to23, b23to33, b33to43;
 wire effective_rst;
 assign effective_rst = reset | pe_reset;
 
-processing_element pe00(.reset(effective_rst), .clk(clk),  .in_a(a0),      .in_b(b0),  .out_a(a00to01), .out_b(b00to10), .out_c(matrixC00));
-processing_element pe01(.reset(effective_rst), .clk(clk),  .in_a(a00to01), .in_b(b1),  .out_a(a01to02), .out_b(b01to11), .out_c(matrixC01));
-processing_element pe02(.reset(effective_rst), .clk(clk),  .in_a(a01to02), .in_b(b2),  .out_a(a02to03), .out_b(b02to12), .out_c(matrixC02));
-processing_element pe03(.reset(effective_rst), .clk(clk),  .in_a(a02to03), .in_b(b3),  .out_a(a03to04), .out_b(b03to13), .out_c(matrixC03));
+ processing_element_systolic_4x4_fp pe00(.reset(effective_rst), .clk(clk),  .in_a(a0),      .in_b(b0),  .out_a(a00to01), .out_b(b00to10), .out_c(matrixC00));
+ processing_element_systolic_4x4_fp pe01(.reset(effective_rst), .clk(clk),  .in_a(a00to01), .in_b(b1),  .out_a(a01to02), .out_b(b01to11), .out_c(matrixC01));
+ processing_element_systolic_4x4_fp pe02(.reset(effective_rst), .clk(clk),  .in_a(a01to02), .in_b(b2),  .out_a(a02to03), .out_b(b02to12), .out_c(matrixC02));
+ processing_element_systolic_4x4_fp pe03(.reset(effective_rst), .clk(clk),  .in_a(a02to03), .in_b(b3),  .out_a(a03to04), .out_b(b03to13), .out_c(matrixC03));
 
-processing_element pe10(.reset(effective_rst), .clk(clk),  .in_a(a1),      .in_b(b00to10), .out_a(a10to11), .out_b(b10to20), .out_c(matrixC10));
-processing_element pe11(.reset(effective_rst), .clk(clk),  .in_a(a10to11), .in_b(b01to11), .out_a(a11to12), .out_b(b11to21), .out_c(matrixC11));
-processing_element pe12(.reset(effective_rst), .clk(clk),  .in_a(a11to12), .in_b(b02to12), .out_a(a12to13), .out_b(b12to22), .out_c(matrixC12));
-processing_element pe13(.reset(effective_rst), .clk(clk),  .in_a(a12to13), .in_b(b03to13), .out_a(a13to14), .out_b(b13to23), .out_c(matrixC13));
+ processing_element_systolic_4x4_fp pe10(.reset(effective_rst), .clk(clk),  .in_a(a1),      .in_b(b00to10), .out_a(a10to11), .out_b(b10to20), .out_c(matrixC10));
+ processing_element_systolic_4x4_fp pe11(.reset(effective_rst), .clk(clk),  .in_a(a10to11), .in_b(b01to11), .out_a(a11to12), .out_b(b11to21), .out_c(matrixC11));
+ processing_element_systolic_4x4_fp pe12(.reset(effective_rst), .clk(clk),  .in_a(a11to12), .in_b(b02to12), .out_a(a12to13), .out_b(b12to22), .out_c(matrixC12));
+ processing_element_systolic_4x4_fp pe13(.reset(effective_rst), .clk(clk),  .in_a(a12to13), .in_b(b03to13), .out_a(a13to14), .out_b(b13to23), .out_c(matrixC13));
 
-processing_element pe20(.reset(effective_rst), .clk(clk),  .in_a(a2),      .in_b(b10to20), .out_a(a20to21), .out_b(b20to30), .out_c(matrixC20));
-processing_element pe21(.reset(effective_rst), .clk(clk),  .in_a(a20to21), .in_b(b11to21), .out_a(a21to22), .out_b(b21to31), .out_c(matrixC21));
-processing_element pe22(.reset(effective_rst), .clk(clk),  .in_a(a21to22), .in_b(b12to22), .out_a(a22to23), .out_b(b22to32), .out_c(matrixC22));
-processing_element pe23(.reset(effective_rst), .clk(clk),  .in_a(a22to23), .in_b(b13to23), .out_a(a23to24), .out_b(b23to33), .out_c(matrixC23));
+ processing_element_systolic_4x4_fp pe20(.reset(effective_rst), .clk(clk),  .in_a(a2),      .in_b(b10to20), .out_a(a20to21), .out_b(b20to30), .out_c(matrixC20));
+ processing_element_systolic_4x4_fp pe21(.reset(effective_rst), .clk(clk),  .in_a(a20to21), .in_b(b11to21), .out_a(a21to22), .out_b(b21to31), .out_c(matrixC21));
+ processing_element_systolic_4x4_fp pe22(.reset(effective_rst), .clk(clk),  .in_a(a21to22), .in_b(b12to22), .out_a(a22to23), .out_b(b22to32), .out_c(matrixC22));
+ processing_element_systolic_4x4_fp pe23(.reset(effective_rst), .clk(clk),  .in_a(a22to23), .in_b(b13to23), .out_a(a23to24), .out_b(b23to33), .out_c(matrixC23));
 
-processing_element pe30(.reset(effective_rst), .clk(clk),  .in_a(a3),      .in_b(b20to30), .out_a(a30to31), .out_b(b30to40), .out_c(matrixC30));
-processing_element pe31(.reset(effective_rst), .clk(clk),  .in_a(a30to31), .in_b(b21to31), .out_a(a31to32), .out_b(b31to41), .out_c(matrixC31));
-processing_element pe32(.reset(effective_rst), .clk(clk),  .in_a(a31to32), .in_b(b22to32), .out_a(a32to33), .out_b(b32to42), .out_c(matrixC32));
-processing_element pe33(.reset(effective_rst), .clk(clk),  .in_a(a32to33), .in_b(b23to33), .out_a(a33to34), .out_b(b33to43), .out_c(matrixC33));
+ processing_element_systolic_4x4_fp pe30(.reset(effective_rst), .clk(clk),  .in_a(a3),      .in_b(b20to30), .out_a(a30to31), .out_b(b30to40), .out_c(matrixC30));
+ processing_element_systolic_4x4_fp pe31(.reset(effective_rst), .clk(clk),  .in_a(a30to31), .in_b(b21to31), .out_a(a31to32), .out_b(b31to41), .out_c(matrixC31));
+ processing_element_systolic_4x4_fp pe32(.reset(effective_rst), .clk(clk),  .in_a(a31to32), .in_b(b22to32), .out_a(a32to33), .out_b(b32to42), .out_c(matrixC32));
+ processing_element_systolic_4x4_fp pe33(.reset(effective_rst), .clk(clk),  .in_a(a32to33), .in_b(b23to33), .out_a(a33to34), .out_b(b33to43), .out_c(matrixC33));
 
 assign a_data_out = {a33to34,a23to24,a13to14,a03to04};
 assign b_data_out = {b33to43,b32to42,b31to41,b30to40};
@@ -831,7 +831,7 @@ endmodule
 //////////////////////////////////////////////////////////////////////////
 // Definition of a processing element (basically a MAC)
 //////////////////////////////////////////////////////////////////////////
-module processing_element(
+module  processing_element_systolic_4x4_fp(
  reset, 
  clk, 
  in_a,
@@ -860,7 +860,7 @@ module processing_element(
  `ifdef complex_dsp
  mac_fp u_mac(.a(in_a), .b(in_b), .out(out_mac), .reset(reset), .clk(clk));
  `else
- seq_mac u_mac(.a(in_a), .b(in_b), .out(out_mac), .reset(reset), .clk(clk));
+ seq_mac_systolic_4x4_fp u_mac(.a(in_a), .b(in_b), .out(out_mac), .reset(reset), .clk(clk));
  `endif
 
  always @(posedge clk)begin
@@ -879,7 +879,7 @@ endmodule
 //////////////////////////////////////////////////////////////////////////
 // Multiply-and-accumulate (MAC) block
 //////////////////////////////////////////////////////////////////////////
-//module seq_mac(a, b, out, reset, clk);
+//module seq_mac_systolic_4x4_fp(a, b, out, reset, clk);
 //input [`DWIDTH-1:0] a;
 //input [`DWIDTH-1:0] b;
 //input reset;
@@ -907,7 +907,7 @@ endmodule
 //end
 //
 ////assign mul_out = a * b;
-//qmult mult_u1(.i_multiplicand(a_flopped), .i_multiplier(b_flopped), .o_result(mul_out_temp));
+//qmult_systolic_4x4_fp mult_u1(.i_multiplicand(a_flopped), .i_multiplier(b_flopped), .o_result(mul_out_temp));
 //
 //always @(posedge clk) begin
 //  if (reset) begin
@@ -919,7 +919,7 @@ endmodule
 //
 ////we just truncate the higher bits of the product
 ////assign add_out = mul_out + out;
-//qadd add_u1(.a(out_temp), .b(mul_out_temp_reg), .c(add_out));
+//qadd_systolic_4x4_fp add_u1(.a(out_temp), .b(mul_out_temp_reg), .c(add_out));
 //
 //always @(posedge clk) begin
 //  if (reset) begin
@@ -946,7 +946,7 @@ endmodule
 //
 //endmodule
 //
-//module qmult(i_multiplicand,i_multiplier,o_result);
+//module qmult_systolic_4x4_fp(i_multiplicand,i_multiplier,o_result);
 //input [`DWIDTH-1:0] i_multiplicand;
 //input [`DWIDTH-1:0] i_multiplier;
 //output [2*`DWIDTH-1:0] o_result;
@@ -956,7 +956,7 @@ endmodule
 //
 //endmodule
 //
-//module qadd(a,b,c);
+//module qadd_systolic_4x4_fp(a,b,c);
 //input [2*`DWIDTH-1:0] a;
 //input [2*`DWIDTH-1:0] b;
 //output [2*`DWIDTH-1:0] c;
@@ -970,7 +970,7 @@ endmodule
 //////////////////////////////////////////////////////////////////////////
 // Multiply-and-accumulate (MAC) block
 //////////////////////////////////////////////////////////////////////////
-module seq_mac(a, b, out, reset, clk);
+module seq_mac_systolic_4x4_fp(a, b, out, reset, clk);
 input [`DWIDTH-1:0] a;
 input [`DWIDTH-1:0] b;
 input reset;
@@ -998,7 +998,7 @@ always @(posedge clk) begin
 end
 
 //assign mul_out = a * b;
-qmult mult_u1(.clk(clk), .rst(reset), .i_multiplicand(a_flopped), .i_multiplier(b_flopped), .o_result(mul_out_temp));
+qmult_systolic_4x4_fp mult_u1(.clk(clk), .rst(reset), .i_multiplicand(a_flopped), .i_multiplier(b_flopped), .o_result(mul_out_temp));
 
 always @(posedge clk) begin
   if (reset) begin
@@ -1010,7 +1010,7 @@ end
 
 assign mul_out = mul_out_temp_reg;
 
-qadd add_u1(.clk(clk), .rst(reset), .a(out_temp), .b(mul_out), .c(add_out));
+qadd_systolic_4x4_fp add_u1(.clk(clk), .rst(reset), .a(out_temp), .b(mul_out), .c(add_out));
 
 always @(posedge clk) begin
   if (reset) begin
@@ -1022,7 +1022,7 @@ end
 
 //fp32 to fp16 conversion
 wire [15:0] fpadd_16_result;
-fp32_to_fp16 u_32to16 (.a(out_temp), .b(out));
+fp32_to_fp16_systolic_4x4_fp u_32to16 (.a(out_temp), .b(out));
 
 endmodule
 
@@ -1030,29 +1030,29 @@ endmodule
 //////////////////////////////////////////////////////////////////////////
 // Multiplier
 //////////////////////////////////////////////////////////////////////////
-module qmult(clk,rst,i_multiplicand,i_multiplier,o_result);
+module qmult_systolic_4x4_fp(clk,rst,i_multiplicand,i_multiplier,o_result);
 input clk;
 input rst;
 input [`DWIDTH-1:0] i_multiplicand;
 input [`DWIDTH-1:0] i_multiplier;
 output [2*`DWIDTH-1:0] o_result;
 
-wire fpmult_16_clk_NC;
-wire fpmult_16_rst_NC;
-wire [15:0] fpmult_16_result;
-wire [4:0] fpmult_16_flags;
+wire FPMult_16_systolic_4x4_fp_clk_NC;
+wire FPMult_16_systolic_4x4_fp_rst_NC;
+wire [15:0] FPMult_16_systolic_4x4_fp_result;
+wire [4:0] FPMult_16_systolic_4x4_fp_flags;
 
-FPMult_16 u_fpmult_16(
+FPMult_16_systolic_4x4_fp u_FPMult_16_systolic_4x4_fp(
    .clk(clk),
    .rst(rst),
    .a(i_multiplicand[15:0]),
    .b(i_multiplier[15:0]),
-   .result(fpmult_16_result),
-   .flags(fpmult_16_flags)
+   .result(FPMult_16_systolic_4x4_fp_result),
+   .flags(FPMult_16_systolic_4x4_fp_flags)
  );
 
 //Convert fp16 to fp32
-fp16_to_fp32 u_16to32 (.a(fpmult_16_result), .b(o_result));
+fp16_to_fp32_systolic_4x4_fp u_16to32 (.a(FPMult_16_systolic_4x4_fp_result), .b(o_result));
 
 endmodule
 
@@ -1060,7 +1060,7 @@ endmodule
 //////////////////////////////////////////////////////////////////////////
 // Adder
 //////////////////////////////////////////////////////////////////////////
-module qadd(clk,rst,a,b,c);
+module qadd_systolic_4x4_fp(clk,rst,a,b,c);
 input clk;
 input rst;
 input [2*`DWIDTH-1:0] a;
@@ -1071,7 +1071,7 @@ wire fpadd_32_clk_NC;
 wire fpadd_32_rst_NC;
 wire [4:0] fpadd_32_flags;
 
-FPAddSub_single u_fpaddsub_32(
+FPAddSub_single_systolic_4x4_fp u_fpaddsub_32(
   .clk(clk),
   .rst(rst),
   .a(a),
@@ -1095,7 +1095,7 @@ endmodule
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
-module FPMult_16(
+module FPMult_16_systolic_4x4_fp(
 		clk,
 		rst,
 		a,
@@ -1153,17 +1153,17 @@ module FPMult_16(
 	assign flags = pipe_4[4:0] ;
 	
 	// Prepare the operands for alignment and check for exceptions
-	FPMult_PrepModule PrepModule(clk, rst, pipe_0[2*`DWIDTH-1:`DWIDTH], pipe_0[`DWIDTH-1:0], Sa, Sb, Ea[`EXPONENT-1:0], Eb[`EXPONENT-1:0], Mp[2*`MANTISSA+1:0], InputExc[4:0]) ;
+	FPMult_PrepModule_systolic_4x4_fp PrepModule(clk, rst, pipe_0[2*`DWIDTH-1:`DWIDTH], pipe_0[`DWIDTH-1:0], Sa, Sb, Ea[`EXPONENT-1:0], Eb[`EXPONENT-1:0], Mp[2*`MANTISSA+1:0], InputExc[4:0]) ;
 
 	// Perform (unsigned) mantissa multiplication
-	FPMult_ExecuteModule ExecuteModule(pipe_1[3*`MANTISSA+`EXPONENT*2+7:2*`MANTISSA+2*`EXPONENT+8], pipe_1[2*`MANTISSA+2*`EXPONENT+7:2*`MANTISSA+7], pipe_1[2*`MANTISSA+6:5], pipe_1[2*`MANTISSA+2*`EXPONENT+6:2*`MANTISSA+`EXPONENT+7], pipe_1[2*`MANTISSA+`EXPONENT+6:2*`MANTISSA+7], pipe_1[2*`MANTISSA+2*`EXPONENT+8], pipe_1[2*`MANTISSA+2*`EXPONENT+7], Sp, NormE[`EXPONENT:0], NormM[`MANTISSA-1:0], GRS) ;
+	FPMult_ExecuteModule_systolic_4x4_fp ExecuteModule(pipe_1[3*`MANTISSA+`EXPONENT*2+7:2*`MANTISSA+2*`EXPONENT+8], pipe_1[2*`MANTISSA+2*`EXPONENT+7:2*`MANTISSA+7], pipe_1[2*`MANTISSA+6:5], pipe_1[2*`MANTISSA+2*`EXPONENT+6:2*`MANTISSA+`EXPONENT+7], pipe_1[2*`MANTISSA+`EXPONENT+6:2*`MANTISSA+7], pipe_1[2*`MANTISSA+2*`EXPONENT+8], pipe_1[2*`MANTISSA+2*`EXPONENT+7], Sp, NormE[`EXPONENT:0], NormM[`MANTISSA-1:0], GRS) ;
 
 	// Round result and if necessary, perform a second (post-rounding) normalization step
-	FPMult_NormalizeModule NormalizeModule(pipe_2[`MANTISSA-1:0], pipe_2[`MANTISSA+`EXPONENT:`MANTISSA], RoundE[`EXPONENT:0], RoundEP[`EXPONENT:0], RoundM[`MANTISSA:0], RoundMP[`MANTISSA:0]) ;		
+	FPMult_NormalizeModule_systolic_4x4_fp NormalizeModule(pipe_2[`MANTISSA-1:0], pipe_2[`MANTISSA+`EXPONENT:`MANTISSA], RoundE[`EXPONENT:0], RoundEP[`EXPONENT:0], RoundM[`MANTISSA:0], RoundMP[`MANTISSA:0]) ;		
 
 	// Round result and if necessary, perform a second (post-rounding) normalization step
-	//FPMult_RoundModule RoundModule(pipe_3[47:24], pipe_3[23:0], pipe_3[65:57], pipe_3[56:48], pipe_3[66], pipe_3[67], pipe_3[72:68], Z_int[31:0], Flags_int[4:0]) ;		
-	FPMult_RoundModule RoundModule(pipe_3[2*`MANTISSA+1:`MANTISSA+1], pipe_3[`MANTISSA:0], pipe_3[2*`MANTISSA+2*`EXPONENT+3:2*`MANTISSA+`EXPONENT+3], pipe_3[2*`MANTISSA+`EXPONENT+2:2*`MANTISSA+2], pipe_3[2*`MANTISSA+2*`EXPONENT+4], pipe_3[2*`MANTISSA+2*`EXPONENT+5], pipe_3[2*`MANTISSA+2*`EXPONENT+10:2*`MANTISSA+2*`EXPONENT+6], Z_int[`DWIDTH-1:0], Flags_int[4:0]) ;		
+	//FPMult_RoundModule_systolic_4x4_fp RoundModule(pipe_3[47:24], pipe_3[23:0], pipe_3[65:57], pipe_3[56:48], pipe_3[66], pipe_3[67], pipe_3[72:68], Z_int[31:0], Flags_int[4:0]) ;		
+	FPMult_RoundModule_systolic_4x4_fp RoundModule(pipe_3[2*`MANTISSA+1:`MANTISSA+1], pipe_3[`MANTISSA:0], pipe_3[2*`MANTISSA+2*`EXPONENT+3:2*`MANTISSA+`EXPONENT+3], pipe_3[2*`MANTISSA+`EXPONENT+2:2*`MANTISSA+2], pipe_3[2*`MANTISSA+2*`EXPONENT+4], pipe_3[2*`MANTISSA+2*`EXPONENT+5], pipe_3[2*`MANTISSA+2*`EXPONENT+10:2*`MANTISSA+2*`EXPONENT+6], Z_int[`DWIDTH-1:0], Flags_int[4:0]) ;		
 
 //adding always@ (*) instead of posedge clock to make design combinational
 	always @ (posedge clk) begin	
@@ -1225,7 +1225,7 @@ endmodule
 
 
 
-module FPMult_PrepModule (
+module FPMult_PrepModule_systolic_4x4_fp (
 		clk,
 		rst,
 		a,
@@ -1294,7 +1294,7 @@ module FPMult_PrepModule (
 endmodule
 
 
-module FPMult_ExecuteModule(
+module FPMult_ExecuteModule_systolic_4x4_fp(
 		a,
 		b,
 		MpC,
@@ -1345,7 +1345,7 @@ module FPMult_ExecuteModule(
 	
 endmodule
 
-module FPMult_NormalizeModule(
+module FPMult_NormalizeModule_systolic_4x4_fp(
 		NormM,
 		NormE,
 		RoundE,
@@ -1379,7 +1379,7 @@ assign bias =  ((1<< (`EXPONENT -1)) -1);
 
 endmodule
 
-module FPMult_RoundModule(
+module FPMult_RoundModule_systolic_4x4_fp(
 		RoundM,
 		RoundMP,
 		RoundE,
@@ -1428,7 +1428,7 @@ endmodule
 // A floating point 16-bit to floating point 32-bit converter
 //////////////////////////////////////////////////////////////////////////
 `ifndef complex_dsp
-module fp16_to_fp32 (input [15:0] a , output [31:0] b);
+module fp16_to_fp32_systolic_4x4_fp (input [15:0] a , output [31:0] b);
 
 reg [31:0]b_temp;
 reg [3:0] j;
@@ -1479,7 +1479,7 @@ endmodule
 //////////////////////////////////////////////////////////////////////////
 // A floating point 32-bit to floating point 16-bit converter
 //////////////////////////////////////////////////////////////////////////
-module fp32_to_fp16 (input [31:0] a , output [15:0] b);
+module fp32_to_fp16_systolic_4x4_fp (input [31:0] a , output [15:0] b);
 
 reg [15:0]b_temp;
 //integer j;
@@ -1531,7 +1531,7 @@ endmodule
 //////////////////////////////////////////////////////////////////////////
 
 `ifndef complex_dsp
-module FPAddSub_single(
+module FPAddSub_single_systolic_4x4_fp(
 		clk,
 		rst,
 		a,
@@ -1585,13 +1585,13 @@ module FPAddSub_single(
 	wire S ;								// Final sticky bit
 	wire FG ;
 
-FPAddSub_a M1(a,b,operation,Opout,Sa,Sb,MaxAB,CExp,Shift,Mmax,InputExc,Mmin_3);
+FPAddSub_a_systolic_4x4_fp M1(a,b,operation,Opout,Sa,Sb,MaxAB,CExp,Shift,Mmax,InputExc,Mmin_3);
 
-FpAddSub_b M2(pipe_1[51:29],pipe_1[23:0],pipe_1[67],pipe_1[66],pipe_1[65],pipe_1[68],SumS_5,Shift_1,PSgn,Opr);
+FPAddSub_b_systolic_4x4_fp M2(pipe_1[51:29],pipe_1[23:0],pipe_1[67],pipe_1[66],pipe_1[65],pipe_1[68],SumS_5,Shift_1,PSgn,Opr);
 
-FPAddSub_c M3(pipe_2[54:22],pipe_2[21:17],pipe_2[16:9],NormM,NormE,ZeroSum,NegE,R,S,FG);
+FPAddSub_c_systolic_4x4_fp M3(pipe_2[54:22],pipe_2[21:17],pipe_2[16:9],NormM,NormE,ZeroSum,NegE,R,S,FG);
 
-FPAddSub_d M4(pipe_3[13],pipe_3[22:14],pipe_3[45:23],pipe_3[11],pipe_3[10],pipe_3[9],pipe_3[8],pipe_3[7],pipe_3[6],pipe_3[5],pipe_3[12],pipe_3[4:0],result,flags );
+FPAddSub_d_systolic_4x4_fp M4(pipe_3[13],pipe_3[22:14],pipe_3[45:23],pipe_3[11],pipe_3[10],pipe_3[9],pipe_3[8],pipe_3[7],pipe_3[6],pipe_3[5],pipe_3[12],pipe_3[4:0],result,flags );
 
 
 always @ (posedge clk) begin	
@@ -1654,7 +1654,7 @@ end
 endmodule
 
 // Prealign + Align + Shift 1 + Shift 2
-module FPAddSub_a(
+module FPAddSub_a_systolic_4x4_fp(
 		A,
 		B,
 		operation,
@@ -1815,7 +1815,7 @@ module FPAddSub_a(
 	
 endmodule
 
-module FpAddSub_b(
+module FPAddSub_b_systolic_4x4_fp(
 		Mmax,
 		Mmin,
 		Sa,
@@ -1893,7 +1893,7 @@ module FpAddSub_b(
 
 endmodule
 
-module FPAddSub_c(
+module FPAddSub_c_systolic_4x4_fp(
 		SumS_5,
 		Shift,
 		CExp,
@@ -1994,7 +1994,7 @@ module FPAddSub_c(
 	
 endmodule
 
-module FPAddSub_d(
+module FPAddSub_d_systolic_4x4_fp(
 		ZeroSum,
 		NormE,
 		NormM,
