@@ -4007,7 +4007,7 @@ input reset;
 input [10:0] mode_sigs; 
 input [15:0] top_a,top_b,bot_a,bot_b;
 input [31:0] chainin,fp32_in; 
-output reg [31:0] chainout, result;
+output [31:0] chainout, result;
 
 fp16_sop2_mult inst1(.clk(clk),.reset(reset),.top_a(top_a),.top_b(top_b),.bot_a(bot_a),.bot_b(bot_b),.fp32_in(fp32_in),.mode_sigs(mode_sigs),.chainin(chainin),.chainout(chainout),.result(result)); 
 
@@ -4020,7 +4020,7 @@ input reset;
 input [10:0] mode_sigs; 
 input [15:0] top_a,top_b,bot_a,bot_b;
 input [31:0] chainin,fp32_in; 
-output reg [31:0] chainout, result; 
+output [31:0] chainout, result; 
 
 reg [15:0] top_a_reg,top_b_reg,bot_a_reg,bot_b_reg; 
 reg [31:0] chainin_reg; 
