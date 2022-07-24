@@ -1,16 +1,16 @@
-python3 generate_benchmark.py -i "mux_module,xor_module" -y graphs/bench1.yml -v bench1.v -s 5
-python3 generate_benchmark.py -i "fsm,xor_module" -y graphs/bench2.yml -v bench2.v -s 5
-python3 generate_benchmark.py -i "mux_module,xor_module" -y graphs/bench3.yml -v bench3.v -s 5
-python3 generate_benchmark.py -i "mux_module,fsm" -y graphs/bench4.yml -v bench4.v -s 5
-python3 generate_benchmark.py -i "mux_module,xor_module" -y graphs/bench5.yml -v bench5.v -s 5
-python3 generate_benchmark.py -i "fsm,xor_module" -y graphs/bench6.yml -v bench6.v -s 5
-python3 generate_benchmark.py -i "mux_module,xor_module" -y graphs/bench7.yml -v bench7.v -s 5
-python3 generate_benchmark.py -i "mux_module,fsm" -y graphs/bench8.yml -v bench8.v -s 5
-mv bench1.v benchmarks/
-mv bench2.v benchmarks/
-mv bench3.v benchmarks/
-mv bench4.v benchmarks/
-mv bench5.v benchmarks/
-mv bench6.v benchmarks/
-mv bench7.v benchmarks/
-mv bench8.v benchmarks/
+python3 generate_benchmark.py -i "mux_module,xor_module" -y graphs/bench1.yml -v proxy.1.v -s 5
+python3 generate_benchmark.py -i "fsm,xor_module" -y graphs/bench2.yml -v proxy.2.v -s 5
+python3 generate_benchmark.py -i "mux_module,xor_module" -y graphs/bench3.yml -v proxy.3.v -s 5
+python3 generate_benchmark.py -i "mux_module,fsm" -y graphs/bench4.yml -v proxy.4.v -s 5
+python3 generate_benchmark.py -i "mux_module,xor_module" -y graphs/bench5.yml -v proxy.5.v -s 5
+python3 generate_benchmark.py -i "fsm,xor_module" -y graphs/bench6.yml -v proxy.6.v -s 5
+python3 generate_benchmark.py -i "mux_module,xor_module" -y graphs/bench7.yml -v proxy.7.v -s 5
+python3 generate_benchmark.py -i "mux_module,fsm" -y graphs/bench8.yml -v proxy.8.v -s 5
+mv proxy.1.v benchmarks/
+mv proxy.2.v benchmarks/
+mv proxy.3.v benchmarks/
+mv proxy.4.v benchmarks/
+mv proxy.5.v benchmarks/
+mv proxy.6.v benchmarks/
+mv proxy.7.v benchmarks/
+mv proxy.8.v benchmarks/
