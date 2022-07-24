@@ -451,7 +451,7 @@ assign inp_interface_32 = {outp_dsp_ch11,outp_activ7};
  endmodule 
 
 
-module interface_2(input reg [167:0] inp, output reg [2367:0] outp, input clk, input reset);
+module interface_2(input [167:0] inp, output reg [2367:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[167:0] <= inp ; 
 outp[335:168] <= inp ; 
@@ -471,7 +471,7 @@ outp[2367:2352] <= inp[15:0] ;
 end 
 endmodule 
 
-module interface_3(input reg [683:0] inp, output reg [3551:0] outp, input clk, input reset);
+module interface_3(input [683:0] inp, output reg [3551:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[683:0] <= inp ; 
 outp[1367:684] <= inp ; 
@@ -482,7 +482,7 @@ outp[3551:3420] <= inp[131:0] ;
 end 
 endmodule 
 
-module interface_4(input reg [295:0] inp, output reg [1511:0] outp, input clk, input reset);
+module interface_4(input [295:0] inp, output reg [1511:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[295:0] <= inp ; 
 outp[591:296] <= inp ; 
@@ -493,7 +493,7 @@ outp[1511:1480] <= inp[31:0] ;
 end 
 endmodule 
 
-module interface_5(input reg [591:0] inp, output reg [2519:0] outp, input clk, input reset);
+module interface_5(input [591:0] inp, output reg [2519:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[591:0] <= inp ; 
 outp[1183:592] <= inp ; 
@@ -503,7 +503,7 @@ outp[2519:2368] <= inp[151:0] ;
 end 
 endmodule 
 
-module interface_6(input reg [167:0] inp, output reg [521:0] outp, input clk, input reset);
+module interface_6(input [167:0] inp, output reg [521:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[167:0] <= inp ; 
 outp[335:168] <= inp ; 
@@ -512,7 +512,7 @@ outp[521:504] <= inp[17:0] ;
 end 
 endmodule 
 
-module interface_7(input reg [167:0] inp, output reg [79:0] outp, input clk, input reset);
+module interface_7(input [167:0] inp, output reg [79:0] outp, input clk, input reset);
 reg [167:0]intermediate_reg_0; 
 always@(posedge clk) begin 
 intermediate_reg_0 <= inp; 
@@ -655,7 +655,7 @@ end
 endmodule 
  
 
-module interface_8(input reg [3967:0] inp, output reg [11839:0] outp, input clk, input reset);
+module interface_8(input [3967:0] inp, output reg [11839:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[3967:0] <= inp ; 
 outp[7935:3968] <= inp ; 
@@ -663,7 +663,7 @@ outp[11839:7936] <= inp[3903:0] ;
 end 
 endmodule 
 
-module interface_9(input reg [595:0] inp, output reg [5549:0] outp, input clk, input reset);
+module interface_9(input [595:0] inp, output reg [5549:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[595:0] <= inp ; 
 outp[1191:596] <= inp ; 
@@ -678,7 +678,7 @@ outp[5549:5364] <= inp[185:0] ;
 end 
 endmodule 
 
-module interface_10(input reg [595:0] inp, output reg [4735:0] outp, input clk, input reset);
+module interface_10(input [595:0] inp, output reg [4735:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[595:0] <= inp ; 
 outp[1191:596] <= inp ; 
@@ -691,7 +691,7 @@ outp[4735:4172] <= inp[563:0] ;
 end 
 endmodule 
 
-module interface_11(input reg [1479:0] inp, output reg [1304:0] outp, input clk, input reset);
+module interface_11(input [1479:0] inp, output reg [1304:0] outp, input clk, input reset);
 reg [1479:0]intermediate_reg_0; 
 always@(posedge clk) begin 
 intermediate_reg_0 <= inp; 
@@ -1446,7 +1446,7 @@ end
 endmodule 
  
 
-module interface_12(input reg [1479:0] inp, output reg [159:0] outp, input clk, input reset);
+module interface_12(input [1479:0] inp, output reg [159:0] outp, input clk, input reset);
 reg [1479:0]intermediate_reg_0; 
 always@(posedge clk) begin 
 intermediate_reg_0 <= inp; 
@@ -2857,7 +2857,7 @@ end
 endmodule 
  
 
-module interface_13(input reg [5038:0] inp, output reg [3199:0] outp, input clk, input reset);
+module interface_13(input [5038:0] inp, output reg [3199:0] outp, input clk, input reset);
 reg [5038:0]intermediate_reg_0; 
 always@(posedge clk) begin 
 intermediate_reg_0 <= inp; 
@@ -5397,7 +5397,7 @@ end
 endmodule 
  
 
-module interface_14(input reg [2545:0] inp, output reg [2519:0] outp, input clk, input reset);
+module interface_14(input [2545:0] inp, output reg [2519:0] outp, input clk, input reset);
 reg [2545:0]intermediate_reg_0; 
 always@(posedge clk) begin 
 intermediate_reg_0 <= inp; 
@@ -6688,7 +6688,7 @@ end
 endmodule 
  
 
-module interface_15(input reg [3927:0] inp, output reg [2149:0] outp, input clk, input reset);
+module interface_15(input [3927:0] inp, output reg [2149:0] outp, input clk, input reset);
 reg [3927:0]intermediate_reg_0; 
 always@(posedge clk) begin 
 intermediate_reg_0 <= inp; 
@@ -8667,14 +8667,14 @@ end
 endmodule 
  
 
-module interface_16(input reg [399:0] inp, output reg [755:0] outp, input clk, input reset);
+module interface_16(input [399:0] inp, output reg [755:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[399:0] <= inp ; 
 outp[755:400] <= inp[355:0] ; 
 end 
 endmodule 
 
-module interface_17(input reg [2145:0] inp, output reg [1289:0] outp, input clk, input reset);
+module interface_17(input [2145:0] inp, output reg [1289:0] outp, input clk, input reset);
 reg [2145:0]intermediate_reg_0; 
 always@(posedge clk) begin 
 intermediate_reg_0 <= inp; 
@@ -9765,7 +9765,7 @@ end
 endmodule 
  
 
-module interface_18(input reg [1259:0] inp, output reg [665:0] outp, input clk, input reset);
+module interface_18(input [1259:0] inp, output reg [665:0] outp, input clk, input reset);
 reg [1259:0]intermediate_reg_0; 
 always@(posedge clk) begin 
 intermediate_reg_0 <= inp; 
@@ -10410,7 +10410,7 @@ end
 endmodule 
  
 
-module interface_20(input reg [2479:0] inp, output reg [5327:0] outp, input clk, input reset);
+module interface_20(input [2479:0] inp, output reg [5327:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[2479:0] <= inp ; 
 outp[4959:2480] <= inp ; 
@@ -10418,7 +10418,7 @@ outp[5327:4960] <= inp[367:0] ;
 end 
 endmodule 
 
-module interface_21(input reg [2479:0] inp, output reg [8879:0] outp, input clk, input reset);
+module interface_21(input [2479:0] inp, output reg [8879:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[2479:0] <= inp ; 
 outp[4959:2480] <= inp ; 
@@ -10427,21 +10427,21 @@ outp[8879:7440] <= inp[1439:0] ;
 end 
 endmodule 
 
-module interface_22(input reg [2099:0] inp, output reg [3551:0] outp, input clk, input reset);
+module interface_22(input [2099:0] inp, output reg [3551:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[2099:0] <= inp ; 
 outp[3551:2100] <= inp[1451:0] ; 
 end 
 endmodule 
 
-module interface_23(input reg [2099:0] inp, output reg [3095:0] outp, input clk, input reset);
+module interface_23(input [2099:0] inp, output reg [3095:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[2099:0] <= inp ; 
 outp[3095:2100] <= inp[995:0] ; 
 end 
 endmodule 
 
-module interface_24(input reg [1063:0] inp, output reg [5919:0] outp, input clk, input reset);
+module interface_24(input [1063:0] inp, output reg [5919:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[1063:0] <= inp ; 
 outp[2127:1064] <= inp ; 
@@ -10452,7 +10452,7 @@ outp[5919:5320] <= inp[599:0] ;
 end 
 endmodule 
 
-module interface_25(input reg [743:0] inp, output reg [111:0] outp, input clk, input reset);
+module interface_25(input [743:0] inp, output reg [111:0] outp, input clk, input reset);
 reg [743:0]intermediate_reg_0; 
 always@(posedge clk) begin 
 intermediate_reg_0 <= inp; 
@@ -11125,7 +11125,7 @@ end
 endmodule 
  
 
-module interface_26(input reg [147:0] inp, output reg [629:0] outp, input clk, input reset);
+module interface_26(input [147:0] inp, output reg [629:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[147:0] <= inp ; 
 outp[295:148] <= inp ; 
@@ -11135,7 +11135,7 @@ outp[629:592] <= inp[37:0] ;
 end 
 endmodule 
 
-module interface_27(input reg [2765:0] inp, output reg [2047:0] outp, input clk, input reset);
+module interface_27(input [2765:0] inp, output reg [2047:0] outp, input clk, input reset);
 reg [2765:0]intermediate_reg_0; 
 always@(posedge clk) begin 
 intermediate_reg_0 <= inp; 
@@ -12536,7 +12536,7 @@ end
 endmodule 
  
 
-module interface_28(input reg [5119:0] inp, output reg [2559:0] outp, input clk, input reset);
+module interface_28(input [5119:0] inp, output reg [2559:0] outp, input clk, input reset);
 reg [5119:0]intermediate_reg_0; 
 always@(posedge clk) begin 
 intermediate_reg_0 <= inp; 
@@ -15110,7 +15110,7 @@ end
 endmodule 
  
 
-module interface_29(input reg [1687:0] inp, output reg [7103:0] outp, input clk, input reset);
+module interface_29(input [1687:0] inp, output reg [7103:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[1687:0] <= inp ; 
 outp[3375:1688] <= inp ; 
@@ -15120,21 +15120,21 @@ outp[7103:6752] <= inp[351:0] ;
 end 
 endmodule 
 
-module interface_30(input reg [831:0] inp, output reg [1203:0] outp, input clk, input reset);
+module interface_30(input [831:0] inp, output reg [1203:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[831:0] <= inp ; 
 outp[1203:832] <= inp[371:0] ; 
 end 
 endmodule 
 
-module interface_31(input reg [1175:0] inp, output reg [1826:0] outp, input clk, input reset);
+module interface_31(input [1175:0] inp, output reg [1826:0] outp, input clk, input reset);
 always@(posedge clk) begin 
 outp[1175:0] <= inp ; 
 outp[1826:1176] <= inp[650:0] ; 
 end 
 endmodule 
 
-module interface_32(input reg [2693:0] inp, output reg [511:0] outp, input clk, input reset);
+module interface_32(input [2693:0] inp, output reg [511:0] outp, input clk, input reset);
 reg [2693:0]intermediate_reg_0; 
 always@(posedge clk) begin 
 intermediate_reg_0 <= inp; 
@@ -18998,7 +18998,7 @@ endmodule
 
 module dbram_4096_60bit_module (input clk,input reset,input [145:0] inp, output reg [119:0] outp);
 
-dbram_4096_60bit inst (.clk(clk),.reset(reset),.address_a(inp[11:0]),.address_b(inp[23:12]),.wren_a(inp[24]),.wren_b(inp[25]),.data_a(inp[85:26]),.data_b(inp[145:86]),.out_a(outp[59:0]),.out_b(outp[119:40]));
+dbram_4096_60bit inst (.clk(clk),.reset(reset),.address_a(inp[11:0]),.address_b(inp[23:12]),.wren_a(inp[24]),.wren_b(inp[25]),.data_a(inp[85:26]),.data_b(inp[145:86]),.out_a(outp[59:0]),.out_b(outp[119:60]));
 
 endmodule
 
@@ -19437,7 +19437,7 @@ input [36:0] chainin;
 output reg [36:0] resulta;
 output reg [36:0] chainout;
 
-int_sop_2 inst1(.clk(clk),.reset(reset),.ax(ax),.bx(bx),.ay(ay),.by(by),.mode_sigs(mode_sigs),.chainin(chainin),.resulta(resulta),.chainout(chainout)); 
+int_sop_2 inst1(.clk(clk),.reset(reset),.ax(ax),.bx(bx),.ay(ay),.by(by),.mode_sigs(mode_sigs),.chainin(chainin),.result(resulta),.chainout(chainout)); 
 
 endmodule
 `else

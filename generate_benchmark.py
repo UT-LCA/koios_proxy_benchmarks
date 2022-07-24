@@ -1,13 +1,13 @@
 import yaml
 import random
 import argparse
-
+import os
 
 # need to add some random no. xor/or/and operations
 def interface_algorithm(f, interface_name, input_bits, output_bits,interconnect_list):
 
     f.writelines("\n")
-    f.writelines("module " + interface_name + "(input reg [" + str(int(input_bits - 1)) + ":0] inp, " + "output reg [" + str(int(output_bits - 1)) + ":0] outp, input clk, input reset);" + "\n")
+    f.writelines("module " + interface_name + "(input [" + str(int(input_bits - 1)) + ":0] inp, " + "output reg [" + str(int(output_bits - 1)) + ":0] outp, input clk, input reset);" + "\n")
 
     #list1 = ["fsm","xor_module","mux_module"]
     list1 = interconnect_list
@@ -679,7 +679,7 @@ def generate_top(hardware, instance, module_dict):
 
         f.writelines("\n endmodule \n")
 
-def print_cat(hardware,instance,module_dict,verilog_file):
+def print_and_run_cat(hardware,instance,module_dict,verilog_file):
     no_of_instances = len(instance)
     file_names = []
     L = "cat top.v interfaces.v parallel_modules.v modules/wrapper_modules/wrapped_modules.v modules/fsm.v modules/xor.v modules/2x1_mux.v modules/dsp_chain_sop2.v modules/dsp_chain_fp16.v "
@@ -713,8 +713,12 @@ def print_cat(hardware,instance,module_dict,verilog_file):
             L = L + "modules/" + str(i) + " "
         else:
             pass
-    L = L + ">> " + str(verilog_file)
+    L = L + "> " + str(verilog_file)
     print(L)
+    vfh = open(verilog_file, 'w')
+    vfh.close()
+    os.system(L)
+    os.system("rm -rf top.v interfaces.v parallel_modules.v")
 
 def count_resources(hardware,instance,module_dict):
     no_of_instances = len(instance)
@@ -1230,7 +1234,7 @@ assertions_function(hardware, instance, module_dict)
 generate_interface(hardware, instance, module_dict,interconnect_list)
 generate_top(hardware, instance, module_dict)
 generate_parallel_modules(hardware,instance,module_dict)
-print_cat(hardware,instance,module_dict,verilog_file)
+print_and_run_cat(hardware,instance,module_dict,verilog_file)
 count_resources(hardware,instance,module_dict)
 
 #with open("final.v", "w") as f:
