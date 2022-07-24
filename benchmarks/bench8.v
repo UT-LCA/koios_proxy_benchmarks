@@ -5416,7 +5416,10 @@ input [36:0] chainin;
 output reg [36:0] resulta;
 output reg [36:0] chainout;
 
-int_sop_2 inst1(.clk(clk),.reset(reset),.ax(ax),.bx(bx),.ay(ay),.by(by),.mode_sigs(mode_sigs),.chainin(chainin),.result(resulta),.chainout(chainout)); 
+wire [11:0] mode_sigs_int;
+assign mode_sigs_int = {1'b0, mode_sigs};
+
+int_sop_2 inst1(.clk(clk),.reset(reset),.ax(ax),.bx(bx),.ay(ay),.by(by),.mode_sigs(mode_sigs_int),.chainin(chainin),.result(resulta),.chainout(chainout)); 
 
 endmodule
 `else
