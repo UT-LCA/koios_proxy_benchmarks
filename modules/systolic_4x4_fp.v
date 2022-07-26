@@ -858,7 +858,7 @@ module  processing_element_systolic_4x4_fp(
  assign out_c = out_mac;
 
  `ifdef complex_dsp
- mac_fp u_mac(.a(in_a), .b(in_b), .out(out_mac), .reset(reset), .clk(clk));
+ mac_fp_16 u_mac(.a(in_a), .b(in_b), .out(out_mac), .reset(reset), .clk(clk));
  `else
  seq_mac_systolic_4x4_fp u_mac(.a(in_a), .b(in_b), .out(out_mac), .reset(reset), .clk(clk));
  `endif
