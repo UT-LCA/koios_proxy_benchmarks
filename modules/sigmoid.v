@@ -239,9 +239,7 @@ begin
         4'b0101: address = lut[46];
         4'b0110: address = lut[46];
         4'b0111: address = lut[46];  */
-        /*default:begin
-                        address = 16'h1000;
-                end*/
+        default: address = 16'h1000;
         endcase
 
 end

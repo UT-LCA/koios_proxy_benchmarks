@@ -4,7 +4,7 @@ input clk;
 input reset; 
 input [17:0] ax1, bx1, ax2, bx2, ax3, bx3, ax4, bx4; 
 input [18:0] ay1, by1, ay2, by2, ay3, by3, ay4, by4; 
-output reg [36:0] result; 
+output [36:0] result; 
 
 wire [36:0] chainout0, chainout1, chainout2, chainout3; 
 wire [36:0] chainin0, chainin1, chainin2, chainin3; 

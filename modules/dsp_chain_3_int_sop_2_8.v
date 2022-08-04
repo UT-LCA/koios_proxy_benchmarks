@@ -1,5 +1,5 @@
 
-module dsp_chain_3_int_sop_3_module_8 (input clk, input reset, input[1775:0] inp, output reg [295:0] outp); 
+module dsp_chain_3_int_sop_3_module_8 (input clk, input reset, input[1775:0] inp, output [295:0] outp); 
 
  dsp_chain_3_int_sop_3_module inst0 (.clk(clk),.reset(reset),.inp(inp[221:0]),.outp(outp[36:0])); 
 

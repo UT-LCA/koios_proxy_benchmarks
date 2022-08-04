@@ -518,7 +518,7 @@ always@(posedge clk) begin
 intermediate_reg_0 <= inp; 
 end 
  
-reg [83:0]intermediate_reg_1; 
+wire [83:0]intermediate_reg_1; 
  
 mux_module mux_module_inst_1_0(.clk(clk),.reset(reset),.i1(intermediate_reg_0[167]),.i2(intermediate_reg_0[166]),.o(intermediate_reg_1[83]),.sel(intermediate_reg_0[0])); 
 mux_module mux_module_inst_1_1(.clk(clk),.reset(reset),.i1(intermediate_reg_0[165]),.i2(intermediate_reg_0[164]),.o(intermediate_reg_1[82]),.sel(intermediate_reg_0[0])); 
@@ -604,7 +604,7 @@ xor_module xor_module_inst_1_80(.clk(clk),.reset(reset),.i1(intermediate_reg_0[7
 xor_module xor_module_inst_1_81(.clk(clk),.reset(reset),.i1(intermediate_reg_0[5]),.i2(intermediate_reg_0[4]),.o(intermediate_reg_1[2])); 
 xor_module xor_module_inst_1_82(.clk(clk),.reset(reset),.i1(intermediate_reg_0[3]),.i2(intermediate_reg_0[2]),.o(intermediate_reg_1[1])); 
 xor_module xor_module_inst_1_83(.clk(clk),.reset(reset),.i1(intermediate_reg_0[1]),.i2(intermediate_reg_0[0]),.o(intermediate_reg_1[0])); 
-reg [41:0]intermediate_reg_2; 
+wire [41:0]intermediate_reg_2; 
  
 xor_module xor_module_inst_2_0(.clk(clk),.reset(reset),.i1(intermediate_reg_1[83]),.i2(intermediate_reg_1[82]),.o(intermediate_reg_2[41])); 
 mux_module mux_module_inst_2_1(.clk(clk),.reset(reset),.i1(intermediate_reg_1[81]),.i2(intermediate_reg_1[80]),.o(intermediate_reg_2[40]),.sel(intermediate_reg_1[0])); 
@@ -697,7 +697,7 @@ always@(posedge clk) begin
 intermediate_reg_0 <= inp; 
 end 
  
-reg [739:0]intermediate_reg_1; 
+wire [739:0]intermediate_reg_1; 
  
 xor_module xor_module_inst_1_0(.clk(clk),.reset(reset),.i1(intermediate_reg_0[1479]),.i2(intermediate_reg_0[1478]),.o(intermediate_reg_1[739])); 
 mux_module mux_module_inst_1_1(.clk(clk),.reset(reset),.i1(intermediate_reg_0[1477]),.i2(intermediate_reg_0[1476]),.o(intermediate_reg_1[738]),.sel(intermediate_reg_0[0])); 
@@ -1452,7 +1452,7 @@ always@(posedge clk) begin
 intermediate_reg_0 <= inp; 
 end 
  
-reg [739:0]intermediate_reg_1; 
+wire [739:0]intermediate_reg_1; 
  
 mux_module mux_module_inst_1_0(.clk(clk),.reset(reset),.i1(intermediate_reg_0[1479]),.i2(intermediate_reg_0[1478]),.o(intermediate_reg_1[739]),.sel(intermediate_reg_0[0])); 
 mux_module mux_module_inst_1_1(.clk(clk),.reset(reset),.i1(intermediate_reg_0[1477]),.i2(intermediate_reg_0[1476]),.o(intermediate_reg_1[738]),.sel(intermediate_reg_0[0])); 
@@ -2194,7 +2194,7 @@ mux_module mux_module_inst_1_736(.clk(clk),.reset(reset),.i1(intermediate_reg_0[
 mux_module mux_module_inst_1_737(.clk(clk),.reset(reset),.i1(intermediate_reg_0[5]),.i2(intermediate_reg_0[4]),.o(intermediate_reg_1[2]),.sel(intermediate_reg_0[0])); 
 mux_module mux_module_inst_1_738(.clk(clk),.reset(reset),.i1(intermediate_reg_0[3]),.i2(intermediate_reg_0[2]),.o(intermediate_reg_1[1]),.sel(intermediate_reg_0[0])); 
 mux_module mux_module_inst_1_739(.clk(clk),.reset(reset),.i1(intermediate_reg_0[1]),.i2(intermediate_reg_0[0]),.o(intermediate_reg_1[0]),.sel(intermediate_reg_0[0])); 
-reg [369:0]intermediate_reg_2; 
+wire [369:0]intermediate_reg_2; 
  
 mux_module mux_module_inst_2_0(.clk(clk),.reset(reset),.i1(intermediate_reg_1[739]),.i2(intermediate_reg_1[738]),.o(intermediate_reg_2[369]),.sel(intermediate_reg_1[0])); 
 xor_module xor_module_inst_2_1(.clk(clk),.reset(reset),.i1(intermediate_reg_1[737]),.i2(intermediate_reg_1[736]),.o(intermediate_reg_2[368])); 
@@ -2566,7 +2566,7 @@ xor_module xor_module_inst_2_366(.clk(clk),.reset(reset),.i1(intermediate_reg_1[
 mux_module mux_module_inst_2_367(.clk(clk),.reset(reset),.i1(intermediate_reg_1[5]),.i2(intermediate_reg_1[4]),.o(intermediate_reg_2[2]),.sel(intermediate_reg_1[0])); 
 xor_module xor_module_inst_2_368(.clk(clk),.reset(reset),.i1(intermediate_reg_1[3]),.i2(intermediate_reg_1[2]),.o(intermediate_reg_2[1])); 
 mux_module mux_module_inst_2_369(.clk(clk),.reset(reset),.i1(intermediate_reg_1[1]),.i2(intermediate_reg_1[0]),.o(intermediate_reg_2[0]),.sel(intermediate_reg_1[0])); 
-reg [184:0]intermediate_reg_3; 
+wire [184:0]intermediate_reg_3; 
  
 xor_module xor_module_inst_3_0(.clk(clk),.reset(reset),.i1(intermediate_reg_2[369]),.i2(intermediate_reg_2[368]),.o(intermediate_reg_3[184])); 
 mux_module mux_module_inst_3_1(.clk(clk),.reset(reset),.i1(intermediate_reg_2[367]),.i2(intermediate_reg_2[366]),.o(intermediate_reg_3[183]),.sel(intermediate_reg_2[0])); 
@@ -2756,7 +2756,7 @@ mux_module mux_module_inst_3_184(.clk(clk),.reset(reset),.i1(intermediate_reg_2[
 wire [183:0]intermediate_wire_4; 
 assign intermediate_wire_4[183] = intermediate_reg_3[184]^intermediate_reg_3[183] ; 
 assign intermediate_wire_4[182:0] = intermediate_reg_3[182:0] ; 
-reg [91:0]intermediate_reg_4; 
+wire [91:0]intermediate_reg_4; 
  
 mux_module mux_module_inst_4_0(.clk(clk),.reset(reset),.i1(intermediate_wire_4[183]),.i2(intermediate_wire_4[182]),.o(intermediate_reg_4[91]),.sel(intermediate_reg_3[0])); 
 xor_module xor_module_inst_4_1(.clk(clk),.reset(reset),.i1(intermediate_wire_4[181]),.i2(intermediate_wire_4[180]),.o(intermediate_reg_4[90])); 
@@ -2866,7 +2866,7 @@ end
 wire [5037:0]intermediate_wire_1; 
 assign intermediate_wire_1[5037] = intermediate_reg_0[5038]^intermediate_reg_0[5037] ; 
 assign intermediate_wire_1[5036:0] = intermediate_reg_0[5036:0] ; 
-reg [2518:0]intermediate_reg_1; 
+wire [2518:0]intermediate_reg_1; 
  
 xor_module xor_module_inst_1_0(.clk(clk),.reset(reset),.i1(intermediate_reg_0[5037]),.i2(intermediate_reg_0[5036]),.o(intermediate_reg_1[2518])); 
 xor_module xor_module_inst_1_1(.clk(clk),.reset(reset),.i1(intermediate_reg_0[5035]),.i2(intermediate_reg_0[5034]),.o(intermediate_reg_1[2517])); 
@@ -5403,7 +5403,7 @@ always@(posedge clk) begin
 intermediate_reg_0 <= inp; 
 end 
  
-reg [1272:0]intermediate_reg_1; 
+wire [1272:0]intermediate_reg_1; 
  
 mux_module mux_module_inst_1_0(.clk(clk),.reset(reset),.i1(intermediate_reg_0[2545]),.i2(intermediate_reg_0[2544]),.o(intermediate_reg_1[1272]),.sel(intermediate_reg_0[0])); 
 xor_module xor_module_inst_1_1(.clk(clk),.reset(reset),.i1(intermediate_reg_0[2543]),.i2(intermediate_reg_0[2542]),.o(intermediate_reg_1[1271])); 
@@ -6694,7 +6694,7 @@ always@(posedge clk) begin
 intermediate_reg_0 <= inp; 
 end 
  
-reg [1963:0]intermediate_reg_1; 
+wire [1963:0]intermediate_reg_1; 
  
 xor_module xor_module_inst_1_0(.clk(clk),.reset(reset),.i1(intermediate_reg_0[3927]),.i2(intermediate_reg_0[3926]),.o(intermediate_reg_1[1963])); 
 mux_module mux_module_inst_1_1(.clk(clk),.reset(reset),.i1(intermediate_reg_0[3925]),.i2(intermediate_reg_0[3924]),.o(intermediate_reg_1[1962]),.sel(intermediate_reg_0[0])); 
@@ -8680,7 +8680,7 @@ always@(posedge clk) begin
 intermediate_reg_0 <= inp; 
 end 
  
-reg [1072:0]intermediate_reg_1; 
+wire [1072:0]intermediate_reg_1; 
  
 xor_module xor_module_inst_1_0(.clk(clk),.reset(reset),.i1(intermediate_reg_0[2145]),.i2(intermediate_reg_0[2144]),.o(intermediate_reg_1[1072])); 
 mux_module mux_module_inst_1_1(.clk(clk),.reset(reset),.i1(intermediate_reg_0[2143]),.i2(intermediate_reg_0[2142]),.o(intermediate_reg_1[1071]),.sel(intermediate_reg_0[0])); 
@@ -9771,7 +9771,7 @@ always@(posedge clk) begin
 intermediate_reg_0 <= inp; 
 end 
  
-reg [629:0]intermediate_reg_1; 
+wire [629:0]intermediate_reg_1; 
  
 xor_module xor_module_inst_1_0(.clk(clk),.reset(reset),.i1(intermediate_reg_0[1259]),.i2(intermediate_reg_0[1258]),.o(intermediate_reg_1[629])); 
 mux_module mux_module_inst_1_1(.clk(clk),.reset(reset),.i1(intermediate_reg_0[1257]),.i2(intermediate_reg_0[1256]),.o(intermediate_reg_1[628]),.sel(intermediate_reg_0[0])); 
@@ -10458,7 +10458,7 @@ always@(posedge clk) begin
 intermediate_reg_0 <= inp; 
 end 
  
-reg [371:0]intermediate_reg_1; 
+wire [371:0]intermediate_reg_1; 
  
 xor_module xor_module_inst_1_0(.clk(clk),.reset(reset),.i1(intermediate_reg_0[743]),.i2(intermediate_reg_0[742]),.o(intermediate_reg_1[371])); 
 xor_module xor_module_inst_1_1(.clk(clk),.reset(reset),.i1(intermediate_reg_0[741]),.i2(intermediate_reg_0[740]),.o(intermediate_reg_1[370])); 
@@ -10832,7 +10832,7 @@ mux_module mux_module_inst_1_368(.clk(clk),.reset(reset),.i1(intermediate_reg_0[
 mux_module mux_module_inst_1_369(.clk(clk),.reset(reset),.i1(intermediate_reg_0[5]),.i2(intermediate_reg_0[4]),.o(intermediate_reg_1[2]),.sel(intermediate_reg_0[0])); 
 mux_module mux_module_inst_1_370(.clk(clk),.reset(reset),.i1(intermediate_reg_0[3]),.i2(intermediate_reg_0[2]),.o(intermediate_reg_1[1]),.sel(intermediate_reg_0[0])); 
 xor_module xor_module_inst_1_371(.clk(clk),.reset(reset),.i1(intermediate_reg_0[1]),.i2(intermediate_reg_0[0]),.o(intermediate_reg_1[0])); 
-reg [185:0]intermediate_reg_2; 
+wire [185:0]intermediate_reg_2; 
  
 mux_module mux_module_inst_2_0(.clk(clk),.reset(reset),.i1(intermediate_reg_1[371]),.i2(intermediate_reg_1[370]),.o(intermediate_reg_2[185]),.sel(intermediate_reg_1[0])); 
 xor_module xor_module_inst_2_1(.clk(clk),.reset(reset),.i1(intermediate_reg_1[369]),.i2(intermediate_reg_1[368]),.o(intermediate_reg_2[184])); 
@@ -11020,7 +11020,7 @@ mux_module mux_module_inst_2_182(.clk(clk),.reset(reset),.i1(intermediate_reg_1[
 xor_module xor_module_inst_2_183(.clk(clk),.reset(reset),.i1(intermediate_reg_1[5]),.i2(intermediate_reg_1[4]),.o(intermediate_reg_2[2])); 
 xor_module xor_module_inst_2_184(.clk(clk),.reset(reset),.i1(intermediate_reg_1[3]),.i2(intermediate_reg_1[2]),.o(intermediate_reg_2[1])); 
 xor_module xor_module_inst_2_185(.clk(clk),.reset(reset),.i1(intermediate_reg_1[1]),.i2(intermediate_reg_1[0]),.o(intermediate_reg_2[0])); 
-reg [92:0]intermediate_reg_3; 
+wire [92:0]intermediate_reg_3; 
  
 xor_module xor_module_inst_3_0(.clk(clk),.reset(reset),.i1(intermediate_reg_2[185]),.i2(intermediate_reg_2[184]),.o(intermediate_reg_3[92])); 
 xor_module xor_module_inst_3_1(.clk(clk),.reset(reset),.i1(intermediate_reg_2[183]),.i2(intermediate_reg_2[182]),.o(intermediate_reg_3[91])); 
@@ -11141,7 +11141,7 @@ always@(posedge clk) begin
 intermediate_reg_0 <= inp; 
 end 
  
-reg [1382:0]intermediate_reg_1; 
+wire [1382:0]intermediate_reg_1; 
  
 xor_module xor_module_inst_1_0(.clk(clk),.reset(reset),.i1(intermediate_reg_0[2765]),.i2(intermediate_reg_0[2764]),.o(intermediate_reg_1[1382])); 
 xor_module xor_module_inst_1_1(.clk(clk),.reset(reset),.i1(intermediate_reg_0[2763]),.i2(intermediate_reg_0[2762]),.o(intermediate_reg_1[1381])); 
@@ -12542,7 +12542,7 @@ always@(posedge clk) begin
 intermediate_reg_0 <= inp; 
 end 
  
-reg [2559:0]intermediate_reg_1; 
+wire [2559:0]intermediate_reg_1; 
  
 xor_module xor_module_inst_1_0(.clk(clk),.reset(reset),.i1(intermediate_reg_0[5119]),.i2(intermediate_reg_0[5118]),.o(intermediate_reg_1[2559])); 
 mux_module mux_module_inst_1_1(.clk(clk),.reset(reset),.i1(intermediate_reg_0[5117]),.i2(intermediate_reg_0[5116]),.o(intermediate_reg_1[2558]),.sel(intermediate_reg_0[0])); 
@@ -15140,7 +15140,7 @@ always@(posedge clk) begin
 intermediate_reg_0 <= inp; 
 end 
  
-reg [1346:0]intermediate_reg_1; 
+wire [1346:0]intermediate_reg_1; 
  
 mux_module mux_module_inst_1_0(.clk(clk),.reset(reset),.i1(intermediate_reg_0[2693]),.i2(intermediate_reg_0[2692]),.o(intermediate_reg_1[1346]),.sel(intermediate_reg_0[0])); 
 xor_module xor_module_inst_1_1(.clk(clk),.reset(reset),.i1(intermediate_reg_0[2691]),.i2(intermediate_reg_0[2690]),.o(intermediate_reg_1[1345])); 
@@ -16492,7 +16492,7 @@ xor_module xor_module_inst_1_1346(.clk(clk),.reset(reset),.i1(intermediate_reg_0
 wire [1345:0]intermediate_wire_2; 
 assign intermediate_wire_2[1345] = intermediate_reg_1[1346]^intermediate_reg_1[1345] ; 
 assign intermediate_wire_2[1344:0] = intermediate_reg_1[1344:0] ; 
-reg [672:0]intermediate_reg_2; 
+wire [672:0]intermediate_reg_2; 
  
 xor_module xor_module_inst_2_0(.clk(clk),.reset(reset),.i1(intermediate_wire_2[1345]),.i2(intermediate_wire_2[1344]),.o(intermediate_reg_2[672])); 
 xor_module xor_module_inst_2_1(.clk(clk),.reset(reset),.i1(intermediate_wire_2[1343]),.i2(intermediate_wire_2[1342]),.o(intermediate_reg_2[671])); 
@@ -17170,7 +17170,7 @@ xor_module xor_module_inst_2_672(.clk(clk),.reset(reset),.i1(intermediate_wire_2
 wire [671:0]intermediate_wire_3; 
 assign intermediate_wire_3[671] = intermediate_reg_2[672]^intermediate_reg_2[671] ; 
 assign intermediate_wire_3[670:0] = intermediate_reg_2[670:0] ; 
-reg [335:0]intermediate_reg_3; 
+wire [335:0]intermediate_reg_3; 
  
 xor_module xor_module_inst_3_0(.clk(clk),.reset(reset),.i1(intermediate_wire_3[671]),.i2(intermediate_wire_3[670]),.o(intermediate_reg_3[335])); 
 mux_module mux_module_inst_3_1(.clk(clk),.reset(reset),.i1(intermediate_wire_3[669]),.i2(intermediate_wire_3[668]),.o(intermediate_reg_3[334]),.sel(intermediate_reg_2[0])); 
@@ -17515,7 +17515,7 @@ end
 endmodule 
  
 
-module fifo_512_40bit_module_4(input clk, input reset, input[171:0] inp, output reg [167:0] outp); 
+module fifo_512_40bit_module_4(input clk, input reset, input[171:0] inp, output [167:0] outp); 
 
 fifo_512_40bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[42:0]),.outp(outp[41:0])); 
 
@@ -17527,7 +17527,7 @@ fifo_512_40bit_module inst_3 (.clk(clk),.reset(reset),.inp(inp[171:129]),.outp(o
 
 endmodule 
 
-module fifo_256_40bit_module_4(input clk, input reset, input[171:0] inp, output reg [167:0] outp); 
+module fifo_256_40bit_module_4(input clk, input reset, input[171:0] inp, output [167:0] outp); 
 
 fifo_256_40bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[42:0]),.outp(outp[41:0])); 
 
@@ -17539,7 +17539,7 @@ fifo_256_40bit_module inst_3 (.clk(clk),.reset(reset),.inp(inp[171:129]),.outp(o
 
 endmodule 
 
-module dsp_chain_4_int_sop_2_module_8(input clk, input reset, input[2367:0] inp, output reg [295:0] outp); 
+module dsp_chain_4_int_sop_2_module_8(input clk, input reset, input[2367:0] inp, output [295:0] outp); 
 
 dsp_chain_4_int_sop_2_module inst_0 (.clk(clk),.reset(reset),.inp(inp[295:0]),.outp(outp[36:0])); 
 
@@ -17559,7 +17559,7 @@ dsp_chain_4_int_sop_2_module inst_7 (.clk(clk),.reset(reset),.inp(inp[2367:2072]
 
 endmodule 
 
-module dsp_chain_3_int_sop_2_module_16(input clk, input reset, input[3551:0] inp, output reg [591:0] outp); 
+module dsp_chain_3_int_sop_2_module_16(input clk, input reset, input[3551:0] inp, output [591:0] outp); 
 
 dsp_chain_3_int_sop_2_module inst_0 (.clk(clk),.reset(reset),.inp(inp[221:0]),.outp(outp[36:0])); 
 
@@ -17595,7 +17595,7 @@ dsp_chain_3_int_sop_2_module inst_15 (.clk(clk),.reset(reset),.inp(inp[3551:3330
 
 endmodule 
 
-module fifo_256_60bit_module_24(input clk, input reset, input[1511:0] inp, output reg [1487:0] outp); 
+module fifo_256_60bit_module_24(input clk, input reset, input[1511:0] inp, output [1487:0] outp); 
 
 fifo_256_60bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[62:0]),.outp(outp[61:0])); 
 
@@ -17647,7 +17647,7 @@ fifo_256_60bit_module inst_23 (.clk(clk),.reset(reset),.inp(inp[1511:1449]),.out
 
 endmodule 
 
-module fifo_512_60bit_module_40(input clk, input reset, input[2519:0] inp, output reg [2479:0] outp); 
+module fifo_512_60bit_module_40(input clk, input reset, input[2519:0] inp, output [2479:0] outp); 
 
 fifo_512_60bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[62:0]),.outp(outp[61:0])); 
 
@@ -17731,7 +17731,7 @@ fifo_512_60bit_module inst_39 (.clk(clk),.reset(reset),.inp(inp[2519:2457]),.out
 
 endmodule 
 
-module activation_32_8bit_module_2(input clk, input reset, input[521:0] inp, output reg [515:0] outp); 
+module activation_32_8bit_module_2(input clk, input reset, input[521:0] inp, output [515:0] outp); 
 
 activation_32_8bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[260:0]),.outp(outp[257:0])); 
 
@@ -17739,7 +17739,7 @@ activation_32_8bit_module inst_1 (.clk(clk),.reset(reset),.inp(inp[521:261]),.ou
 
 endmodule 
 
-module tanh_16bit_5(input clk, input reset, input[79:0] inp, output reg [79:0] outp); 
+module tanh_16bit_5(input clk, input reset, input[79:0] inp, output [79:0] outp); 
 
 tanh_16bit inst_0 (.clk(clk),.reset(reset),.inp(inp[15:0]),.outp(outp[15:0])); 
 
@@ -17753,7 +17753,7 @@ tanh_16bit inst_4 (.clk(clk),.reset(reset),.inp(inp[79:64]),.outp(outp[79:64]));
 
 endmodule 
 
-module dsp_chain_4_int_sop_2_module_40(input clk, input reset, input[11839:0] inp, output reg [1479:0] outp); 
+module dsp_chain_4_int_sop_2_module_40(input clk, input reset, input[11839:0] inp, output [1479:0] outp); 
 
 dsp_chain_4_int_sop_2_module inst_0 (.clk(clk),.reset(reset),.inp(inp[295:0]),.outp(outp[36:0])); 
 
@@ -17837,7 +17837,7 @@ dsp_chain_4_int_sop_2_module inst_39 (.clk(clk),.reset(reset),.inp(inp[11839:115
 
 endmodule 
 
-module dsp_chain_3_int_sop_2_module_25(input clk, input reset, input[5549:0] inp, output reg [924:0] outp); 
+module dsp_chain_3_int_sop_2_module_25(input clk, input reset, input[5549:0] inp, output [924:0] outp); 
 
 dsp_chain_3_int_sop_2_module inst_0 (.clk(clk),.reset(reset),.inp(inp[221:0]),.outp(outp[36:0])); 
 
@@ -17891,7 +17891,7 @@ dsp_chain_3_int_sop_2_module inst_24 (.clk(clk),.reset(reset),.inp(inp[5549:5328
 
 endmodule 
 
-module dsp_chain_2_int_sop_2_module_32(input clk, input reset, input[4735:0] inp, output reg [1183:0] outp); 
+module dsp_chain_2_int_sop_2_module_32(input clk, input reset, input[4735:0] inp, output [1183:0] outp); 
 
 dsp_chain_2_int_sop_2_module inst_0 (.clk(clk),.reset(reset),.inp(inp[147:0]),.outp(outp[36:0])); 
 
@@ -17959,7 +17959,7 @@ dsp_chain_2_int_sop_2_module inst_31 (.clk(clk),.reset(reset),.inp(inp[4735:4588
 
 endmodule 
 
-module activation_32_8bit_module_5(input clk, input reset, input[1304:0] inp, output reg [1289:0] outp); 
+module activation_32_8bit_module_5(input clk, input reset, input[1304:0] inp, output [1289:0] outp); 
 
 activation_32_8bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[260:0]),.outp(outp[257:0])); 
 
@@ -17973,7 +17973,7 @@ activation_32_8bit_module inst_4 (.clk(clk),.reset(reset),.inp(inp[1304:1044]),.
 
 endmodule 
 
-module sigmoid_16bit_10(input clk, input reset, input[159:0] inp, output reg [159:0] outp); 
+module sigmoid_16bit_10(input clk, input reset, input[159:0] inp, output [159:0] outp); 
 
 sigmoid_16bit inst_0 (.clk(clk),.reset(reset),.inp(inp[15:0]),.outp(outp[15:0])); 
 
@@ -17997,7 +17997,7 @@ sigmoid_16bit inst_9 (.clk(clk),.reset(reset),.inp(inp[159:144]),.outp(outp[159:
 
 endmodule 
 
-module adder_tree_4_8bit_25(input clk, input reset, input[3199:0] inp, output reg [399:0] outp); 
+module adder_tree_4_8bit_25(input clk, input reset, input[3199:0] inp, output [399:0] outp); 
 
 adder_tree_4_8bit inst_0 (.clk(clk),.reset(reset),.inp(inp[127:0]),.outp(outp[15:0])); 
 
@@ -18052,7 +18052,7 @@ adder_tree_4_8bit inst_24 (.clk(clk),.reset(reset),.inp(inp[3199:3072]),.outp(ou
 endmodule 
 
 
-module fifo_512_40bit_module_50(input clk, input reset, input[2149:0] inp, output reg [2099:0] outp); 
+module fifo_512_40bit_module_50(input clk, input reset, input[2149:0] inp, output [2099:0] outp); 
 
 fifo_512_40bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[42:0]),.outp(outp[41:0])); 
 
@@ -18156,7 +18156,7 @@ fifo_512_40bit_module inst_49 (.clk(clk),.reset(reset),.inp(inp[2149:2107]),.out
 
 endmodule 
 
-module fifo_256_60bit_module_12(input clk, input reset, input[755:0] inp, output reg [743:0] outp); 
+module fifo_256_60bit_module_12(input clk, input reset, input[755:0] inp, output [743:0] outp); 
 
 fifo_256_60bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[62:0]),.outp(outp[61:0])); 
 
@@ -18184,7 +18184,7 @@ fifo_256_60bit_module inst_11 (.clk(clk),.reset(reset),.inp(inp[755:693]),.outp(
 
 endmodule 
 
-module fifo_512_40bit_module_30(input clk, input reset, input[1289:0] inp, output reg [1259:0] outp); 
+module fifo_512_40bit_module_30(input clk, input reset, input[1289:0] inp, output [1259:0] outp); 
 
 fifo_512_40bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[42:0]),.outp(outp[41:0])); 
 
@@ -18248,7 +18248,7 @@ fifo_512_40bit_module inst_29 (.clk(clk),.reset(reset),.inp(inp[1289:1247]),.out
 
 endmodule 
 
-module dsp_chain_3_int_sop_2_module_3(input clk, input reset, input[665:0] inp, output reg [110:0] outp); 
+module dsp_chain_3_int_sop_2_module_3(input clk, input reset, input[665:0] inp, output [110:0] outp); 
 
 dsp_chain_3_int_sop_2_module inst_0 (.clk(clk),.reset(reset),.inp(inp[221:0]),.outp(outp[36:0])); 
 
@@ -18258,7 +18258,7 @@ dsp_chain_3_int_sop_2_module inst_2 (.clk(clk),.reset(reset),.inp(inp[665:444]),
 
 endmodule 
 
-module dsp_chain_2_int_sop_2_module_4(input clk, input reset, input[591:0] inp, output reg [147:0] outp); 
+module dsp_chain_2_int_sop_2_module_4(input clk, input reset, input[591:0] inp, output [147:0] outp); 
 
 dsp_chain_2_int_sop_2_module inst_0 (.clk(clk),.reset(reset),.inp(inp[147:0]),.outp(outp[36:0])); 
 
@@ -18270,7 +18270,7 @@ dsp_chain_2_int_sop_2_module inst_3 (.clk(clk),.reset(reset),.inp(inp[591:444]),
 
 endmodule 
 
-module dsp_chain_4_int_sop_2_module_18(input clk, input reset, input[5327:0] inp, output reg [665:0] outp); 
+module dsp_chain_4_int_sop_2_module_18(input clk, input reset, input[5327:0] inp, output [665:0] outp); 
 
 dsp_chain_4_int_sop_2_module inst_0 (.clk(clk),.reset(reset),.inp(inp[295:0]),.outp(outp[36:0])); 
 
@@ -18310,7 +18310,7 @@ dsp_chain_4_int_sop_2_module inst_17 (.clk(clk),.reset(reset),.inp(inp[5327:5032
 
 endmodule 
 
-module dsp_chain_3_int_sop_2_module_40(input clk, input reset, input[8879:0] inp, output reg [1479:0] outp); 
+module dsp_chain_3_int_sop_2_module_40(input clk, input reset, input[8879:0] inp, output [1479:0] outp); 
 
 dsp_chain_3_int_sop_2_module inst_0 (.clk(clk),.reset(reset),.inp(inp[221:0]),.outp(outp[36:0])); 
 
@@ -18394,7 +18394,7 @@ dsp_chain_3_int_sop_2_module inst_39 (.clk(clk),.reset(reset),.inp(inp[8879:8658
 
 endmodule 
 
-module dsp_chain_4_int_sop_2_module_12(input clk, input reset, input[3551:0] inp, output reg [443:0] outp); 
+module dsp_chain_4_int_sop_2_module_12(input clk, input reset, input[3551:0] inp, output [443:0] outp); 
 
 dsp_chain_4_int_sop_2_module inst_0 (.clk(clk),.reset(reset),.inp(inp[295:0]),.outp(outp[36:0])); 
 
@@ -18422,7 +18422,7 @@ dsp_chain_4_int_sop_2_module inst_11 (.clk(clk),.reset(reset),.inp(inp[3551:3256
 
 endmodule 
 
-module activation_32_16bit_module_6(input clk, input reset, input[3095:0] inp, output reg [3083:0] outp); 
+module activation_32_16bit_module_6(input clk, input reset, input[3095:0] inp, output [3083:0] outp); 
 
 activation_32_16bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[515:0]),.outp(outp[513:0])); 
 
@@ -18438,7 +18438,7 @@ activation_32_16bit_module inst_5 (.clk(clk),.reset(reset),.inp(inp[3095:2580]),
 
 endmodule 
 
-module dsp_chain_2_int_sop_2_module_40(input clk, input reset, input[5919:0] inp, output reg [1479:0] outp); 
+module dsp_chain_2_int_sop_2_module_40(input clk, input reset, input[5919:0] inp, output [1479:0] outp); 
 
 dsp_chain_2_int_sop_2_module inst_0 (.clk(clk),.reset(reset),.inp(inp[147:0]),.outp(outp[36:0])); 
 
@@ -18522,7 +18522,7 @@ dsp_chain_2_int_sop_2_module inst_39 (.clk(clk),.reset(reset),.inp(inp[5919:5772
 
 endmodule 
 
-module sigmoid_16bit_7(input clk, input reset, input[111:0] inp, output reg [111:0] outp); 
+module sigmoid_16bit_7(input clk, input reset, input[111:0] inp, output [111:0] outp); 
 
 sigmoid_16bit inst_0 (.clk(clk),.reset(reset),.inp(inp[15:0]),.outp(outp[15:0])); 
 
@@ -18540,7 +18540,7 @@ sigmoid_16bit inst_6 (.clk(clk),.reset(reset),.inp(inp[111:96]),.outp(outp[111:9
 
 endmodule 
 
-module fifo_256_60bit_module_10(input clk, input reset, input[629:0] inp, output reg [619:0] outp); 
+module fifo_256_60bit_module_10(input clk, input reset, input[629:0] inp, output [619:0] outp); 
 
 fifo_256_60bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[62:0]),.outp(outp[61:0])); 
 
@@ -18564,7 +18564,7 @@ fifo_256_60bit_module inst_9 (.clk(clk),.reset(reset),.inp(inp[629:567]),.outp(o
 
 endmodule 
 
-module adder_tree_3_16bit_16(input clk, input reset, input[2047:0] inp, output reg [511:0] outp); 
+module adder_tree_3_16bit_16(input clk, input reset, input[2047:0] inp, output [511:0] outp); 
 
 adder_tree_3_16bit inst_0 (.clk(clk),.reset(reset),.inp(inp[127:0]),.outp(outp[31:0])); 
 
@@ -18600,7 +18600,7 @@ adder_tree_3_16bit inst_15 (.clk(clk),.reset(reset),.inp(inp[2047:1920]),.outp(o
 
 endmodule 
 
-module adder_tree_4_8bit_20(input clk, input reset, input[2559:0] inp, output reg [319:0] outp); 
+module adder_tree_4_8bit_20(input clk, input reset, input[2559:0] inp, output [319:0] outp); 
 
 adder_tree_4_8bit inst_0 (.clk(clk),.reset(reset),.inp(inp[127:0]),.outp(outp[15:0])); 
 
@@ -18644,7 +18644,7 @@ adder_tree_4_8bit inst_19 (.clk(clk),.reset(reset),.inp(inp[2559:2432]),.outp(ou
 
 endmodule 
 
-module dsp_chain_4_int_sop_2_module_24(input clk, input reset, input[7103:0] inp, output reg [887:0] outp); 
+module dsp_chain_4_int_sop_2_module_24(input clk, input reset, input[7103:0] inp, output [887:0] outp); 
 
 dsp_chain_4_int_sop_2_module inst_0 (.clk(clk),.reset(reset),.inp(inp[295:0]),.outp(outp[36:0])); 
 
@@ -18696,7 +18696,7 @@ dsp_chain_4_int_sop_2_module inst_23 (.clk(clk),.reset(reset),.inp(inp[7103:6808
 
 endmodule 
 
-module fifo_512_40bit_module_28(input clk, input reset, input[1203:0] inp, output reg [1175:0] outp); 
+module fifo_512_40bit_module_28(input clk, input reset, input[1203:0] inp, output [1175:0] outp); 
 
 fifo_512_40bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[42:0]),.outp(outp[41:0])); 
 
@@ -18756,7 +18756,7 @@ fifo_512_40bit_module inst_27 (.clk(clk),.reset(reset),.inp(inp[1203:1161]),.out
 
 endmodule 
 
-module activation_32_8bit_module_7(input clk, input reset, input[1826:0] inp, output reg [1805:0] outp); 
+module activation_32_8bit_module_7(input clk, input reset, input[1826:0] inp, output [1805:0] outp); 
 
 activation_32_8bit_module inst_0 (.clk(clk),.reset(reset),.inp(inp[260:0]),.outp(outp[257:0])); 
 
@@ -18774,7 +18774,7 @@ activation_32_8bit_module inst_6 (.clk(clk),.reset(reset),.inp(inp[1826:1566]),.
 
 endmodule 
 
-module adder_tree_4_4bit_8(input clk, input reset, input[511:0] inp, output reg [63:0] outp); 
+module adder_tree_4_4bit_8(input clk, input reset, input[511:0] inp, output [63:0] outp); 
 
 adder_tree_4_4bit inst_0 (.clk(clk),.reset(reset),.inp(inp[63:0]),.outp(outp[7:0])); 
 
@@ -18793,79 +18793,79 @@ adder_tree_4_4bit inst_6 (.clk(clk),.reset(reset),.inp(inp[447:384]),.outp(outp[
 adder_tree_4_4bit inst_7 (.clk(clk),.reset(reset),.inp(inp[511:448]),.outp(outp[63:56])); 
 
 endmodule 
-module adder_tree_1_16bit (input clk,input reset,input [31:0] inp, output reg [31:0] outp);
+module adder_tree_1_16bit (input clk,input reset,input [31:0] inp, output [31:0] outp);
 
 adder_tree_1stage_16bit inst(.clk(clk),.reset(reset),.inp00(inp[15:0]),.inp01(inp[31:16]),.sum_out(outp));
 
 endmodule
 
-module adder_tree_2_16bit (input clk, input reset, input [63:0] inp, output reg [31:0] outp);
+module adder_tree_2_16bit (input clk, input reset, input [63:0] inp, output [31:0] outp);
 
 adder_tree_2stage_16bit inst(.clk(clk),.reset(reset),.inp00(inp[15:0]),.inp01(inp[31:16]),.inp10(inp[47:32]),.inp11(inp[63:48]),.sum_out(outp));
 
 endmodule
 
-module adder_tree_3_16bit (input clk, input reset, input [127:0] inp, output reg [31:0] outp);
+module adder_tree_3_16bit (input clk, input reset, input [127:0] inp, output [31:0] outp);
 
 adder_tree_3stage_16bit inst (.clk(clk),.reset(reset),.inp00(inp[15:0]),.inp01(inp[31:16]),.inp10(inp[47:32]),.inp11(inp[63:48]),.inp20(inp[79:64]),.inp21(inp[95:80]),.inp30(inp[111:96]),.inp31(inp[127:112]),.sum_out(outp));
 
 endmodule
 
-module adder_tree_4_16bit (input clk, input reset, input [255:0] inp, output reg [31:0] outp);
+module adder_tree_4_16bit (input clk, input reset, input [255:0] inp, output [31:0] outp);
 
 adder_tree_4stage_16bit inst(.clk(clk),.reset(reset),.inp00(inp[15:0]),.inp01(inp[31:16]),.inp10(inp[47:32]),.inp11(inp[63:48]),.inp20(inp[79:64]),.inp21(inp[95:80]),.inp30(inp[111:96]),.inp31(inp[127:112]),.inp40(inp[143:128]),.inp41(inp[159:144]),.inp50(inp[175:160]),.inp51(inp[191:176]),.inp60(inp[207:192]),.inp61(inp[223:208]),.inp70(inp[239:224]),.inp71(inp[255:240]),.sum_out(outp));
 
 endmodule
 
-module adder_tree_1_8bit (input clk, input reset, input [15:0] inp, output reg [15:0] outp);
+module adder_tree_1_8bit (input clk, input reset, input [15:0] inp, output [15:0] outp);
 
 adder_tree_1stage_8bit inst(.clk(clk),.reset(reset),.inp00(inp[7:0]),.inp01(inp[15:8]),.sum_out(outp));
 
 endmodule
 
-module adder_tree_2_8bit (input clk, input reset, input [31:0] inp, output reg [15:0] outp);
+module adder_tree_2_8bit (input clk, input reset, input [31:0] inp, output [15:0] outp);
 
 adder_tree_2stage_8bit inst(.clk(clk),.reset(reset),.inp00(inp[7:0]),.inp01(inp[15:8]),.inp10(inp[23:16]),.inp11(inp[31:24]),.sum_out(outp));
 
 endmodule
 
-module adder_tree_3_8bit (input clk, input reset, input [63:0] inp, output reg [15:0] outp);
+module adder_tree_3_8bit (input clk, input reset, input [63:0] inp, output [15:0] outp);
 
 adder_tree_3stage_8bit inst (.clk(clk),.reset(reset),.inp00(inp[7:0]),.inp01(inp[15:8]),.inp10(inp[23:16]),.inp11(inp[31:24]),.inp20(inp[39:32]),.inp21(inp[47:40]),.inp30(inp[55:48]),.inp31(inp[63:56]),.sum_out(outp));
 
 endmodule
 
-module adder_tree_4_8bit (input clk, input reset, input [127:0] inp, output reg [15:0] outp);
+module adder_tree_4_8bit (input clk, input reset, input [127:0] inp, output [15:0] outp);
 
 adder_tree_4stage_8bit inst(.clk(clk),.reset(reset),.inp00(inp[7:0]),.inp01(inp[15:8]),.inp10(inp[23:16]),.inp11(inp[31:24]),.inp20(inp[39:32]),.inp21(inp[47:40]),.inp30(inp[55:48]),.inp31(inp[63:56]),.inp40(inp[71:64]),.inp41(inp[79:72]),.inp50(inp[87:80]),.inp51(inp[95:88]),.inp60(inp[103:96]),.inp61(inp[111:104]),.inp70(inp[119:112]),.inp71(inp[127:120]),.sum_out(outp));
 
 endmodule
 
-module adder_tree_1_4bit (input clk, input reset, input [7:0] inp, output reg [7:0] outp);
+module adder_tree_1_4bit (input clk, input reset, input [7:0] inp, output [7:0] outp);
 
 adder_tree_1stage_4bit inst(.clk(clk),.reset(reset),.inp00(inp[3:0]),.inp01(inp[7:4]),.sum_out(outp));
 
 endmodule
 
-module adder_tree_2_4bit (input clk, input reset, input [15:0] inp, output reg [7:0] outp);
+module adder_tree_2_4bit (input clk, input reset, input [15:0] inp, output [7:0] outp);
 
 adder_tree_2stage_4bit inst(.clk(clk),.reset(reset),.inp00(inp[3:0]),.inp01(inp[7:4]),.inp10(inp[11:8]),.inp11(inp[15:12]),.sum_out(outp));
 
 endmodule
 
-module adder_tree_3_4bit (input clk, input reset, input [31:0] inp, output reg [7:0] outp);
+module adder_tree_3_4bit (input clk, input reset, input [31:0] inp, output [7:0] outp);
 
 adder_tree_3stage_4bit inst (.clk(clk),.reset(reset),.inp00(inp[3:0]),.inp01(inp[7:4]),.inp10(inp[11:8]),.inp11(inp[15:12]),.inp20(inp[19:16]),.inp21(inp[23:20]),.inp30(inp[27:24]),.inp31(inp[31:28]),.sum_out(outp));
 
 endmodule
 
-module adder_tree_4_4bit (input clk, input reset, input [63:0] inp, output reg [7:0] outp);
+module adder_tree_4_4bit (input clk, input reset, input [63:0] inp, output [7:0] outp);
 
 adder_tree_4stage_4bit inst(.clk(clk),.reset(reset),.inp00(inp[3:0]),.inp01(inp[7:4]),.inp10(inp[11:8]),.inp11(inp[15:12]),.inp20(inp[19:16]),.inp21(inp[23:20]),.inp30(inp[27:24]),.inp31(inp[31:28]),.inp40(inp[35:32]),.inp41(inp[39:36]),.inp50(inp[43:40]),.inp51(inp[47:44]),.inp60(inp[51:48]),.inp61(inp[55:52]),.inp70(inp[59:56]),.inp71(inp[63:60]),.sum_out(outp));
 
 endmodule
 
-module adder_tree_3_fp16bit (input clk, input reset, input [131:0] inp, output reg [15:0] outp);
+module adder_tree_3_fp16bit (input clk, input reset, input [131:0] inp, output [15:0] outp);
 
 mode4_adder_tree inst(
   .inp0(inp[15:0]),
@@ -18888,158 +18888,158 @@ mode4_adder_tree inst(
 
 endmodule
 
-module dpram_1024_32bit_module (input clk, input reset, input [85:0] inp, output reg [63:0] outp);
+module dpram_1024_32bit_module (input clk, input reset, input [85:0] inp, output [63:0] outp);
 
 dpram inst (.clk(clk),.address_a(inp[9:0]),.address_b(inp[19:10]),.wren_a(inp[20]),.wren_b(inp[21]),.data_a(inp[53:22]),.data_b(inp[85:54]),.out_a(outp[31:0]),.out_b(outp[63:32]));
 
 endmodule
 
-module dpram_1024_64bit_module (input clk, input reset, input [149:0] inp, output reg [63:0] outp );
+module dpram_1024_64bit_module (input clk, input reset, input [149:0] inp, output [63:0] outp );
 
 dpram_1024_64bit inst (.clk(clk),.address_a(inp[9:0]),.address_b(inp[19:10]),.wren_a(inp[20]),.wren_b(inp[21]),.data_a(inp[85:22]),.data_b(inp[149:86]),.out_a(outp[31:0]),.out_b(outp[63:32]));
 
 endmodule
 
-module dpram_2048_64bit_module (input clk, input reset, input [151:0] inp, output reg [127:0] outp);
+module dpram_2048_64bit_module (input clk, input reset, input [151:0] inp, output [127:0] outp);
 
 dpram_2048_64bit inst (.clk(clk),.address_a(inp[10:0]),.address_b(inp[21:11]),.wren_a(inp[22]),.wren_b(inp[23]),.data_a(inp[87:24]),.data_b(inp[151:88]),.out_a(outp[63:0]),.out_b(outp[127:64]));
 
 endmodule
 
-module dpram_2048_32bit_module (input clk, input reset, input [87:0] inp, output reg [63:0] outp);
+module dpram_2048_32bit_module (input clk, input reset, input [87:0] inp, output [63:0] outp);
 
 dpram_2048_32bit inst (.clk(clk),.address_a(inp[10:0]),.address_b(inp[21:11]),.wren_a(inp[22]),.wren_b(inp[23]),.data_a(inp[55:24]),.data_b(inp[87:56]),.out_a(outp[31:0]),.out_b(outp[63:32]));
 
 endmodule
 
-module dpram_1024_40bit_module (input clk, input reset, input [101:0] inp, output reg [79:0] outp);
+module dpram_1024_40bit_module (input clk, input reset, input [101:0] inp, output [79:0] outp);
 
 dpram_1024_40bit inst (.clk(clk),.address_a(inp[9:0]),.address_b(inp[19:10]),.wren_a(inp[20]),.wren_b(inp[21]),.data_a(inp[61:22]),.data_b(inp[101:62]),.out_a(outp[39:0]),.out_b(outp[79:40]));
 
 endmodule
 
-module dpram_1024_60bit_module (input clk, input reset, input [141:0] inp, output reg [119:0] outp);
+module dpram_1024_60bit_module (input clk, input reset, input [141:0] inp, output [119:0] outp);
 
 dpram_1024_60bit inst (.clk(clk),.address_a(inp[9:0]),.address_b(inp[19:10]),.wren_a(inp[20]),.wren_b(inp[21]),.data_a(inp[81:22]),.data_b(inp[141:82]),.out_a(outp[59:0]),.out_b(outp[119:60]));
 
 endmodule
 
-module dpram_2048_40bit_module (input clk, input reset, input [103:0] inp, output reg [79:0] outp);
+module dpram_2048_40bit_module (input clk, input reset, input [103:0] inp, output [79:0] outp);
 
 dpram_2048_40bit inst (.clk(clk),.address_a(inp[10:0]),.address_b(inp[21:11]),.wren_a(inp[22]),.wren_b(inp[23]),.data_a(inp[63:24]),.data_b(inp[103:64]),.out_a(outp[39:0]),.out_b(outp[79:40]));
 
 endmodule
 
-module dpram_2048_60bit_module (input clk, input reset, input [143:0] inp, output reg [119:0] outp);
+module dpram_2048_60bit_module (input clk, input reset, input [143:0] inp, output [119:0] outp);
 
 dpram_2048_60bit inst (.clk(clk),.address_a(inp[10:0]),.address_b(inp[21:11]),.wren_a(inp[22]),.wren_b(inp[23]),.data_a(inp[83:24]),.data_b(inp[143:84]),.out_a(outp[59:0]),.out_b(outp[119:60]));
 
 endmodule
 
-module dpram_4096_40bit_module (input clk, input reset, input [105:0] inp, output reg [79:0] outp);
+module dpram_4096_40bit_module (input clk, input reset, input [105:0] inp, output [79:0] outp);
 
 dpram_4096_40bit inst (.clk(clk),.address_a(inp[11:0]),.address_b(inp[23:12]),.wren_a(inp[24]),.wren_b(inp[25]),.data_a(inp[65:26]),.data_b(inp[105:66]),.out_a(outp[39:0]),.out_b(outp[79:40]));
 
 endmodule
 
-module dpram_4096_60bit_module (input clk, input reset, input [145:0] inp, output reg [119:0] outp);
+module dpram_4096_60bit_module (input clk, input reset, input [145:0] inp, output [119:0] outp);
 
 dpram_4096_60bit inst (.clk(clk),.address_a(inp[11:0]),.address_b(inp[23:12]),.wren_a(inp[24]),.wren_b(inp[25]),.data_a(inp[85:26]),.data_b(inp[145:86]),.out_a(outp[59:0]),.out_b(outp[119:60]));
 
 endmodule
 
-module spram_1024_32bit_module (input clk,input reset,input [42:0] inp, output reg [31:0] outp);
+module spram_1024_32bit_module (input clk,input reset,input [42:0] inp, output [31:0] outp);
 
 spram inst (.clk(clk),.address(inp[9:0]),.wren(inp[10]),.data(inp[42:11]),.out(outp));
 
 endmodule
 
-module spram_2048_40bit_module (input clk,input reset,input [51:0] inp, output reg [39:0] outp);
+module spram_2048_40bit_module (input clk,input reset,input [51:0] inp, output [39:0] outp);
 
 spram_2048_40bit inst (.clk(clk),.address(inp[10:0]),.wren(inp[11]),.data(inp[51:12]),.out(outp));
 
 endmodule
 
-module spram_2048_60bit_module (input clk,input reset,input [71:0] inp, output reg [59:0] outp);
+module spram_2048_60bit_module (input clk,input reset,input [71:0] inp, output [59:0] outp);
 
 spram_2048_60bit inst (.clk(clk),.address(inp[10:0]),.wren(inp[11]),.data(inp[71:12]),.out(outp));
 
 endmodule
 
-module spram_4096_40bit_module (input clk,input reset,input [52:0] inp, output reg [39:0] outp);
+module spram_4096_40bit_module (input clk,input reset,input [52:0] inp, output [39:0] outp);
 
 spram_4096_40bit inst (.clk(clk),.address(inp[11:0]),.wren(inp[12]),.data(inp[52:13]),.out(outp));
 
 endmodule
 
-module spram_4096_60bit_module (input clk,input reset,input [72:0] inp, output reg [59:0] outp);
+module spram_4096_60bit_module (input clk,input reset,input [72:0] inp, output [59:0] outp);
 
 spram_4096_60bit inst (.clk(clk),.address(inp[11:0]),.wren(inp[12]),.data(inp[72:13]),.out(outp));
 
 endmodule
 
-module dbram_2048_40bit_module (input clk,input reset,input [103:0] inp, output reg [79:0] outp);
+module dbram_2048_40bit_module (input clk,input reset,input [103:0] inp, output [79:0] outp);
 
 dbram_2048_40bit inst (.clk(clk),.reset(reset),.address_a(inp[10:0]),.address_b(inp[21:11]),.wren_a(inp[22]),.wren_b(inp[23]),.data_a(inp[63:24]),.data_b(inp[103:64]),.out_a(outp[39:0]),.out_b(outp[79:40]));
 
 endmodule
 
-module dbram_2048_60bit_module (input clk,input reset,input [143:0] inp, output reg [119:0] outp);
+module dbram_2048_60bit_module (input clk,input reset,input [143:0] inp, output [119:0] outp);
 
 dbram_2048_60bit inst (.clk(clk),.reset(reset),.address_a(inp[10:0]),.address_b(inp[21:11]),.wren_a(inp[22]),.wren_b(inp[23]),.data_a(inp[83:24]),.data_b(inp[143:84]),.out_a(outp[59:0]),.out_b(outp[119:60]));
 
 endmodule
 
-module dbram_4096_40bit_module (input clk,input reset,input [105:0] inp, output reg [79:0] outp);
+module dbram_4096_40bit_module (input clk,input reset,input [105:0] inp, output [79:0] outp);
 
 dbram_4096_40bit inst (.clk(clk),.reset(reset),.address_a(inp[11:0]),.address_b(inp[23:12]),.wren_a(inp[24]),.wren_b(inp[25]),.data_a(inp[65:26]),.data_b(inp[105:66]),.out_a(outp[39:0]),.out_b(outp[79:40]));
 
 endmodule
 
-module dbram_4096_60bit_module (input clk,input reset,input [145:0] inp, output reg [119:0] outp);
+module dbram_4096_60bit_module (input clk,input reset,input [145:0] inp, output [119:0] outp);
 
 dbram_4096_60bit inst (.clk(clk),.reset(reset),.address_a(inp[11:0]),.address_b(inp[23:12]),.wren_a(inp[24]),.wren_b(inp[25]),.data_a(inp[85:26]),.data_b(inp[145:86]),.out_a(outp[59:0]),.out_b(outp[119:60]));
 
 endmodule
 
 
-module fifo_256_40bit_module (input clk,input reset,input [42:0] inp, output reg [41:0] outp);
+module fifo_256_40bit_module (input clk,input reset,input [42:0] inp, output [41:0] outp);
 
 fifo_256_40bit inst (.clk(clk),.rst(reset),.clr(inp[0]),.din(inp[40:1]),.we(inp[41]),.dout(outp[39:0]),.re(inp[42]),.full(outp[40]),.empty(outp[41]));
 
 endmodule
 
-module fifo_256_60bit_module (input clk,input reset,input [62:0] inp, output reg [61:0] outp);
+module fifo_256_60bit_module (input clk,input reset,input [62:0] inp, output [61:0] outp);
 
 fifo_256_60bit inst (.clk(clk),.rst(reset),.clr(inp[0]),.din(inp[60:1]),.we(inp[61]),.dout(outp[59:0]),.re(inp[62]),.full(outp[60]),.empty(outp[61]));
 
 endmodule
 
-module fifo_512_60bit_module (input clk,input reset,input [62:0] inp, output reg [61:0] outp);
+module fifo_512_60bit_module (input clk,input reset,input [62:0] inp, output [61:0] outp);
 
 fifo_512_60bit inst (.clk(clk),.rst(reset),.clr(inp[0]),.din(inp[60:1]),.we(inp[61]),.dout(outp[59:0]),.re(inp[62]),.full(outp[60]),.empty(outp[61]));
 
 endmodule
 
-module fifo_512_40bit_module (input clk,input reset,input [42:0] inp, output reg [41:0] outp);
+module fifo_512_40bit_module (input clk,input reset,input [42:0] inp, output [41:0] outp);
 
 fifo_512_40bit inst (.clk(clk),.rst(reset),.clr(inp[0]),.din(inp[40:1]),.we(inp[41]),.dout(outp[39:0]),.re(inp[42]),.full(outp[40]),.empty(outp[41]));
 
 endmodule
 
-module tanh_16bit (input clk,input reset, input [15:0] inp, output reg [15:0] outp);
+module tanh_16bit (input clk,input reset, input [15:0] inp, output [15:0] outp);
 
 tanh inst (.x(inp),.tanh_out(outp));
 
 endmodule
 
-module sigmoid_16bit (input clk,input reset, input [15:0] inp, output reg [15:0] outp);
+module sigmoid_16bit (input clk,input reset, input [15:0] inp, output [15:0] outp);
 
 sigmoid inst (.x(inp),.sig_out(outp));
 
 endmodule
 
-module systolic_array_4_16bit (input clk, input reset, input [254:0] inp, output reg [130:0] outp);
+module systolic_array_4_16bit (input clk, input reset, input [254:0] inp, output [130:0] outp);
 
 matmul_4x4_systolic inst(
  .clk(clk),
@@ -19075,7 +19075,7 @@ matmul_4x4_systolic inst(
 
 endmodule
 
-module systolic_array_8_16bit (input clk, input reset, input [785:0] inp, output reg [433:0] outp);
+module systolic_array_8_16bit (input clk, input reset, input [785:0] inp, output [433:0] outp);
 
 matmul_8x8_systolic inst(
  .clk(clk),
@@ -19111,7 +19111,7 @@ matmul_8x8_systolic inst(
 
 endmodule
 
-module systolic_array_4_fp16bit (input clk, input reset, input [417:0] inp, output reg [223:0] outp);
+module systolic_array_4_fp16bit (input clk, input reset, input [417:0] inp, output [223:0] outp);
 
 matmul_4x4_fp_systolic inst(
  .clk(clk),
@@ -19147,43 +19147,43 @@ matmul_4x4_fp_systolic inst(
 
 endmodule
 
-module dsp_chain_2_int_sop_2_module (input clk, input reset, input [147:0] inp, output reg [36:0] outp);
+module dsp_chain_2_int_sop_2_module (input clk, input reset, input [147:0] inp, output [36:0] outp);
 
 dsp_chain_2_int_sop_2 inst(.clk(clk),.reset(reset),.ax1(inp[17:0]),.ay1(inp[36:18]),.bx1(inp[54:37]),.by1(inp[73:55]),.ax2(inp[91:74]),.ay2(inp[110:92]),.bx2(inp[128:111]),.by2(inp[147:129]),.result(outp[36:0]));
 
 endmodule
 
-module dsp_chain_3_int_sop_2_module (input clk, input reset, input [221:0] inp, output reg [36:0] outp);
+module dsp_chain_3_int_sop_2_module (input clk, input reset, input [221:0] inp, output [36:0] outp);
 
 dsp_chain_3_int_sop_2 inst(.clk(clk),.reset(reset),.ax1(inp[17:0]),.ay1(inp[36:18]),.bx1(inp[54:37]),.by1(inp[73:55]),.ax2(inp[91:74]),.ay2(inp[110:92]),.bx2(inp[128:111]),.by2(inp[147:129]),.ax3(inp[165:148]),.ay3(inp[184:166]),.bx3(inp[202:185]),.by3(inp[221:203]),.result(outp[36:0]));
 
 endmodule
 
-module dsp_chain_4_int_sop_2_module (input clk, input reset, input [295:0] inp, output reg [36:0] outp);
+module dsp_chain_4_int_sop_2_module (input clk, input reset, input [295:0] inp, output [36:0] outp);
 
 dsp_chain_4_int_sop_2 inst(.clk(clk),.reset(reset),.ax1(inp[17:0]),.ay1(inp[36:18]),.bx1(inp[54:37]),.by1(inp[73:55]),.ax2(inp[91:74]),.ay2(inp[110:92]),.bx2(inp[128:111]),.by2(inp[147:129]),.ax3(inp[165:148]),.ay3(inp[184:166]),.bx3(inp[202:185]),.by3(inp[221:203]),.ax4(inp[239:222]),.ay4(inp[258:240]),.bx4(inp[276:259]),.by4(inp[295:277]),.result(outp[36:0]));
 
 endmodule
 
-module dsp_chain_2_fp16_sop2_mult_module (input clk, input reset, input [127:0] inp, output reg [31:0] outp);
+module dsp_chain_2_fp16_sop2_mult_module (input clk, input reset, input [127:0] inp, output [31:0] outp);
 
 dsp_chain_2_fp16_sop2_mult inst(.clk(clk),.reset(reset),.top_a1(inp[15:0]),.top_b1(inp[31:16]),.bot_a1(inp[47:32]),.bot_b1(inp[63:48]),.top_a2(inp[79:64]),.top_b2(inp[95:80]),.bot_a2(inp[111:96]),.bot_b2(inp[127:112]),.result(outp));
 
 endmodule
 
-module dsp_chain_3_fp16_sop2_mult_module (input clk, input reset, input [191:0] inp, output reg [31:0] outp);
+module dsp_chain_3_fp16_sop2_mult_module (input clk, input reset, input [191:0] inp, output [31:0] outp);
 
 dsp_chain_3_fp16_sop2_mult inst(.clk(clk),.reset(reset),.top_a1(inp[15:0]),.top_b1(inp[31:16]),.bot_a1(inp[47:32]),.bot_b1(inp[63:48]),.top_a2(inp[79:64]),.top_b2(inp[95:80]),.bot_a2(inp[111:96]),.bot_b2(inp[127:112]),.top_a3(inp[143:128]),.top_b3(inp[159:144]),.bot_a3(inp[175:160]),.bot_b3(inp[191:176]),.result(outp));
 
 endmodule
 
-module dsp_chain_4_fp16_sop2_mult_module (input clk, input reset, input [255:0] inp, output reg [31:0] outp);
+module dsp_chain_4_fp16_sop2_mult_module (input clk, input reset, input [255:0] inp, output [31:0] outp);
 
 dsp_chain_4_fp16_sop2_mult inst(.clk(clk),.reset(reset),.top_a1(inp[15:0]),.top_b1(inp[31:16]),.bot_a1(inp[47:32]),.bot_b1(inp[63:48]),.top_a2(inp[79:64]),.top_b2(inp[95:80]),.bot_a2(inp[111:96]),.bot_b2(inp[127:112]),.top_a3(inp[143:128]),.top_b3(inp[159:144]),.bot_a3(inp[175:160]),.bot_b3(inp[191:176]),.top_a4(inp[207:192]),.top_b4(inp[223:208]),.bot_a4(inp[239:224]),.bot_b4(inp[255:240]),.result(outp));
 
 endmodule
 
-module tensor_block_bf16_module (input clk, input reset, input [264:0] inp, output reg [271:0] outp);
+module tensor_block_bf16_module (input clk, input reset, input [264:0] inp, output [271:0] outp);
 
 tensor_block_bf16 inst(
 	.clk(clk),
@@ -19215,7 +19215,7 @@ tensor_block_bf16 inst(
 
 endmodule
 
-module tensor_block_int8_module (input clk, input reset, input [264:0] inp, output reg [250:0] outp);
+module tensor_block_int8_module (input clk, input reset, input [264:0] inp, output [250:0] outp);
 
 tensor_block inst(
 	.clk(clk),
@@ -19248,7 +19248,7 @@ tensor_block inst(
 endmodule
 
 
-module activation_32_8bit_module (input clk, input reset, input [260:0] inp, output reg [257:0] outp);
+module activation_32_8bit_module (input clk, input reset, input [260:0] inp, output [257:0] outp);
 
 activation_32_8bit inst (
     .activation_type(inp[0]),
@@ -19265,7 +19265,7 @@ activation_32_8bit inst (
 
 endmodule
 
-module activation_32_16bit_module (input clk, input reset, input [515:0] inp, output reg [513:0] outp);
+module activation_32_16bit_module (input clk, input reset, input [515:0] inp, output [513:0] outp);
 
 activation_32_16bit inst (
     .activation_type(inp[0]),
@@ -19434,8 +19434,8 @@ input [17:0] ax, bx;
 input [18:0] ay, by;
 input [36:0] chainin;
 
-output reg [36:0] resulta;
-output reg [36:0] chainout;
+output [36:0] resulta;
+output [36:0] chainout;
 
 wire [11:0] mode_sigs_int;
 assign mode_sigs_int = {1'b0, mode_sigs};
@@ -19461,16 +19461,18 @@ input [17:0] ax, bx;
 input [18:0] ay, by;
 input [36:0] chainin;
 
-output reg [36:0] resulta;
-output reg [36:0] chainout;
+output [36:0] resulta;
+output [36:0] chainout;
 reg [17:0] ax_reg;
 reg [18:0] ay_reg;
 reg [17:0] bx_reg;
 reg [18:0] by_reg;
-reg [36:0] resulta;
+reg [36:0] resulta_reg;
+reg [36:0] resultaxy_reg;
+reg [36:0] resultbxy_reg;
 always @(posedge clk) begin
   if(reset) begin
-    resulta <= 0;
+    resulta_reg <= 0;
     ax_reg <= 0;
     ay_reg <= 0;
     bx_reg <= 0;
@@ -19481,10 +19483,13 @@ always @(posedge clk) begin
     ay_reg <= ay;
     bx_reg <= bx;
     by_reg <= by;
-    resulta <= ax_reg * ay_reg + bx_reg * by_reg + chainin;
+    resultaxy_reg <= ax_reg * ay_reg;
+    resultbxy_reg <= bx_reg * by_reg;
+    resulta_reg <= resultaxy_reg + resultbxy_reg + chainin;
   end
 end
-assign chainout = resulta;
+assign resulta = resulta_reg;
+assign chainout = resulta_reg;
 endmodule
 `endif
 
@@ -20498,7 +20503,7 @@ dpram_512_40bit #(
 	) u0 (
 	.clk(clk),
 	.address_a(rp),
-	.wren_a(0),
+	.wren_a(1'b0),
 	.data_a(din_nc),
 	.out_a(dout),
 	.address_b(wp),
@@ -20576,12 +20581,14 @@ input  wren_a;
 input  wren_b;
 input [(DWIDTH-1):0] data_a;
 input [(DWIDTH-1):0] data_b;
-output reg [(DWIDTH-1):0] out_a;
-output reg [(DWIDTH-1):0] out_b;
+output [(DWIDTH-1):0] out_a;
+output [(DWIDTH-1):0] out_b;
 
 `ifndef hard_mem
 
 	reg [DWIDTH-1:0] ram[NUM_WORDS-1:0];
+  reg [(DWIDTH-1):0] out_a;
+  reg [(DWIDTH-1):0] out_b;
 
 	always @ (posedge clk) begin
 		if (wren_a) begin
@@ -20659,7 +20666,7 @@ dpram_256_40bit #(
 	) u0 (
 	.clk(clk),
 	.address_a(rp),
-	.wren_a(0),
+	.wren_a(1'b0),
 	.data_a(din_nc),
 	.out_a(dout),
 	.address_b(wp),
@@ -20737,12 +20744,14 @@ input  wren_a;
 input  wren_b;
 input [(DWIDTH-1):0] data_a;
 input [(DWIDTH-1):0] data_b;
-output reg [(DWIDTH-1):0] out_a;
-output reg [(DWIDTH-1):0] out_b;
+output [(DWIDTH-1):0] out_a;
+output [(DWIDTH-1):0] out_b;
 
 `ifndef hard_mem
 
 	reg [DWIDTH-1:0] ram[NUM_WORDS-1:0];
+  reg [(DWIDTH-1):0] out_a;
+  reg [(DWIDTH-1):0] out_b;
 
 	always @ (posedge clk) begin
 		if (wren_a) begin
@@ -20789,7 +20798,7 @@ input clk;
 input reset; 
 input [17:0] ax1, bx1, ax2, bx2, ax3, bx3, ax4, bx4; 
 input [18:0] ay1, by1, ay2, by2, ay3, by3, ay4, by4; 
-output reg [36:0] result; 
+output [36:0] result; 
 
 wire [36:0] chainout0, chainout1, chainout2, chainout3; 
 wire [36:0] chainin0, chainin1, chainin2, chainin3; 
@@ -20813,7 +20822,7 @@ input clk;
 input reset; 
 input [17:0] ax1, bx1, ax2, bx2, ax3, bx3; 
 input [18:0] ay1, by1, ay2, by2, ay3, by3; 
-output reg [36:0] result; 
+output [36:0] result; 
 
 wire [36:0] chainout0, chainout1, chainout2; 
 wire [36:0] chainin0, chainin1, chainin2; 
@@ -20867,7 +20876,7 @@ dpram_256_60bit #(
 	) u0 (
 	.clk(clk),
 	.address_a(rp),
-	.wren_a(0),
+	.wren_a(1'b0),
 	.data_a(din_nc),
 	.out_a(dout),
 	.address_b(wp),
@@ -20945,12 +20954,14 @@ input  wren_a;
 input  wren_b;
 input [(DWIDTH-1):0] data_a;
 input [(DWIDTH-1):0] data_b;
-output reg [(DWIDTH-1):0] out_a;
-output reg [(DWIDTH-1):0] out_b;
+output [(DWIDTH-1):0] out_a;
+output [(DWIDTH-1):0] out_b;
 
 `ifndef hard_mem
 
 	reg [DWIDTH-1:0] ram[NUM_WORDS-1:0];
+  reg [(DWIDTH-1):0] out_a;
+  reg [(DWIDTH-1):0] out_b;
 
 	always @ (posedge clk) begin
 		if (wren_a) begin
@@ -21028,7 +21039,7 @@ dpram_512_60bit #(
 	) u0 (
 	.clk(clk),
 	.address_a(rp),
-	.wren_a(0),
+	.wren_a(1'b0),
 	.data_a(din_nc),
 	.out_a(dout),
 	.address_b(wp),
@@ -21106,12 +21117,14 @@ input  wren_a;
 input  wren_b;
 input [(DWIDTH-1):0] data_a;
 input [(DWIDTH-1):0] data_b;
-output reg [(DWIDTH-1):0] out_a;
-output reg [(DWIDTH-1):0] out_b;
+output [(DWIDTH-1):0] out_a;
+output [(DWIDTH-1):0] out_b;
 
 `ifndef hard_mem
 
 	reg [DWIDTH-1:0] ram[NUM_WORDS-1:0];
+  reg [(DWIDTH-1):0] out_a;
+  reg [(DWIDTH-1):0] out_b;
 
 	always @ (posedge clk) begin
 		if (wren_a) begin
@@ -21380,7 +21393,7 @@ reg [4:0] address;
 assign x_comp = x[15]? {1'b0,~(x[14:0])}+1'b1:x; // first take 2's complement if x is negative
 assign tanh_out = x[15]?(~lut+1'b1):lut; // take 2's complement of tanh if x was negative
 
-always @(address)
+always @(address, x_comp)
 begin
   case(address)
   5'd0:  lut =16'b0000100000000010; //address(0.55)
@@ -21411,7 +21424,7 @@ begin
   endcase
 end
 
-always@(x)
+always@(x_comp)
 begin
   /*if(rst == 0)
         tanh_out = 0;
@@ -21490,7 +21503,8 @@ begin
            begin
                address = 5'd23;
            end
-    else if(x_comp >= 16'h3000)
+    else
+    //else if(x_comp >= 16'h3000)
            begin
                address = 5'd22;
            end
@@ -21507,7 +21521,7 @@ input clk;
 input reset; 
 input [17:0] ax1, bx1, ax2, bx2; 
 input [18:0] ay1, by1, ay2, by2; 
-output reg [36:0] result; 
+output [36:0] result; 
 
 wire [36:0] chainout0, chainout1; 
 wire [36:0] chainin0, chainin1; 
@@ -21763,9 +21777,7 @@ begin
         4'b0101: address = lut[46];
         4'b0110: address = lut[46];
         4'b0111: address = lut[46];  */
-        /*default:begin
-                        address = 16'h1000;
-                end*/
+        default: address = 16'h1000;
         endcase
 
 end

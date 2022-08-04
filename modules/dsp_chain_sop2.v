@@ -16,8 +16,8 @@ input [17:0] ax, bx;
 input [18:0] ay, by;
 input [36:0] chainin;
 
-output reg [36:0] resulta;
-output reg [36:0] chainout;
+output [36:0] resulta;
+output [36:0] chainout;
 
 wire [11:0] mode_sigs_int;
 assign mode_sigs_int = {1'b0, mode_sigs};
@@ -43,16 +43,18 @@ input [17:0] ax, bx;
 input [18:0] ay, by;
 input [36:0] chainin;
 
-output reg [36:0] resulta;
-output reg [36:0] chainout;
+output [36:0] resulta;
+output [36:0] chainout;
 reg [17:0] ax_reg;
 reg [18:0] ay_reg;
 reg [17:0] bx_reg;
 reg [18:0] by_reg;
-reg [36:0] resulta;
+reg [36:0] resulta_reg;
+reg [36:0] resultaxy_reg;
+reg [36:0] resultbxy_reg;
 always @(posedge clk) begin
   if(reset) begin
-    resulta <= 0;
+    resulta_reg <= 0;
     ax_reg <= 0;
     ay_reg <= 0;
     bx_reg <= 0;
@@ -63,10 +65,13 @@ always @(posedge clk) begin
     ay_reg <= ay;
     bx_reg <= bx;
     by_reg <= by;
-    resulta <= ax_reg * ay_reg + bx_reg * by_reg + chainin;
+    resultaxy_reg <= ax_reg * ay_reg;
+    resultbxy_reg <= bx_reg * by_reg;
+    resulta_reg <= resultaxy_reg + resultbxy_reg + chainin;
   end
 end
-assign chainout = resulta;
+assign resulta = resulta_reg;
+assign chainout = resulta_reg;
 endmodule
 `endif
 

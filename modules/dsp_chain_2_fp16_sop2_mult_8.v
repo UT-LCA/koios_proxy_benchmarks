@@ -1,5 +1,5 @@
 
-module dsp_chain_2_dsp_chain_2_fp16_sop2_mult_module_8 (input clk, input reset, input[1023:0] inp, output reg [255:0] outp); 
+module dsp_chain_2_dsp_chain_2_fp16_sop2_mult_module_8 (input clk, input reset, input[1023:0] inp, output [255:0] outp); 
 
  dsp_chain_2_dsp_chain_2_fp16_sop2_mult_module inst0 (.clk(clk),.reset(reset),.inp(inp[127:0]),.outp(outp[31:0])); 
 

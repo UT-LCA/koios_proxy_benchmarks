@@ -36,7 +36,7 @@ dpram_256_40bit #(
 	) u0 (
 	.clk(clk),
 	.address_a(rp),
-	.wren_a(0),
+	.wren_a(1'b0),
 	.data_a(din_nc),
 	.out_a(dout),
 	.address_b(wp),
@@ -114,12 +114,14 @@ input  wren_a;
 input  wren_b;
 input [(DWIDTH-1):0] data_a;
 input [(DWIDTH-1):0] data_b;
-output reg [(DWIDTH-1):0] out_a;
-output reg [(DWIDTH-1):0] out_b;
+output [(DWIDTH-1):0] out_a;
+output [(DWIDTH-1):0] out_b;
 
 `ifndef hard_mem
 
 	reg [DWIDTH-1:0] ram[NUM_WORDS-1:0];
+  reg [(DWIDTH-1):0] out_a;
+  reg [(DWIDTH-1):0] out_b;
 
 	always @ (posedge clk) begin
 		if (wren_a) begin

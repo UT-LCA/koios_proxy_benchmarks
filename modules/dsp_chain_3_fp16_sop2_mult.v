@@ -3,7 +3,7 @@ module dsp_chain_3_fp16_sop2_mult (clk,reset,top_a1,top_b1,bot_a1,bot_b1,top_a2,
 input clk;
 input reset; 
 input [15:0] top_a1, top_b1, bot_a1, bot_b1, top_a2, top_b2, bot_a2, bot_b2, top_a3, top_b3, bot_a3, bot_b3; 
-output reg [31:0] result; 
+output [31:0] result; 
 
 wire [31:0] chainin0, chainin1, chainin2;
 wire [31:0] chainout0, chainout1, chainout2; 

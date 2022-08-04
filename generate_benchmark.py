@@ -105,7 +105,7 @@ def interface_algorithm(f, interface_name, input_bits, output_bits,interconnect_
                 #since new_input_bits is even we can divide it by two.
                 if new_input_bits > output_bits: #if input bits greater than output bits
 
-                    f.writelines("reg [" + str(int((new_input_bits/2) -1 )) + ":0]" + L + "_" + str(i) + "; \n \n" )
+                    f.writelines("wire [" + str(int((new_input_bits/2) -1 )) + ":0]" + L + "_" + str(i) + "; \n \n" )
                     #f.writelines("always@(posedge clk) begin \n")
                     sel = L + "_" + str(int(i-1)) + "[0]"
 
@@ -305,7 +305,7 @@ def generate_parallel_modules(hardware,instance,module_dict):
                     inp = ins*number
                     outp = out*number
                     parallel_name = name + "_" + str(number)
-                    f.writelines("module " + parallel_name + "(input clk, input reset, input[" + str(int(inp-1)) + ":0] inp, output reg [" + str(int(outp-1)) + ":0] outp); \n")
+                    f.writelines("module " + parallel_name + "(input clk, input reset, input[" + str(int(inp-1)) + ":0] inp, output [" + str(int(outp-1)) + ":0] outp); \n")
                     for y in range(number):
                         f.writelines("\n" + name + " inst_" + str(y) + " (.clk(clk),.reset(reset),.inp(inp[" + str(int((ins*(y+1))-1)) + ":" + str(int((ins*y))) + "]),.outp(outp[" + str(int((out*(y+1))-1)) + ":" + str(int((out*y))) + "])); \n")
                     f.writelines("\n" + "endmodule \n")

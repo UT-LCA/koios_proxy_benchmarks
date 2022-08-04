@@ -12,10 +12,11 @@ input clk;
 input [(AWIDTH-1):0] address;
 input  wren;
 input [(DWIDTH-1):0] data;
-output reg [(DWIDTH-1):0] out;
+output [(DWIDTH-1):0] out;
 
 `ifndef hard_mem
 
+reg [(DWIDTH-1):0] out;
 reg [DWIDTH-1:0] ram[NUM_WORDS-1:0];
 always @ (posedge clk) begin 
   if (wren) begin

@@ -19,10 +19,12 @@ input  wren_a;
 input  wren_b;
 input [(DWIDTH-1):0] data_a;
 input [(DWIDTH-1):0] data_b;
-output reg [(DWIDTH-1):0] out_a;
-output reg [(DWIDTH-1):0] out_b;
+output [(DWIDTH-1):0] out_a;
+output [(DWIDTH-1):0] out_b;
 
 `ifdef SIMULATION_MEMORY
+reg [(DWIDTH-1):0] out_a;
+reg [(DWIDTH-1):0] out_b;
 
 reg [DWIDTH-1:0] ram[NUM_WORDS-1:0];
 always @ (posedge clk) begin 

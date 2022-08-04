@@ -12,7 +12,7 @@ reg [4:0] address;
 assign x_comp = x[15]? {1'b0,~(x[14:0])}+1'b1:x; // first take 2's complement if x is negative
 assign tanh_out = x[15]?(~lut+1'b1):lut; // take 2's complement of tanh if x was negative
 
-always @(address)
+always @(address, x_comp)
 begin
   case(address)
   5'd0:  lut =16'b0000100000000010; //address(0.55)
@@ -43,7 +43,7 @@ begin
   endcase
 end
 
-always@(x)
+always@(x_comp)
 begin
   /*if(rst == 0)
         tanh_out = 0;
@@ -122,7 +122,8 @@ begin
            begin
                address = 5'd23;
            end
-    else if(x_comp >= 16'h3000)
+    else
+    //else if(x_comp >= 16'h3000)
            begin
                address = 5'd22;
            end
