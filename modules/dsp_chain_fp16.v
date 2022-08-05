@@ -22,7 +22,7 @@ output [31:0] chainout, result;
 
 reg [15:0] top_a_reg,top_b_reg,bot_a_reg,bot_b_reg; 
 reg [31:0] chainin_reg; 
-reg [31:0] r1,r2,r3; 
+wire [31:0] r1,r2,r3; 
 always@(posedge clk) begin 
 if(reset) begin 
 top_a_reg<= 16'b0; 
