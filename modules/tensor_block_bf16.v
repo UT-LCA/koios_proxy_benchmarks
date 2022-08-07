@@ -76,7 +76,7 @@ assign mux1_out = mux1_select ? cascade_in : data_in;
 reg [79:0]dot_unit_input_1;
 
 // D Flip Flop with reset and enable
-always @ (posedge clk, posedge reset) begin
+always @ (posedge clk) begin
 	if (reset == 1'b1) dot_unit_input_1 <= 0;
 	else if (dot_unit_input_1_enable) dot_unit_input_1 <= data_in;
 end
@@ -86,7 +86,7 @@ reg[79:0] bank0_reg0;
 reg[79:0] bank0_reg1;
 reg[79:0] bank0_reg2;
 
-always @ (posedge clk, posedge reset) begin
+always @ (posedge clk) begin
 	if (reset == 1'b1) begin
 		bank0_reg0 <= 0;
 		bank0_reg1 <= 0;
@@ -104,7 +104,7 @@ reg[79:0] bank1_reg0;
 reg[79:0] bank1_reg1;
 reg[79:0] bank1_reg2;
 
-always @ (posedge clk, posedge reset) begin
+always @ (posedge clk) begin
 	if (reset == 1'b1) begin
 		bank1_reg0 <= 0;
 		bank1_reg1 <= 0;
@@ -142,7 +142,7 @@ reg [31:0] dot_unit_output_0_flopped;
 reg [31:0] dot_unit_output_1_flopped;
 reg [31:0] dot_unit_output_2_flopped;
 
-always @ (posedge clk, posedge reset) begin
+always @ (posedge clk) begin
 	if (reset == 1'b1) begin
 		dot_unit_output_0_flopped <= 0;
 		dot_unit_output_1_flopped <= 0;
@@ -177,7 +177,7 @@ assign accumulator_unit1_input1 = accumulator_input1_select[1] ?  accumulator_un
 assign accumulator_unit2_input1 = accumulator_input1_select[2] ?  accumulator_unit_output_2_flopped : acc2_in_flopped;
 
 // Flopping the accumulator outputs and acc_in 
-always @ (posedge clk, posedge reset) begin
+always @ (posedge clk) begin
 	if (reset == 1'b1) begin
 		accumulator_unit_output_0_flopped <= 0;
 		accumulator_unit_output_1_flopped <= 0;

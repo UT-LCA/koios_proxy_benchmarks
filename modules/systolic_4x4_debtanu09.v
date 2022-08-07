@@ -64,7 +64,7 @@ module systolic_array(inp_west0, inp_west4, inp_west8, inp_west12,
 	block P14 (outp_south10, outp_east13, clk, rst, outp_south14, outp_east14, result14);
 	block P15 (outp_south11, outp_east14, clk, rst, outp_south15, outp_east15, result15);
 	
-	always @(posedge clk or posedge rst) begin
+	always @(posedge clk) begin
 		if(rst) begin
 			done <= 0;
 			count <= 0;
@@ -110,7 +110,7 @@ module block(inp_north, inp_west, clk, rst, outp_south, outp_east, result);
 	input clk, rst;
 	output reg [63:0] result;
 	wire [63:0] multi;
-	always @(posedge rst or posedge clk) begin
+	always @(posedge clk) begin
 		if(rst) begin
 			result <= 0;
 			outp_east <= 0;

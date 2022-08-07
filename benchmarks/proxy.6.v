@@ -10241,23 +10241,23 @@ dpram_512_60bit #(
 // Misc Logic
 //
 
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)	wp <= {aw{1'b0}};
 	else
 	if(clr)		wp <= {aw{1'b0}};
 	else
 	if(we)		wp <= wp_pl1;
 
-assign wp_pl1 = wp + { {aw-1{1'b0}}, 1'b1};
+assign wp_pl1 = wp + 1'b1;
 
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)		rp <= {aw{1'b0}};
 	else
 	if(clr)		rp <= {aw{1'b0}};
 	else
 	if(re)		rp <= rp_pl1;
 
-assign rp_pl1 = rp + { {aw-1{1'b0}}, 1'b1};
+assign rp_pl1 = rp + 1'b1;
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -10268,7 +10268,7 @@ assign empty = ((wp == rp) & !gb);
 assign full  = ((wp == rp) &  gb);
 
 // Guard Bit ...
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)						gb <= 1'b0;
 	else
 	if(clr)						gb <= 1'b0;
@@ -10405,23 +10405,23 @@ dpram_256_40bit #(
 // Misc Logic
 //
 
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)	wp <= {aw{1'b0}};
 	else
 	if(clr)		wp <= {aw{1'b0}};
 	else
 	if(we)		wp <= wp_pl1;
 
-assign wp_pl1 = wp + { {aw-1{1'b0}}, 1'b1};
+assign wp_pl1 = wp + 1'b1;
 
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)		rp <= {aw{1'b0}};
 	else
 	if(clr)		rp <= {aw{1'b0}};
 	else
 	if(re)		rp <= rp_pl1;
 
-assign rp_pl1 = rp + { {aw-1{1'b0}}, 1'b1};
+assign rp_pl1 = rp + 1'b1;
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -10432,7 +10432,7 @@ assign empty = ((wp == rp) & !gb);
 assign full  = ((wp == rp) &  gb);
 
 // Guard Bit ...
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)						gb <= 1'b0;
 	else
 	if(clr)						gb <= 1'b0;
@@ -10579,7 +10579,7 @@ assign mux1_out = mux1_select ? cascade_in : data_in;
 reg [79:0]dot_unit_input_1;
 
 // D Flip Flop with reset and enable
-always @ (posedge clk, posedge reset) begin
+always @ (posedge clk) begin
 	if (reset == 1'b1) dot_unit_input_1 <= 0;
 	else if (dot_unit_input_1_enable) dot_unit_input_1 <= data_in;
 end
@@ -10589,7 +10589,7 @@ reg[79:0] bank0_reg0;
 reg[79:0] bank0_reg1;
 reg[79:0] bank0_reg2;
 
-always @ (posedge clk, posedge reset) begin
+always @ (posedge clk) begin
 	if (reset == 1'b1) begin
 		bank0_reg0 <= 0;
 		bank0_reg1 <= 0;
@@ -10607,7 +10607,7 @@ reg[79:0] bank1_reg0;
 reg[79:0] bank1_reg1;
 reg[79:0] bank1_reg2;
 
-always @ (posedge clk, posedge reset) begin
+always @ (posedge clk) begin
 	if (reset == 1'b1) begin
 		bank1_reg0 <= 0;
 		bank1_reg1 <= 0;
@@ -10645,7 +10645,7 @@ reg [19:0] dot_unit_output_0_flopped;
 reg [19:0] dot_unit_output_1_flopped;
 reg [19:0] dot_unit_output_2_flopped;
 
-always @ (posedge clk, posedge reset) begin
+always @ (posedge clk) begin
 	if (reset == 1'b1) begin
 		dot_unit_output_0_flopped <= 0;
 		dot_unit_output_1_flopped <= 0;
@@ -10680,7 +10680,7 @@ assign accumulator_unit1_input1 = accumulator_input1_select[1] ?  accumulator_un
 assign accumulator_unit2_input1 = accumulator_input1_select[2] ?  accumulator_unit_output_2_flopped : acc2_in_flopped;
 
 // Flopping the accumulator outputs and acc_in 
-always @ (posedge clk, posedge reset) begin
+always @ (posedge clk) begin
 	if (reset == 1'b1) begin
 		accumulator_unit_output_0_flopped <= 0;
 		accumulator_unit_output_1_flopped <= 0;
@@ -10925,23 +10925,23 @@ dpram_256_60bit #(
 // Misc Logic
 //
 
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)	wp <= {aw{1'b0}};
 	else
 	if(clr)		wp <= {aw{1'b0}};
 	else
 	if(we)		wp <= wp_pl1;
 
-assign wp_pl1 = wp + { {aw-1{1'b0}}, 1'b1};
+assign wp_pl1 = wp + 1'b1;
 
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)		rp <= {aw{1'b0}};
 	else
 	if(clr)		rp <= {aw{1'b0}};
 	else
 	if(re)		rp <= rp_pl1;
 
-assign rp_pl1 = rp + { {aw-1{1'b0}}, 1'b1};
+assign rp_pl1 = rp + 1'b1;
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -10952,7 +10952,7 @@ assign empty = ((wp == rp) & !gb);
 assign full  = ((wp == rp) &  gb);
 
 // Guard Bit ...
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)						gb <= 1'b0;
 	else
 	if(clr)						gb <= 1'b0;
@@ -11088,23 +11088,23 @@ dpram_512_40bit #(
 // Misc Logic
 //
 
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)	wp <= {aw{1'b0}};
 	else
 	if(clr)		wp <= {aw{1'b0}};
 	else
 	if(we)		wp <= wp_pl1;
 
-assign wp_pl1 = wp + { {aw-1{1'b0}}, 1'b1};
+assign wp_pl1 = wp + 1'b1;
 
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)		rp <= {aw{1'b0}};
 	else
 	if(clr)		rp <= {aw{1'b0}};
 	else
 	if(re)		rp <= rp_pl1;
 
-assign rp_pl1 = rp + { {aw-1{1'b0}}, 1'b1};
+assign rp_pl1 = rp + 1'b1;
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -11115,7 +11115,7 @@ assign empty = ((wp == rp) & !gb);
 assign full  = ((wp == rp) &  gb);
 
 // Guard Bit ...
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)						gb <= 1'b0;
 	else
 	if(clr)						gb <= 1'b0;

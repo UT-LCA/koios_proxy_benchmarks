@@ -51,23 +51,23 @@ dpram_512_40bit #(
 // Misc Logic
 //
 
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)	wp <= {aw{1'b0}};
 	else
 	if(clr)		wp <= {aw{1'b0}};
 	else
 	if(we)		wp <= wp_pl1;
 
-assign wp_pl1 = wp + { {aw-1{1'b0}}, 1'b1};
+assign wp_pl1 = wp + 1'b1;
 
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)		rp <= {aw{1'b0}};
 	else
 	if(clr)		rp <= {aw{1'b0}};
 	else
 	if(re)		rp <= rp_pl1;
 
-assign rp_pl1 = rp + { {aw-1{1'b0}}, 1'b1};
+assign rp_pl1 = rp + 1'b1;
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -78,7 +78,7 @@ assign empty = ((wp == rp) & !gb);
 assign full  = ((wp == rp) &  gb);
 
 // Guard Bit ...
-always @(posedge clk or posedge rst)
+always @(posedge clk)
 	if(rst)						gb <= 1'b0;
 	else
 	if(clr)						gb <= 1'b0;
