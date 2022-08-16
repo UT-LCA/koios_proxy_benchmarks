@@ -24278,7 +24278,7 @@ assign temp_0 = 0;
 		end
 	end
 	
-	assign Stage1 = { temp_0, Lvl1}; //2*MANTISSA + 2 width
+	assign Stage1 = { Lvl1, Lvl1}; //2*MANTISSA + 2 width
 
 	always @(*) begin    					// Rotate {0 | 4 } bits
 	if(bf16 == 1'b1) begin
@@ -24286,7 +24286,7 @@ assign temp_0 = 0;
 			// Rotate by 0	
 			1'b0:  Lvl2 <= Stage1[`MANTISSA:0];       			
 			// Rotate by 4	
-			1'b1:  begin for (i=0; i<=`MANTISSA; i=i+1) begin Lvl2[i] <= Stage1[i+4]; end Lvl2[`MANTISSA:`MANTISSA-3] <= 0; end
+			1'b1:  begin for (i=0; i<=`MANTISSA; i=i+1) begin Lvl2[i] <= Stage1[i+4]; end end
 	  endcase
 	end
 	else begin
@@ -24294,12 +24294,12 @@ assign temp_0 = 0;
 			// Rotate by 0	
 			2'b00:  Lvl2 <= Stage1[`MANTISSA:0];       			
 			// Rotate by 4	
-			2'b01:  begin for (i=0; i<=`MANTISSA; i=i+1) begin Lvl2[i] <= Stage1[i+4]; end Lvl2[`MANTISSA:`MANTISSA-3] <= 0; end
+			2'b01:  begin for (i=0; i<=`MANTISSA; i=i+1) begin Lvl2[i] <= Stage1[i+4]; end end
 			// Rotate by 8
-			2'b10:  begin for (i=0; i<=`MANTISSA; i=i+1) begin Lvl2[i] <= Stage1[i+8]; end Lvl2[`MANTISSA:`MANTISSA-7] <= 0; end
+			2'b10:  begin for (i=0; i<=`MANTISSA; i=i+1) begin Lvl2[i] <= Stage1[i+8]; end end
 			// Rotate by 12	
 			2'b11: Lvl2[`MANTISSA: 0] <= 0; 
-			//2'b11:  begin for (i=0; i<=`MANTISSA; i=i+1) begin Lvl2[i] <= Stage1[i+12]; end Lvl2[`MANTISSA:`MANTISSA-12] <= 0; end
+			//2'b11:  begin for (i=0; i<=`MANTISSA; i=i+1) begin Lvl2[i] <= Stage1[i+12]; end end
 	  endcase
 	end
 	end
@@ -24332,18 +24332,18 @@ module FPAddSub_AlignShift2(
 	wire    [2*`MANTISSA+1:0]    Stage2;	
 	integer           j;               // Loop variable
 	
-	assign Stage2 = {11'b0, MminP};
+	assign Stage2 = {MminP, MminP};
 
 	always @(*) begin    // Rotate {0 | 1 | 2 | 3} bits
 	  case (Shift[1:0])
 			// Rotate by 0
 			2'b00:  Lvl3 <= Stage2[`MANTISSA:0];   
 			// Rotate by 1
-			2'b01:  begin for (j=0; j<=`MANTISSA; j=j+1)  begin Lvl3[j] <= Stage2[j+1]; end Lvl3[`MANTISSA] <= 0; end 
+			2'b01:  begin for (j=0; j<=`MANTISSA; j=j+1)  begin Lvl3[j] <= Stage2[j+1]; end end 
 			// Rotate by 2
-			2'b10:  begin for (j=0; j<=`MANTISSA; j=j+1)  begin Lvl3[j] <= Stage2[j+2]; end Lvl3[`MANTISSA:`MANTISSA-1] <= 0; end 
+			2'b10:  begin for (j=0; j<=`MANTISSA; j=j+1)  begin Lvl3[j] <= Stage2[j+2]; end end 
 			// Rotate by 3
-			2'b11:  begin for (j=0; j<=`MANTISSA; j=j+1)  begin Lvl3[j] <= Stage2[j+3]; end Lvl3[`MANTISSA:`MANTISSA-2] <= 0; end 	  
+			2'b11:  begin for (j=0; j<=`MANTISSA; j=j+1)  begin Lvl3[j] <= Stage2[j+3]; end end 	  
 	  endcase
 	end
 	
